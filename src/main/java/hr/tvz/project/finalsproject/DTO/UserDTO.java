@@ -1,6 +1,5 @@
 package hr.tvz.project.finalsproject.DTO;
 
-import hr.tvz.project.finalsproject.entity.Team;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,5 +14,6 @@ import java.util.List;
 public class UserDTO {
     private Long id;
     private String name;
+    private String surname;
     private List<TeamDTO> teamList;
 }
