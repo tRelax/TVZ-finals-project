@@ -14,6 +14,7 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id_user")
     private Long id;
 
     private String username;
@@ -23,4 +24,10 @@ public class User {
 
     @ManyToMany(mappedBy = "membersList")
     private List<Team> teamList;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private List<Ticket> ticketList;
+
+    @OneToMany(mappedBy = "user_tester", fetch = FetchType.EAGER)
+    private List<Ticket> ticketListTester;
 }

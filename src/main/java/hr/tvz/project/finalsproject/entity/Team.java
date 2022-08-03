@@ -14,6 +14,7 @@ import java.util.List;
 public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id_team")
     private Long id;
     private String name;
     private String description;
@@ -24,4 +25,7 @@ public class Team {
         joinColumns = @JoinColumn(name = "teams_id"),
         inverseJoinColumns = @JoinColumn(name = "users_id"))
     private List<User> membersList;
+
+    @OneToMany(mappedBy = "team", fetch = FetchType.EAGER)
+    private List<Ticket> ticketList;
 }

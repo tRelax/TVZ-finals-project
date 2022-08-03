@@ -14,11 +14,12 @@ import java.util.List;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id_category")
     private Long id;
 
     private String name;
     private String description;
 
-//    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
-//    private List<Ticket> ticketList;
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
+    private List<Ticket> ticketList;
 }

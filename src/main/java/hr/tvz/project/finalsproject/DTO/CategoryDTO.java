@@ -16,5 +16,5 @@ public class CategoryDTO {
     private Long id;
     private String name;
     private String description;
-//    private List<Ticket> ticketList;
+    private List<TicketDTO> ticketList;
 }

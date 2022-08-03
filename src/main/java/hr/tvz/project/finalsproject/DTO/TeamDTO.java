@@ -17,4 +17,5 @@ public class TeamDTO {
     private String name;
     private String description;
     private List<UserDTO> membersList;
+    private List<TicketDTO> ticketList;
 }
