@@ -1,10 +1,7 @@
 package hr.tvz.project.finalsproject.controller;
 
-import hr.tvz.project.finalsproject.DTO.CategoryDTO;
 import hr.tvz.project.finalsproject.DTO.TicketDTO;
-import hr.tvz.project.finalsproject.entity.Category;
 import hr.tvz.project.finalsproject.entity.Ticket;
-import hr.tvz.project.finalsproject.service.CategoryService;
 import hr.tvz.project.finalsproject.service.TicketService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/tickets")
+@CrossOrigin(origins = "http://localhost:4200")
 public class TicketController {
     private final TicketService ticketService;
 
