@@ -25,16 +25,28 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public List<CategoryDTO> findByName(String name) {
+        return categoryRepository.findByNameContainingIgnoreCase(name).stream().map(ConvertorsDTO::mapCategoryToDTO).collect(Collectors.toList());
+    }
+
+    @Override
     public Optional<CategoryDTO> findById(Long id) {
         return categoryRepository.findById(id).map(ConvertorsDTO::mapCategoryToDTO);
     }
 
     @Override
-    public CategoryDTO save(Category category) {
-        List<CategoryDTO> listOfAllCategories = findAll();
-        CategoryDTO lCategory = listOfAllCategories.stream().max(Comparator.comparing(CategoryDTO::getId)).get();
-        if (category.getId() <= lCategory.getId())
-            category.setId(lCategory.getId() + 1);
+    public CategoryDTO save(Category category, boolean save) {
+        if(save){
+            List<CategoryDTO> listOfAllCategories = findAll();
+            CategoryDTO lCategory = listOfAllCategories.stream().max(Comparator.comparing(CategoryDTO::getId)).get();
+            if (category.getId() <= lCategory.getId())
+                category.setId(lCategory.getId() + 1);
+        }
         return ConvertorsDTO.mapCategoryToDTO(categoryRepository.save(category));
+    }
+
+    @Override
+    public void delete(Long id) {
+        categoryRepository.deleteById(id);
     }
 }

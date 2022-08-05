@@ -8,6 +8,8 @@ import java.util.Optional;
 
 public interface TeamService {
     List<TeamDTO> findAll();
+    List<TeamDTO> findByName(String name);
     Optional<TeamDTO> findById(Long id);
-    TeamDTO save(Team team);
+    TeamDTO save(Team team, boolean save);
+    void delete(Long id);
 }

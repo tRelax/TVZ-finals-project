@@ -3,10 +3,12 @@ package hr.tvz.project.finalsproject.controller;
 import hr.tvz.project.finalsproject.DTO.CategoryDTO;
 import hr.tvz.project.finalsproject.entity.Category;
 import hr.tvz.project.finalsproject.service.CategoryService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/category")
@@ -23,6 +25,11 @@ public class CategoryController {
         return categoryService.findAll();
     }
 
+    @GetMapping(params = "name")
+    public List<CategoryDTO> findCategoryByName(@RequestParam final String name){
+        return categoryService.findByName(name);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<CategoryDTO> findCategoryById(@PathVariable final Long id){
         return categoryService.findById(id)
@@ -35,7 +42,29 @@ public class CategoryController {
     }
 
     @PostMapping()
-    public CategoryDTO save(@RequestBody final Category category){
-        return categoryService.save(category);
+    public ResponseEntity<CategoryDTO> save(@RequestBody final Category category){
+        try {
+            CategoryDTO _category = categoryService.save(category, true);
+            return new ResponseEntity<>(_category, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CategoryDTO> update(@PathVariable Long id, @RequestBody Category category) {
+        Optional<CategoryDTO> categoryOptional = categoryService.findById(id);
+        if (categoryOptional.isPresent()) {
+            return new ResponseEntity<>(categoryService.save(category, false), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable Long id){
+        categoryService.delete(id);
+    }
+
 }

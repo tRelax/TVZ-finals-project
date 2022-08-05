@@ -1,14 +1,13 @@
 package hr.tvz.project.finalsproject.service;
 
+import hr.tvz.project.finalsproject.DTO.CategoryDTO;
 import hr.tvz.project.finalsproject.DTO.TeamDTO;
-import hr.tvz.project.finalsproject.DTO.UserDTO;
 import hr.tvz.project.finalsproject.convertorsDTO.ConvertorsDTO;
 import hr.tvz.project.finalsproject.entity.Team;
-import hr.tvz.project.finalsproject.entity.User;
 import hr.tvz.project.finalsproject.repository.TeamRepository;
-import hr.tvz.project.finalsproject.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,13 +26,29 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
+    public List<TeamDTO> findByName(String name) {
+        return teamRepository.findByNameContainingIgnoreCase(name).stream().map(ConvertorsDTO::mapTeamToDTO).collect(Collectors.toList());
+    }
+
+    @Override
     public Optional<TeamDTO> findById(Long id) {
         return teamRepository.findById(id).map(ConvertorsDTO::mapTeamToDTO);
     }
 
     @Override
-    public TeamDTO save(Team team) {
+    public TeamDTO save(Team team, boolean save) {
+        if(save){
+            List<TeamDTO> listOfAllTeams = findAll();
+            TeamDTO tempTeam = listOfAllTeams.stream().max(Comparator.comparing(TeamDTO::getId)).get();
+            if (team.getId() <= tempTeam.getId())
+                team.setId(tempTeam.getId() + 1);
+        }
         return ConvertorsDTO.mapTeamToDTO(teamRepository.save(team));
+    }
+
+    @Override
+    public void delete(Long id) {
+        teamRepository.deleteById(id);
     }
 
 }
