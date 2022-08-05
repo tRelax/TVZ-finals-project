@@ -26,7 +26,7 @@ public class TeamsController {
     }
 
     @GetMapping(params = "name")
-    public List<TeamDTO> findCategoryByName(@RequestParam final String name){
+    public List<TeamDTO> findTeamByName(@RequestParam final String name){
         return teamService.findByName(name);
     }
 

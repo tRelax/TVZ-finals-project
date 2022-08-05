@@ -7,4 +7,8 @@ import java.util.List;
 
 public interface TicketRepository extends JpaRepository<Ticket, Long> {
     List<Ticket> findByNameContainingIgnoreCase(String name);
+    List<Ticket> findByTeamNameContainingIgnoreCase(String name);
+    List<Ticket> findByCategoryNameContainingIgnoreCase(String name);
+    List<Ticket> findByAssigneeNameContainingIgnoreCase(String name);
+    List<Ticket> findByTesterNameContainingIgnoreCase(String name);
 }

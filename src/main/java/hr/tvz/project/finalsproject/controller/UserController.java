@@ -26,7 +26,7 @@ public class UserController {
     }
 
     @GetMapping(params = "name")
-    public List<UserDTO> findCategoryByName(@RequestParam final String name){
+    public List<UserDTO> findUserByName(@RequestParam final String name){
         return userService.findByName(name);
     }
 

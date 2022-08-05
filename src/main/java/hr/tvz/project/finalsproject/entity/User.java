@@ -25,9 +25,9 @@ public class User {
     @ManyToMany(mappedBy = "membersList")
     private List<Team> teamList;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "assignee", fetch = FetchType.EAGER)
     private List<Ticket> ticketList;
 
-    @OneToMany(mappedBy = "user_tester", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "tester", fetch = FetchType.EAGER)
     private List<Ticket> ticketListTester;
 }

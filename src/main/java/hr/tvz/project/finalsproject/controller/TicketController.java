@@ -26,12 +26,32 @@ public class TicketController {
     }
 
     @GetMapping(params = "name")
-    public List<TicketDTO> findCategoryByName(@RequestParam final String name){
+    public List<TicketDTO> findTicketByName(@RequestParam final String name){
         return ticketService.findByName(name);
     }
 
+    @GetMapping(params = "team")
+    public List<TicketDTO> findTicketByTeamName(@RequestParam final String team){
+        return ticketService.findByTeamName(team);
+    }
+
+    @GetMapping(params = "category")
+    public List<TicketDTO> findTicketByCategoryName(@RequestParam final String category){
+        return ticketService.findByCategoryName(category);
+    }
+
+    @GetMapping(params = "assignee")
+    public List<TicketDTO> findTicketByAssignee(@RequestParam final String assignee){
+        return ticketService.findByAssigneeName(assignee);
+    }
+
+    @GetMapping(params = "tester")
+    public List<TicketDTO> findTicketByTester(@RequestParam final String tester){
+        return ticketService.findByTesterName(tester);
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<TicketDTO> findCategoryById(@PathVariable final Long id){
+    public ResponseEntity<TicketDTO> findTicketById(@PathVariable final Long id){
         return ticketService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(

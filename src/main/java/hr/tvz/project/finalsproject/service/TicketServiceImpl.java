@@ -30,6 +30,26 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    public List<TicketDTO> findByTeamName(String name) {
+        return ticketRepository.findByTeamNameContainingIgnoreCase(name).stream().map(ConvertorsDTO::mapTicketToDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TicketDTO> findByCategoryName(String name) {
+        return ticketRepository.findByCategoryNameContainingIgnoreCase(name).stream().map(ConvertorsDTO::mapTicketToDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TicketDTO> findByAssigneeName(String name) {
+        return ticketRepository.findByAssigneeNameContainingIgnoreCase(name).stream().map(ConvertorsDTO::mapTicketToDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TicketDTO> findByTesterName(String name) {
+        return ticketRepository.findByTesterNameContainingIgnoreCase(name).stream().map(ConvertorsDTO::mapTicketToDTO).collect(Collectors.toList());
+    }
+
+    @Override
     public Optional<TicketDTO> findById(Long id) {
         return ticketRepository.findById(id).map(ConvertorsDTO::mapTicketToDTO);
     }

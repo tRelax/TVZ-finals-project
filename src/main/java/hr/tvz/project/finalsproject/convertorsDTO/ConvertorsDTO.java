@@ -77,8 +77,8 @@ public class ConvertorsDTO {
                .priority(ticket.getPriority())
                .category(mapCategoryToSimpleDTO(ticket.getCategory()))
                .team(mapTeamToSimpleDTO(ticket.getTeam()))
-               .user(mapUserToSimpleDTO(ticket.getUser()))
-               .user_tester(mapUserToSimpleDTO(ticket.getUser_tester()))
+               .assignee(mapUserToSimpleDTO(ticket.getAssignee()))
+               .tester(mapUserToSimpleDTO(ticket.getTester()))
                .build();
     }
 
