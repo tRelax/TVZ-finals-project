@@ -1,6 +1,5 @@
 package hr.tvz.project.finalsproject.service;
 
-import hr.tvz.project.finalsproject.DTO.CategoryDTO;
 import hr.tvz.project.finalsproject.DTO.TeamDTO;
 import hr.tvz.project.finalsproject.convertorsDTO.ConvertorsDTO;
 import hr.tvz.project.finalsproject.entity.Team;

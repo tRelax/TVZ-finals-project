@@ -1,7 +1,6 @@
 package hr.tvz.project.finalsproject.controller;
 
 import hr.tvz.project.finalsproject.DTO.TeamDTO;
-import hr.tvz.project.finalsproject.entity.Category;
 import hr.tvz.project.finalsproject.entity.Team;
 import hr.tvz.project.finalsproject.service.TeamService;
 import org.springframework.http.HttpStatus;

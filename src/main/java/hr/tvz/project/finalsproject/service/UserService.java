@@ -9,6 +9,8 @@ import java.util.Optional;
 public interface UserService {
 
     List<UserDTO> findAll();
+    List<UserDTO> findByName(String name);
     Optional<UserDTO> findById(Long id);
-    UserDTO save(User user);
+    UserDTO save(User user, boolean save);
+    void delete(Long id);
 }
