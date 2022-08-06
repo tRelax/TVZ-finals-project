@@ -10,6 +10,7 @@ public interface CategoryService {
     List<CategoryDTO> findAll();
     List<CategoryDTO> findByName(String name);
     Optional<CategoryDTO> findById(Long id);
+    Optional<CategoryDTO> findByTicketId(Long id);
     CategoryDTO save(Category category, boolean save);
 
     void delete(Long id);

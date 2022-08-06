@@ -1,0 +1,43 @@
+<div *ngIf="user">
+    <h2 class="ms-5 detailH2">Details about: "{{user.name}} {{user.surname}}"</h2>
+    <div *ngIf="tickets != null && tickets.length > 0" >
+        <h3 class="ms-5">List of tickets:</h3>
+        <table class="table table-striped table-hover table-bordered ms-5">
+            <thead class="thead-light">
+                <tr>
+                <th scope="col" class="col-1">#</th>
+                <th scope="col" class="col-11">Name</th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let ticket of tickets; let i = index">
+                <tr>
+                    <th scope="row" class="col-1">{{i+1}}</th>
+                    <td class="col-11" routerLink="/ticket/{{ticket.id}}">{{ticket.name}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="tickets != null && tickets.length == 0" >
+        <h4 class="ms-5">This user does not have any tickets!</h4>
+    </div>
+    <div *ngIf="teams != null && teams.length > 0" >
+        <h3 class="ms-5">Part of next teams:</h3>
+        <table class="table table-striped table-hover table-bordered ms-5">
+            <thead class="thead-light">
+                <tr>
+                <th scope="col" class="col-1">#</th>
+                <th scope="col" class="col-11">Name</th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let team of teams; let i = index">
+                <tr>
+                    <th scope="row" class="col-1">{{i+1}}</th>
+                    <td class="col-11" routerLink="/team/{{team.id}}">{{team.name}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="teams != null && teams.length == 0" >
+        <h4 class="ms-5">This user does not belong to any team!</h4>
+    </div>
+</div>

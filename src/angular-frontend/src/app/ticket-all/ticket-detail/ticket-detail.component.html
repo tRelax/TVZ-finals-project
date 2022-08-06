@@ -1,0 +1,30 @@
+<div *ngIf="ticket">
+    <h2 class="ms-5 detailH2">Details about: "{{ticket.name}}"</h2>
+    <div class="ms-5">
+        <h4>Ticket id:</h4>
+        <span class="col-md-3 ms-1">"{{ticket.id}}"</span>
+        <h4>🙋‍♂️ Assignee:</h4>
+        <span *ngIf="assignee" class="col-md-3 ms-1" routerLink="/user/{{assignee.id}}">"{{assignee.name}} {{assignee.surname}}"</span>
+        <h4>👨‍🔬 Tester:</h4>
+        <span *ngIf="tester" class="col-md-3 ms-1" routerLink="/user/{{tester.id}}">"{{tester.name}} {{tester.surname}}"</span>
+        <h4>📚 Category:</h4>
+        <span *ngIf="category" class="col-md-3 ms-1" routerLink="/user/{{category.id}}">"{{category.name}}"</span>
+        <h4>👪 Team:</h4>
+        <span *ngIf="team" class="col-md-3 ms-1" routerLink="/user/{{team.id}}">"{{team.name}}"</span>
+        <h4>✍ Description:</h4>
+        <span class="col-md-3 ms-1">"{{ticket.description}}"</span>
+        <h4>🗓 Start date:</h4>
+        <span class="col-md-3 ms-1">"{{start_date}}"</span>
+        <h4>📅 Due date:</h4>
+        <span class="col-md-3 ms-1">"{{due_date}}"</span>
+        <h4>📊 Progress:</h4>
+        <div class="container mt-3">
+            <div class="progress" style="height:20px;">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width:40%; height:20px;"></div>
+            </div>
+        </div>
+        <span class="col-md-3 ms-1">"{{ticket.progress}}/10"</span>
+        <h4>❓ Priority:</h4>
+        <span class="col-md-3 ms-1">"{{ticket.priority}}"</span>
+    </div>
+</div>

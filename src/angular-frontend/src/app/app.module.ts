@@ -2,6 +2,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { DatePipe } from '@angular/common'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -9,6 +10,10 @@ import { TeamComponent } from './team-all/teams/team.component';
 import { UserComponent } from './user-all/users/user.component';
 import { CategoryComponent } from './category-all/category/category.component';
 import { TicketComponent } from './ticket-all/ticket/ticket.component';
+import { UserDetailComponent } from './user-all/user-detail/user-detail.component';
+import { TeamDetailComponent } from './team-all/team-detail/team-detail.component';
+import { TicketDetailComponent } from './ticket-all/ticket-detail/ticket-detail.component';
+import { CategoryDetailComponent } from './category-all/category-detail/category-detail.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +21,11 @@ import { TicketComponent } from './ticket-all/ticket/ticket.component';
     UserComponent,
     TeamComponent,
     CategoryComponent,
-    TicketComponent
+    TicketComponent,
+    UserDetailComponent,
+    TeamDetailComponent,
+    TicketDetailComponent,
+    CategoryDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -24,7 +33,7 @@ import { TicketComponent } from './ticket-all/ticket/ticket.component';
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

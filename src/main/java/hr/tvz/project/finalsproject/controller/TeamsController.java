@@ -30,9 +30,25 @@ public class TeamsController {
         return teamService.findByName(name);
     }
 
+    @GetMapping(params = "user_id")
+    public List<TeamDTO> findTeamByUserId(@RequestParam final Long user_id){
+        return teamService.findByUserId(user_id);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<TeamDTO> findTeamById(@PathVariable final Long id){
         return teamService.findById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(
+                        () -> ResponseEntity
+                                .notFound()
+                                .build()
+                );
+    }
+
+    @GetMapping(params = "ticket_id")
+    public ResponseEntity<TeamDTO> findTeamByTicketId(@RequestParam final Long ticket_id){
+        return teamService.findByTicketId(ticket_id)
                 .map(ResponseEntity::ok)
                 .orElseGet(
                         () -> ResponseEntity

@@ -1,6 +1,7 @@
 package hr.tvz.project.finalsproject.service;
 
 import hr.tvz.project.finalsproject.DTO.CategoryDTO;
+import hr.tvz.project.finalsproject.DTO.TeamDTO;
 import hr.tvz.project.finalsproject.convertorsDTO.ConvertorsDTO;
 import hr.tvz.project.finalsproject.entity.Category;
 import hr.tvz.project.finalsproject.repository.CategoryRepository;
@@ -35,12 +36,19 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public Optional<CategoryDTO> findByTicketId(Long id) {
+        return categoryRepository.findByTicketListId(id).map(ConvertorsDTO::mapCategoryToDTO);
+    }
+
+    @Override
     public CategoryDTO save(Category category, boolean save) {
         if(save){
             List<CategoryDTO> listOfAllCategories = findAll();
-            CategoryDTO lCategory = listOfAllCategories.stream().max(Comparator.comparing(CategoryDTO::getId)).get();
-            if (category.getId() <= lCategory.getId())
-                category.setId(lCategory.getId() + 1);
+            if(!listOfAllCategories.isEmpty()){
+                CategoryDTO lCategory = listOfAllCategories.stream().max(Comparator.comparing(CategoryDTO::getId)).get();
+                if (category.getId() <= lCategory.getId())
+                    category.setId(lCategory.getId() + 1);
+            }
         }
         return ConvertorsDTO.mapCategoryToDTO(categoryRepository.save(category));
     }

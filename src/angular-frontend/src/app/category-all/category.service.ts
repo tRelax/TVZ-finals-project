@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {catchError, Observable, of, tap} from "rxjs";
 import { Category } from './category';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,7 @@ export class CategoryService {
     return this.http.get<Category[]>(this.categoryURL)
       .pipe(
         tap(_ => console.log('fetched categories')),
-        catchError(this.handleError<Category[]>('getCategorys', []))
+        catchError(this.handleError<Category[]>('getCategories', []))
       )
   }
 
@@ -30,6 +30,15 @@ export class CategoryService {
       .pipe(
         tap(_ => console.log(`fetched category w/ id=${id}`)),
         catchError(this.handleError<Category>(`getCategory id=${id}`))
+      );
+  }
+
+  getCategoryByTicketId(id: number): Observable<Category> {
+    const params = new HttpParams().set('ticket_id', id);
+    return this.http.get<Category>(this.categoryURL, {params})
+      .pipe(
+        tap(_ => console.log(`fetched category w/ ticket_id=${id}`)),
+        catchError(this.handleError<Category>(`getCategoryByTicketId id=${id}`))
       );
   }
 

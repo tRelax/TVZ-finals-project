@@ -1,5 +1,5 @@
-<h4 class="ms-2" style="margin-top: 0.5em">Categories 📚</h4>
-<table class="table table-striped table-hover table-bordered ms-2" style = "width: 80%;">
+<h4 class="ms-5 detailH4">Categories 📚</h4>
+<table class="table table-striped table-hover table-bordered ms-5">
     <thead class="thead-light">
         <tr>
         <th scope="col" class="col-1">#</th>
@@ -9,7 +9,7 @@
     <tbody *ngFor="let category of categories; let i = index">
     <tr>
         <th scope="row" class="col-1">{{i+1}}</th>
-        <td class="col-11">{{category.name}}</td>
+        <td class="col-11" routerLink="/category/{{category.id}}">{{category.name}}</td>
     </tr>
     </tbody>
 </table>

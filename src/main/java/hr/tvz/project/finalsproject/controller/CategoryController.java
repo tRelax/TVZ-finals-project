@@ -41,6 +41,17 @@ public class CategoryController {
                 );
     }
 
+    @GetMapping(params = "ticket_id")
+    public ResponseEntity<CategoryDTO> findCategoryByTicketId(@RequestParam final Long ticket_id){
+        return categoryService.findByTicketId(ticket_id)
+                .map(ResponseEntity::ok)
+                .orElseGet(
+                        () -> ResponseEntity
+                                .notFound()
+                                .build()
+                );
+    }
+
     @PostMapping()
     public ResponseEntity<CategoryDTO> save(@RequestBody final Category category){
         try {

@@ -1,5 +1,6 @@
 package hr.tvz.project.finalsproject.service;
 
+import hr.tvz.project.finalsproject.DTO.TicketDTO;
 import hr.tvz.project.finalsproject.DTO.UserDTO;
 import hr.tvz.project.finalsproject.convertorsDTO.ConvertorsDTO;
 import hr.tvz.project.finalsproject.entity.User;
@@ -31,17 +32,34 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserDTO> findByTeamId(Long id) {
+        return userRepository.findByTeamListId(id).stream().map(ConvertorsDTO::mapUserToDTO).collect(Collectors.toList());
+    }
+
+    @Override
     public Optional<UserDTO> findById(Long id) {
         return userRepository.findById(id).map(ConvertorsDTO::mapUserToDTO);
+    }
+
+    @Override
+    public Optional<UserDTO> findAssigneeByTicketId(Long id) {
+        return userRepository.findByTicketListId(id).map(ConvertorsDTO::mapUserToDTO);
+    }
+
+    @Override
+    public Optional<UserDTO> findTesterByTicketId(Long id) {
+        return userRepository.findByTicketListTesterId(id).map(ConvertorsDTO::mapUserToDTO);
     }
 
     @Override
     public UserDTO save(User user, boolean save) {
         if(save){
             List<UserDTO> listOfAllUsers = findAll();
-            UserDTO tempUser = listOfAllUsers.stream().max(Comparator.comparing(UserDTO::getId)).get();
-            if (user.getId() <= tempUser.getId())
-                user.setId(tempUser.getId() + 1);
+            if(!listOfAllUsers.isEmpty()){
+                UserDTO tempUser = listOfAllUsers.stream().max(Comparator.comparing(UserDTO::getId)).get();
+                if (user.getId() <= tempUser.getId())
+                    user.setId(tempUser.getId() + 1);
+            }
         }
         return ConvertorsDTO.mapUserToDTO(userRepository.save(user));
     }
