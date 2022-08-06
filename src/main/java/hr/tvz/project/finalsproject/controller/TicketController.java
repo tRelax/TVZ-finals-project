@@ -35,14 +35,29 @@ public class TicketController {
         return ticketService.findByTeamName(team);
     }
 
+    @GetMapping(params = "team_id")
+    public List<TicketDTO> findTicketByTeamId(@RequestParam final Long team_id){
+        return ticketService.findByTeamId(team_id);
+    }
+
     @GetMapping(params = "category")
     public List<TicketDTO> findTicketByCategoryName(@RequestParam final String category){
         return ticketService.findByCategoryName(category);
     }
 
+    @GetMapping(params = "category_id")
+    public List<TicketDTO> findTicketByCategoryId(@RequestParam final Long category_id){
+        return ticketService.findByCategoryId(category_id);
+    }
+
     @GetMapping(params = "assignee")
     public List<TicketDTO> findTicketByAssignee(@RequestParam final String assignee){
         return ticketService.findByAssigneeName(assignee);
+    }
+
+    @GetMapping(params = "assignee_id")
+    public List<TicketDTO> findTicketByAssigneeId(@RequestParam final Long assignee_id){
+        return ticketService.findByAssigneeId(assignee_id);
     }
 
     @GetMapping(params = "tester")
