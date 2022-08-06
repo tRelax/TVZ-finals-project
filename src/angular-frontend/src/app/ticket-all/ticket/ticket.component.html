@@ -1,5 +1,15 @@
-<ul class="teams">
-    <li *ngFor="let ticket of tickets">
-    <span class="badge">{{ticket.id}} 📜</span> {{ticket.name}}
-    </li>
-</ul>
+<h4 class="ms-2" style="margin-top: 0.5em">Tickets 📜</h4>
+<table class="table table-striped table-hover table-bordered ms-2" style = "width: 80%;">
+    <thead class="thead-light">
+        <tr>
+        <th scope="col" class="col-1">#</th>
+        <th scope="col" class="col-11">Name</th>
+        </tr>
+    </thead>
+    <tbody *ngFor="let ticket of tickets; let i = index">
+    <tr>
+        <th scope="row" class="col-1">{{i+1}}</th>
+        <td class="col-11">{{ticket.name}}</td>
+    </tr>
+    </tbody>
+</table>
