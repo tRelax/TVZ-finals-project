@@ -11,21 +11,21 @@ import { TeamService } from '../team.service';
 @Component({
   selector: 'app-team-detail',
   templateUrl: './team-detail.component.html',
-  styleUrls: ['./team-detail.component.css']
+  styleUrls: ['../../../styles.css']
 })
 export class TeamDetailComponent implements OnInit {
-  
+
   @Input() team?: Team;
   tickets?: Ticket[];
   users?: User[];
 
   constructor(
-    private route: ActivatedRoute, 
-    private teamService: TeamService, 
-    private ticketService: TicketService, 
-    private userService: UserService, 
+    private route: ActivatedRoute,
+    private teamService: TeamService,
+    private ticketService: TicketService,
+    private userService: UserService,
     private location: Location
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.getTeam();
@@ -39,13 +39,13 @@ export class TeamDetailComponent implements OnInit {
         .subscribe(team => {
           this.team = team;
           this.ticketService.getTicketsByTeamId(team.id)
-          .subscribe(
-            tickets => this.tickets = tickets
-          );
+            .subscribe(
+              tickets => this.tickets = tickets
+            );
           this.userService.getUsersByTeamId(team.id)
-          .subscribe(
-            users => this.users = users
-          );
+            .subscribe(
+              users => this.users = users
+            );
         });
     } else {
       console.error('id can not be null!');

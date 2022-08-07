@@ -1,30 +1,68 @@
-<div *ngIf="ticket">
-    <h2 class="ms-5 detailH2">Details about: "{{ticket.name}}"</h2>
-    <div class="ms-5">
-        <h4>Ticket id:</h4>
-        <span class="col-md-3 ms-1">"{{ticket.id}}"</span>
-        <h4>🙋‍♂️ Assignee:</h4>
-        <span *ngIf="assignee" class="col-md-3 ms-1" routerLink="/user/{{assignee.id}}">"{{assignee.name}} {{assignee.surname}}"</span>
-        <h4>👨‍🔬 Tester:</h4>
-        <span *ngIf="tester" class="col-md-3 ms-1" routerLink="/user/{{tester.id}}">"{{tester.name}} {{tester.surname}}"</span>
-        <h4>📚 Category:</h4>
-        <span *ngIf="category" class="col-md-3 ms-1" routerLink="/user/{{category.id}}">"{{category.name}}"</span>
-        <h4>👪 Team:</h4>
-        <span *ngIf="team" class="col-md-3 ms-1" routerLink="/user/{{team.id}}">"{{team.name}}"</span>
-        <h4>✍ Description:</h4>
-        <span class="col-md-3 ms-1">"{{ticket.description}}"</span>
-        <h4>🗓 Start date:</h4>
-        <span class="col-md-3 ms-1">"{{start_date}}"</span>
-        <h4>📅 Due date:</h4>
-        <span class="col-md-3 ms-1">"{{due_date}}"</span>
-        <h4>📊 Progress:</h4>
-        <div class="container mt-3">
-            <div class="progress" style="height:20px;">
-                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width:40%; height:20px;"></div>
-            </div>
-        </div>
-        <span class="col-md-3 ms-1">"{{ticket.progress}}/10"</span>
-        <h4>❓ Priority:</h4>
-        <span class="col-md-3 ms-1">"{{ticket.priority}}"</span>
-    </div>
+<div class="mainDiv" *ngIf="ticket">
+    <h2 class="ms-5 detailH2">📜 {{ticket.name}}</h2>
+    <table class="table table-striped table-hover table-bordered ms-5 mt-5">
+        <tbody>
+            <tr>
+                <th scope="row" class="col-2">Ticket id</th>
+                <td class="col-10">
+                    <span class="badge rounded-pill bg-info text-dark">#{{ticket.id}}</span>
+                </td>
+            </tr>
+            <tr *ngIf="assignee">
+                <th scope="row" class="col-2">🙋‍♂️ Assignee</th>
+                <td class="col-10" routerLink="/user/{{assignee.id}}">{{assignee.name}} {{assignee.surname}}</td>
+            </tr>
+            <tr *ngIf="tester">
+                <th scope="row" class="col-2">👨‍🔬 Tester</th>
+                <td class="col-10" routerLink="/user/{{tester.id}}">{{tester.name}} {{tester.surname}}</td>
+            </tr>
+            <tr *ngIf="category">
+                <th scope="row" class="col-2">📚 Category</th>
+                <td class="col-10" routerLink="/category/{{category.id}}">
+                    <span class="badge rounded-pill bg-secondary">{{category.name}}</span>
+                </td>
+            </tr>
+            <tr *ngIf="team">
+                <th scope="row" class="col-2">👪 Team</th>
+                <td class="col-10" routerLink="/team/{{team.id}}">
+                    <span class="badge rounded-pill bg-warning text-dark align-middle">{{team.name}}</span>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" class="col-2">✍ Description</th>
+                <td class="col-10">{{ticket.description}}</td>
+            </tr>
+            <tr>
+                <th scope="row" class="col-2">🗓 Start date</th>
+                <td class="col-10">{{start_date}}</td>
+            </tr>
+            <tr>
+                <th scope="row" class="col-2">📅 Due date</th>
+                <td class="col-10">{{due_date}}</td>
+            </tr>
+            <tr>
+                <th scope="row" class="col-2">❓ Priority</th>
+                <td *ngIf="ticket.priority < 3" class="col-10 align-middle">
+                    <ngb-progressbar class="col-4" type="success" [value]="ticket.priority" [max]="10">New
+                    </ngb-progressbar>
+                <td *ngIf="ticket.priority >= 3 && ticket.priority < 6" class="col-10 align-middle">
+                    <ngb-progressbar class="col-4" type="info" [value]="ticket.priority" [max]="10">Casual
+                    </ngb-progressbar>
+                <td *ngIf="ticket.priority >= 6 && ticket.priority < 9" class="col-10 align-middle">
+                    <ngb-progressbar class="col-4" type="warning" [value]="ticket.priority" [max]="10">Should be
+                        priorized</ngb-progressbar>
+                <td *ngIf="ticket.priority >= 9" class="col-10 align-middle">
+                    <ngb-progressbar class="col-4" type="danger" [value]="ticket.priority" [max]="10">Urgent
+                    </ngb-progressbar>
+            </tr>
+            <tr>
+                <th scope="row" class="col-2">📊 Progress</th>
+                <td class="col-10 align-middle">
+                    <ngb-progressbar class="col-4" type="success" [value]="ticket.progress" [striped]="true"
+                        [animated]="true" [max]="10">{{ticket.progress*10}}%</ngb-progressbar>
+            </tr>
+        </tbody>
+    </table>
+
+    <button type="button" class="btn btn-dark ms-5 detailH2 editBtn">📝 Edit</button>
 </div>

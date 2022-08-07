@@ -17,6 +17,7 @@ public class ConvertorsDTO {
     public static UserDTO mapUserToDTO(User user) {
         return UserDTO.builder()
                 .id(user.getId())
+                .username(user.getUsername())
                 .name(user.getName())
                 .surname(user.getSurname())
                 .teamList(mapListTeamToDTO(user.getTeamList()))
@@ -28,6 +29,7 @@ public class ConvertorsDTO {
     public static UserDTO mapUserToSimpleDTO(User user) {
         return UserDTO.builder()
                 .id(user.getId())
+                .username(user.getUsername())
                 .name(user.getName())
                 .surname(user.getSurname())
                 .build();

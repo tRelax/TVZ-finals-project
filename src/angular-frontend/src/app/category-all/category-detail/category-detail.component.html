@@ -1,18 +1,40 @@
-<div *ngIf="category">
-    <h2 class="ms-5 detailH2">Details about: "{{category.name}}"</h2>
-    <div class="ms-5">
-        <h4>Description:</h4>
-        <span class="col-md-3 ms-1">"{{category.description}}"</span>
-        <h4>Number of tickets:</h4>
-        <span>{{tickets.length}}</span>
-    </div>
-    <div *ngIf="tickets != null && tickets.length > 0" >
-        <h3 class="ms-5">List of tickets:</h3>
+<div class="mainDiv" *ngIf="category">
+    <h2 class="ms-5 detailH2">📚 {{category.name}}</h2>
+    <table class="table table-striped table-hover table-bordered ms-5 mt-5">
+        <tbody>
+            <tr>
+                <th scope="row" class="col-2">Name</th>
+                <td class="col-10 align-middle">
+                    {{category.name}}
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" class="col-2">Description</th>
+                <td class="col-10 align-middle">
+                    {{category.description}}
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" class="col-2">📜 Number of tickets</th>
+                <td *ngIf="tickets != null && tickets.length > 0" class="col-10 align-middle">
+                    {{tickets.length}}
+                </td>
+                <td *ngIf="tickets != null && tickets.length == 0">
+                    This category does not have any tickets!
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button type="button" class="btn btn-dark ms-5 detailH2 editBtn">📝 Edit</button>
+
+    <div class="mainDiv" *ngIf="tickets != null && tickets.length > 0">
+        <h3 class="ms-5">📜 Tickets</h3>
         <table class="table table-striped table-hover table-bordered ms-5">
             <thead class="thead-light">
                 <tr>
-                <th scope="col" class="col-1">#</th>
-                <th scope="col" class="col-11">Name</th>
+                    <th scope="col" class="col-1">#</th>
+                    <th scope="col" class="col-11">Name</th>
                 </tr>
             </thead>
             <tbody *ngFor="let ticket of tickets; let i = index">
@@ -22,8 +44,5 @@
                 </tr>
             </tbody>
         </table>
-    </div>
-    <div *ngIf="tickets != null && tickets.length == 0" >
-        <h4 class="ms-5">This category does not have any tickets!</h4>
     </div>
 </div>

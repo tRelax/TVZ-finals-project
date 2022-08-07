@@ -14,6 +14,11 @@ import { UserDetailComponent } from './user-all/user-detail/user-detail.componen
 import { TeamDetailComponent } from './team-all/team-detail/team-detail.component';
 import { TicketDetailComponent } from './ticket-all/ticket-detail/ticket-detail.component';
 import { CategoryDetailComponent } from './category-all/category-detail/category-detail.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { UserEditComponent } from './user-all/user-edit/user-edit.component';
+import { CategoryEditComponent } from './category-all/category-edit/category-edit.component';
+import { TeamEditComponent } from './team-all/team-edit/team-edit.component';
+import { TicketEditComponent } from './ticket-all/ticket-edit/ticket-edit.component';
 
 @NgModule({
   declarations: [
@@ -25,13 +30,18 @@ import { CategoryDetailComponent } from './category-all/category-detail/category
     UserDetailComponent,
     TeamDetailComponent,
     TicketDetailComponent,
-    CategoryDetailComponent
+    CategoryDetailComponent,
+    UserEditComponent,
+    CategoryEditComponent,
+    TeamEditComponent,
+    TicketEditComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgbModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

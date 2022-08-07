@@ -1,19 +1,20 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { delay } from 'rxjs';
 import { Location } from "@angular/common";
 import { Team } from 'src/app/team-all/team';
+import { TeamService } from 'src/app/team-all/team.service';
 import { Ticket } from 'src/app/ticket-all/ticket';
 import { TicketService } from 'src/app/ticket-all/ticket.service';
 import { User } from '../user';
 import { UserService } from '../user.service';
-import { TeamService } from 'src/app/team-all/team.service';
 
 @Component({
-  selector: 'app-user-detail',
-  templateUrl: './user-detail.component.html',
-  styleUrls: ['../../../styles.css']
+  selector: 'app-user-edit',
+  templateUrl: './user-edit.component.html',
+  styleUrls: ['./user-edit.component.css']
 })
-export class UserDetailComponent implements OnInit {
+export class UserEditComponent implements OnInit {
 
   @Input() user?: User;
   tickets?: Ticket[];
@@ -21,11 +22,11 @@ export class UserDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private userService: UserService,
     private ticketService: TicketService,
     private teamService: TeamService,
-    private location: Location
-  ) { }
+    private location: Location) { }
 
   ngOnInit(): void {
     this.getUser();
@@ -52,7 +53,32 @@ export class UserDetailComponent implements OnInit {
     }
   }
 
+  update(username: string, name: string, surname: string): void {
+    username = username.trim();
+    name = name.trim();
+    surname = surname.trim();
+
+    if (!username || !name || !surname) {
+      return;
+    }
+
+    var id: number = this.user.id;
+
+    this.userService.updateUser({ id, username, name, surname } as User).subscribe(
+      (user: User) => {
+        this.user = user;
+        console.log('Changes applied!');
+        delay(2000);
+        this.router.navigate(['user'])
+      },
+      () => {
+        console.log('Error!');
+      }
+    )
+  }
+
   goBack(): void {
     this.location.back();
   }
+
 }

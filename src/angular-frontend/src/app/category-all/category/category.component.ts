@@ -16,8 +16,8 @@ export class CategoryComponent implements OnInit {
   constructor(
     private categoryService: CategoryService,
     private router: Router
-  ) { 
-  
+  ) {
+
   }
 
   ngOnInit(): void {

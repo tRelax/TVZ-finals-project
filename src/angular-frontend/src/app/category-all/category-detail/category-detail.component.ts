@@ -9,7 +9,7 @@ import { CategoryService } from '../category.service';
 @Component({
   selector: 'app-category-detail',
   templateUrl: './category-detail.component.html',
-  styleUrls: ['./category-detail.component.css']
+  styleUrls: ['../../../styles.css']
 })
 export class CategoryDetailComponent implements OnInit {
 
@@ -17,11 +17,11 @@ export class CategoryDetailComponent implements OnInit {
   tickets?: Ticket[];
 
   constructor(
-    private route: ActivatedRoute, 
-    private categoryService: CategoryService, 
-    private ticketService: TicketService, 
+    private route: ActivatedRoute,
+    private categoryService: CategoryService,
+    private ticketService: TicketService,
     private location: Location
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.getCategory();
@@ -35,9 +35,9 @@ export class CategoryDetailComponent implements OnInit {
         .subscribe(category => {
           this.category = category;
           this.ticketService.getTicketsByCategoryId(category.id)
-          .subscribe(
-            tickets => this.tickets = tickets
-          );
+            .subscribe(
+              tickets => this.tickets = tickets
+            );
         });
     } else {
       console.error('id can not be null!');

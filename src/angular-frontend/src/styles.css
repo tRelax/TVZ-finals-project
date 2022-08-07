@@ -1,1 +1,16 @@
+.editBtn {
+    background-color: rgb(132, 221, 209);
+    color: black;
+}
 
+.mainDiv {
+    margin-top: 2em;
+}
+
+.table {
+    width: 80%;
+}
+
+.detailH2 {
+    margin-top: 1em;
+}

@@ -2,6 +2,7 @@ package hr.tvz.project.finalsproject.controller;
 
 import hr.tvz.project.finalsproject.DTO.TicketDTO;
 import hr.tvz.project.finalsproject.DTO.UserDTO;
+import hr.tvz.project.finalsproject.convertorsDTO.ConvertorsDTO;
 import hr.tvz.project.finalsproject.entity.User;
 import hr.tvz.project.finalsproject.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -72,7 +73,7 @@ public class UserController {
     @PostMapping()
     public ResponseEntity<UserDTO> save(@RequestBody final User user){
         try {
-            UserDTO _user = userService.save(user, true);
+            UserDTO _user = userService.save(user);
             return new ResponseEntity<>(_user, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -81,9 +82,9 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<UserDTO> update(@PathVariable Long id, @RequestBody User user) {
-        Optional<UserDTO> userOptional = userService.findById(id);
+        Optional<User> userOptional = userService.findByIdRaw(id);
         if (userOptional.isPresent()) {
-            return new ResponseEntity<>(userService.save(user, false), HttpStatus.OK);
+            return new ResponseEntity<>(ConvertorsDTO.mapUserToDTO(userService.update(user)), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

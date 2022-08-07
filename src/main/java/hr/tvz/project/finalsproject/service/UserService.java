@@ -12,8 +12,10 @@ public interface UserService {
     List<UserDTO> findByName(String name);
     List<UserDTO> findByTeamId(Long id);
     Optional<UserDTO> findById(Long id);
+    Optional<User> findByIdRaw(Long id);
     Optional<UserDTO> findAssigneeByTicketId(Long id);
     Optional<UserDTO> findTesterByTicketId(Long id);
-    UserDTO save(User user, boolean save);
+    UserDTO save(User user);
+    User update(User user);
     void delete(Long id);
 }

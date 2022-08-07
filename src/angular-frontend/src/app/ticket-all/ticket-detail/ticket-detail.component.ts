@@ -13,10 +13,10 @@ import { TicketService } from '../ticket.service';
 @Component({
   selector: 'app-ticket-detail',
   templateUrl: './ticket-detail.component.html',
-  styleUrls: ['./ticket-detail.component.css']
+  styleUrls: ['../../../styles.css']
 })
 export class TicketDetailComponent implements OnInit {
-  
+
   @Input() ticket?: Ticket;
   category?: Category;
   assignee?: User;
@@ -24,16 +24,16 @@ export class TicketDetailComponent implements OnInit {
   team?: Team;
   start_date: String;
   due_date: String;
-  
+
   constructor(
-    private route: ActivatedRoute, 
-    private ticketService: TicketService, 
-    private categoryService: CategoryService, 
-    private teamService: TeamService, 
-    private userService: UserService, 
+    private route: ActivatedRoute,
+    private ticketService: TicketService,
+    private categoryService: CategoryService,
+    private teamService: TeamService,
+    private userService: UserService,
     private location: Location,
     public datepipe: DatePipe
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.getTicket();
@@ -47,21 +47,21 @@ export class TicketDetailComponent implements OnInit {
         .subscribe(ticket => {
           this.ticket = ticket;
           this.categoryService.getCategoryByTicketId(+ticket.id)
-          .subscribe(
-            category => this.category = category
-          );
+            .subscribe(
+              category => this.category = category
+            );
           this.userService.getAssigneeByTicketId(+ticket.id)
-          .subscribe(
-            assignee => this.assignee = assignee
-          );
+            .subscribe(
+              assignee => this.assignee = assignee
+            );
           this.userService.getTesterByTicketId(+ticket.id)
-          .subscribe(
-            tester => this.tester = tester
-          );
+            .subscribe(
+              tester => this.tester = tester
+            );
           this.teamService.getTeamByTicketId(+ticket.id)
-          .subscribe(
-            team => this.team = team
-          );
+            .subscribe(
+              team => this.team = team
+            );
           this.dateTransform();
         });
     } else {
@@ -73,9 +73,9 @@ export class TicketDetailComponent implements OnInit {
     this.location.back();
   }
 
-  dateTransform(){
+  dateTransform() {
     this.start_date = this.datepipe.transform(this.ticket.start_date, 'yyyy-MM-dd');
     this.due_date = this.datepipe.transform(this.ticket.due_date, 'yyyy-MM-dd');
-   }
+  }
 
 }

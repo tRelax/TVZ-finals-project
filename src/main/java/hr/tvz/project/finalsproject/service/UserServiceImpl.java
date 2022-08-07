@@ -1,6 +1,5 @@
 package hr.tvz.project.finalsproject.service;
 
-import hr.tvz.project.finalsproject.DTO.TicketDTO;
 import hr.tvz.project.finalsproject.DTO.UserDTO;
 import hr.tvz.project.finalsproject.convertorsDTO.ConvertorsDTO;
 import hr.tvz.project.finalsproject.entity.User;
@@ -42,6 +41,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Optional<User> findByIdRaw(Long id) {
+        return userRepository.findById(id);
+    }
+
+    @Override
     public Optional<UserDTO> findAssigneeByTicketId(Long id) {
         return userRepository.findByTicketListId(id).map(ConvertorsDTO::mapUserToDTO);
     }
@@ -52,16 +56,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO save(User user, boolean save) {
-        if(save){
-            List<UserDTO> listOfAllUsers = findAll();
-            if(!listOfAllUsers.isEmpty()){
-                UserDTO tempUser = listOfAllUsers.stream().max(Comparator.comparing(UserDTO::getId)).get();
-                if (user.getId() <= tempUser.getId())
-                    user.setId(tempUser.getId() + 1);
-            }
+    public UserDTO save(User user) {
+        List<UserDTO> listOfAllUsers = findAll();
+        if(!listOfAllUsers.isEmpty()){
+            UserDTO tempUser = listOfAllUsers.stream().max(Comparator.comparing(UserDTO::getId)).get();
+            if (user.getId() <= tempUser.getId())
+                user.setId(tempUser.getId() + 1);
         }
         return ConvertorsDTO.mapUserToDTO(userRepository.save(user));
+    }
+
+    @Override
+    public User update(User user) {
+        Optional<User> tempUser = findByIdRaw(user.getId());
+        if(tempUser.isPresent()){
+            user.setPassword(tempUser.get().getPassword());
+            user.setTeamList(tempUser.get().getTeamList());
+            user.setTicketList(tempUser.get().getTicketList());
+            user.setTicketListTester(tempUser.get().getTicketListTester());
+        }
+        return userRepository.save(user);
     }
 
     @Override

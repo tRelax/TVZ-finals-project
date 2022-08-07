@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {catchError, Observable, of, tap} from "rxjs";
-import {User} from "./user";
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
+import { catchError, Observable, of, tap } from "rxjs";
+import { User } from "./user";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -9,9 +9,9 @@ import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 export class UserService {
 
   private userURL = 'http://localhost:8080/user';
-  
+
   httpOptions = {
-    headers: new HttpHeaders({'Content-Type': 'application/json'})
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
   constructor(private http: HttpClient) { }
@@ -36,7 +36,7 @@ export class UserService {
   getUsersByTeamId(id: number): Observable<User[]> {
     const params = new HttpParams().set('team_id', id);
 
-    return this.http.get<User[]>(this.userURL, {params})
+    return this.http.get<User[]>(this.userURL, { params })
       .pipe(
         tap(_ => console.log(`fetched users with team_id=${id}`,)),
         catchError(this.handleError<User[]>(`getUserByTeamId id=${id}`, []))
@@ -46,7 +46,7 @@ export class UserService {
   getAssigneeByTicketId(id: number): Observable<User> {
     const params = new HttpParams().set('assignee_ticket_id', id);
 
-    return this.http.get<User>(this.userURL, {params})
+    return this.http.get<User>(this.userURL, { params })
       .pipe(
         tap(_ => console.log(`fetched assignee with ticket_id=${id}`,)),
         catchError(this.handleError<User>(`getAssigneeByTicketId id=${id}`))
@@ -56,11 +56,20 @@ export class UserService {
   getTesterByTicketId(id: number): Observable<User> {
     const params = new HttpParams().set('tester_ticket_id', id);
 
-    return this.http.get<User>(this.userURL, {params})
+    return this.http.get<User>(this.userURL, { params })
       .pipe(
         tap(_ => console.log(`fetched tester with ticket_id=${id}`,)),
         catchError(this.handleError<User>(`getTesterByTicketId id=${id}`))
       );
+  }
+
+  updateUser(user: User): Observable<any> {
+    const url = `${this.userURL}/${user.id}`;
+    return this.http.put(url, user)
+      .pipe(
+        tap(_ => console.log(`updated user with id=${user.id}`)),
+        catchError(this.handleError<any>('updateUser'))
+      )
   }
 
 

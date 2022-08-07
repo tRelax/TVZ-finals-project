@@ -6,5 +6,21 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  links = [
+    {
+      label: "Users",
+      link: "/user"
+    },
+    {
+      label: "Teams",
+      link: "/team"
+    }, {
+      label: "Categories",
+      link: "/category"
+    }, {
+      label: "Tickets",
+      link: "/ticket"
+    }
+  ]
   title = 'finals-project-frontend';
 }

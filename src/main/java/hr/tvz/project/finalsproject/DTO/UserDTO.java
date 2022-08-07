@@ -13,6 +13,7 @@ import java.util.List;
 @Builder
 public class UserDTO {
     private Long id;
+    private String username;
     private String name;
     private String surname;
     private List<TeamDTO> teamList;
