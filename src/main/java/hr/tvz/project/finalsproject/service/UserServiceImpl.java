@@ -2,6 +2,7 @@ package hr.tvz.project.finalsproject.service;
 
 import hr.tvz.project.finalsproject.DTO.UserDTO;
 import hr.tvz.project.finalsproject.convertorsDTO.ConvertorsDTO;
+import hr.tvz.project.finalsproject.entity.Team;
 import hr.tvz.project.finalsproject.entity.User;
 import hr.tvz.project.finalsproject.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -76,6 +77,38 @@ public class UserServiceImpl implements UserService {
             user.setTicketListTester(tempUser.get().getTicketListTester());
         }
         return userRepository.save(user);
+    }
+
+    @Override
+    public UserDTO updateUserTeams(User user, Team team) {
+        Optional<User> tempUser = findByIdRaw(user.getId());
+        if(tempUser.isPresent()){
+            user.setPassword(tempUser.get().getPassword());
+            user.setTicketList(tempUser.get().getTicketList());
+            user.setTicketListTester(tempUser.get().getTicketListTester());
+            List<Team> tList = tempUser.get().getTeamList();
+            if (tList.stream().noneMatch(t->t.getId().equals(team.getId()))){
+                tempUser.get().getTeamList().add(team);
+                user.setTeamList(tempUser.get().getTeamList());
+            }
+        }
+        return ConvertorsDTO.mapUserToDTO(userRepository.save(user));
+    }
+
+    @Override
+    public UserDTO updateUserTeamsRemove(User user, Team team) {
+        Optional<User> tempUser = findByIdRaw(user.getId());
+        if(tempUser.isPresent()){
+            user.setPassword(tempUser.get().getPassword());
+            user.setTicketList(tempUser.get().getTicketList());
+            user.setTicketListTester(tempUser.get().getTicketListTester());
+            List<Team> tList = tempUser.get().getTeamList();
+            if (tList.stream().anyMatch(t->t.getId().equals(team.getId()))){
+                tempUser.get().getTeamList().remove(team);
+                user.setTeamList(tempUser.get().getTeamList());
+            }
+        }
+        return ConvertorsDTO.mapUserToDTO(userRepository.save(user));
     }
 
     @Override

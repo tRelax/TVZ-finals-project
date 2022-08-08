@@ -3,8 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { DatePipe, Location } from "@angular/common";
 import { Category } from 'src/app/category-all/category';
 import { CategoryService } from 'src/app/category-all/category.service';
-import { Team } from 'src/app/team-all/team';
-import { TeamService } from 'src/app/team-all/team.service';
 import { User } from 'src/app/user-all/user';
 import { UserService } from 'src/app/user-all/user.service';
 import { Ticket } from '../ticket';
@@ -21,7 +19,6 @@ export class TicketDetailComponent implements OnInit {
   category?: Category;
   assignee?: User;
   tester?: User;
-  team?: Team;
   start_date: String;
   due_date: String;
 
@@ -29,7 +26,6 @@ export class TicketDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private ticketService: TicketService,
     private categoryService: CategoryService,
-    private teamService: TeamService,
     private userService: UserService,
     private location: Location,
     public datepipe: DatePipe
@@ -57,10 +53,6 @@ export class TicketDetailComponent implements OnInit {
           this.userService.getTesterByTicketId(+ticket.id)
             .subscribe(
               tester => this.tester = tester
-            );
-          this.teamService.getTeamByTicketId(+ticket.id)
-            .subscribe(
-              team => this.team = team
             );
           this.dateTransform();
         });

@@ -43,16 +43,6 @@ export class TicketService {
       );
   }
 
-  getTicketsByTeamId(id: number): Observable<Ticket[]> {
-    const params = new HttpParams().set('team_id', id);
-
-    return this.http.get<Ticket[]>(this.ticketURL, { params })
-      .pipe(
-        tap(_ => console.log(`fetched tickets with team_id=${id}`,)),
-        catchError(this.handleError<Ticket[]>(`getTicketsByTeamId id=${id}`, []))
-      );
-  }
-
   getTicketsByCategoryId(id: number): Observable<Ticket[]> {
     const params = new HttpParams().set('category_id', id);
 

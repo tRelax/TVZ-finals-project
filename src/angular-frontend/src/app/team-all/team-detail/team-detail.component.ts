@@ -16,13 +16,11 @@ import { TeamService } from '../team.service';
 export class TeamDetailComponent implements OnInit {
 
   @Input() team?: Team;
-  tickets?: Ticket[];
   users?: User[];
 
   constructor(
     private route: ActivatedRoute,
     private teamService: TeamService,
-    private ticketService: TicketService,
     private userService: UserService,
     private location: Location
   ) { }
@@ -38,10 +36,6 @@ export class TeamDetailComponent implements OnInit {
       this.teamService.getTeam(+id)
         .subscribe(team => {
           this.team = team;
-          this.ticketService.getTicketsByTeamId(team.id)
-            .subscribe(
-              tickets => this.tickets = tickets
-            );
           this.userService.getUsersByTeamId(team.id)
             .subscribe(
               users => this.users = users

@@ -25,7 +25,4 @@ public class Team {
         joinColumns = @JoinColumn(name = "teams_id"),
         inverseJoinColumns = @JoinColumn(name = "users_id"))
     private List<User> membersList;
-
-    @OneToMany(mappedBy = "team", fetch = FetchType.EAGER)
-    private List<Ticket> ticketList;
 }

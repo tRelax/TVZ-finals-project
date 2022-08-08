@@ -19,6 +19,7 @@ import { UserEditComponent } from './user-all/user-edit/user-edit.component';
 import { CategoryEditComponent } from './category-all/category-edit/category-edit.component';
 import { TeamEditComponent } from './team-all/team-edit/team-edit.component';
 import { TicketEditComponent } from './ticket-all/ticket-edit/ticket-edit.component';
+import { TeamEditMembersComponent } from './team-all/team-edit-members/team-edit-members.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { TicketEditComponent } from './ticket-all/ticket-edit/ticket-edit.compon
     UserEditComponent,
     CategoryEditComponent,
     TeamEditComponent,
-    TicketEditComponent
+    TicketEditComponent,
+    TeamEditMembersComponent
   ],
   imports: [
     BrowserModule,

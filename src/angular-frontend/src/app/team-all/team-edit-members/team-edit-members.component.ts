@@ -8,14 +8,15 @@ import { Team } from '../team';
 import { TeamService } from '../team.service';
 
 @Component({
-  selector: 'app-team-edit',
-  templateUrl: './team-edit.component.html',
+  selector: 'app-team-edit-members',
+  templateUrl: './team-edit-members.component.html',
   styleUrls: ['../../../styles.css']
 })
-export class TeamEditComponent implements OnInit {
+export class TeamEditMembersComponent implements OnInit {
 
   @Input() team?: Team;
-  members?: User[];
+  allUsers?: User[];
+  users?: User[];
 
   constructor(
     private route: ActivatedRoute,
@@ -37,12 +38,56 @@ export class TeamEditComponent implements OnInit {
           this.team = team;
           this.userService.getUsersByTeamId(team.id)
             .subscribe(
-              members => this.members = members
+              users => this.users = users
+            );
+          this.userService.getUsers()
+            .subscribe(
+              allUsers => this.allUsers = allUsers
             );
         });
     } else {
       console.error('id can not be null!');
     }
+  }
+
+  addMember(id: number): void {
+    this.userService.updateUserTeamAdd(id, this.team.id).subscribe(
+      (user: User) => {
+        console.log('Changes applied!');
+      },
+      () => {
+        console.log('Error!');
+      })
+    this.teamService.updateTeamMembersAdd(id, this.team.id).subscribe(
+      (team: Team) => {
+        this.team = team;
+        console.log('Changes applied!');
+        delay(2000);
+        this.router.navigate([`team/${this.team.id}`])
+      },
+      () => {
+        console.log('Error!');
+      })
+  }
+
+  removeMember(id: number): void {
+    this.userService.updateUserTeamRemove(id, this.team.id).subscribe(
+      (user: User) => {
+        console.log('Changes applied!');
+      },
+      () => {
+        console.log('Error!');
+      })
+    this.teamService.updateTeamMembersRemove(id, this.team.id).subscribe(
+      (team: Team) => {
+        this.team = team;
+        console.log('Changes applied!');
+        delay(2000);
+        this.router.navigate([`team/${this.team.id}`])
+      },
+      () => {
+        console.log('Error!');
+      })
   }
 
   update(name: string, description: string): void {
@@ -60,7 +105,7 @@ export class TeamEditComponent implements OnInit {
         this.team = team;
         console.log('Changes applied!');
         delay(2000);
-        this.router.navigate([`team/${this.team.id}`])
+        this.router.navigate(['team'])
       },
       () => {
         console.log('Error!');

@@ -1,6 +1,7 @@
 package hr.tvz.project.finalsproject.controller;
 
 import hr.tvz.project.finalsproject.DTO.CategoryDTO;
+import hr.tvz.project.finalsproject.convertorsDTO.ConvertorsDTO;
 import hr.tvz.project.finalsproject.entity.Category;
 import hr.tvz.project.finalsproject.service.CategoryService;
 import org.springframework.http.HttpStatus;
@@ -55,7 +56,7 @@ public class CategoryController {
     @PostMapping()
     public ResponseEntity<CategoryDTO> save(@RequestBody final Category category){
         try {
-            CategoryDTO _category = categoryService.save(category, true);
+            CategoryDTO _category = categoryService.save(category);
             return new ResponseEntity<>(_category, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -66,7 +67,7 @@ public class CategoryController {
     public ResponseEntity<CategoryDTO> update(@PathVariable Long id, @RequestBody Category category) {
         Optional<CategoryDTO> categoryOptional = categoryService.findById(id);
         if (categoryOptional.isPresent()) {
-            return new ResponseEntity<>(categoryService.save(category, false), HttpStatus.OK);
+            return new ResponseEntity<>(ConvertorsDTO.mapCategoryToDTO(categoryService.update(category)), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

@@ -4,6 +4,7 @@ import hr.tvz.project.finalsproject.DTO.TeamDTO;
 import hr.tvz.project.finalsproject.DTO.UserDTO;
 import hr.tvz.project.finalsproject.convertorsDTO.ConvertorsDTO;
 import hr.tvz.project.finalsproject.entity.Team;
+import hr.tvz.project.finalsproject.entity.User;
 import hr.tvz.project.finalsproject.repository.TeamRepository;
 import org.springframework.stereotype.Service;
 
@@ -41,21 +42,56 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public Optional<TeamDTO> findByTicketId(Long id) {
-        return teamRepository.findByTicketListId(id).map(ConvertorsDTO::mapTeamToDTO);
+    public Optional<Team> findByIdRaw(Long id) {
+        return teamRepository.findById(id);
     }
 
     @Override
-    public TeamDTO save(Team team, boolean save) {
-        if(save){
-            List<TeamDTO> listOfAllTeams = findAll();
-            if(!listOfAllTeams.isEmpty()){
-                TeamDTO tempTeam = listOfAllTeams.stream().max(Comparator.comparing(TeamDTO::getId)).get();
-                if (team.getId() <= tempTeam.getId())
-                    team.setId(tempTeam.getId() + 1);
+    public TeamDTO save(Team team) {
+        List<TeamDTO> listOfAllTeams = findAll();
+        if(!listOfAllTeams.isEmpty()){
+            TeamDTO tempTeam = listOfAllTeams.stream().max(Comparator.comparing(TeamDTO::getId)).get();
+            if (team.getId() <= tempTeam.getId())
+                team.setId(tempTeam.getId() + 1);
+        }
+        return ConvertorsDTO.mapTeamToDTO(teamRepository.save(team));
+    }
+
+    @Override
+    public Team update(Team team) {
+        Optional<Team> tempTeam = findByIdRaw(team.getId());
+        if(tempTeam.isPresent()){
+            team.setMembersList(tempTeam.get().getMembersList());
+        }
+        return teamRepository.save(team);
+    }
+
+    @Override
+    public TeamDTO updateTeamMembersAdd(Team team, User user) {
+        Optional<Team> tempTeam = findByIdRaw(team.getId());
+        if(tempTeam.isPresent()){
+            List<User> uList = tempTeam.get().getMembersList();
+            if (uList.stream().noneMatch(u->u.getId().equals(user.getId()))){
+                tempTeam.get().getMembersList().add(user);
+                team.setMembersList(tempTeam.get().getMembersList());
             }
         }
         return ConvertorsDTO.mapTeamToDTO(teamRepository.save(team));
+
+    }
+
+    @Override
+    public TeamDTO updateTeamMembersRemove(Team team, User user) {
+        Optional<Team> tempTeam = findByIdRaw(team.getId());
+        if(tempTeam.isPresent()){
+            List<User> uList = tempTeam.get().getMembersList();
+            if (uList.stream().anyMatch(u->u.getId().equals(user.getId()))){
+                tempTeam.get().getMembersList().remove(user);
+                team.setMembersList(tempTeam.get().getMembersList());
+            }
+        }
+        return ConvertorsDTO.mapTeamToDTO(teamRepository.save(team));
+
     }
 
     @Override

@@ -32,10 +32,6 @@ public class Ticket {
     private Category category;
 
     @ManyToOne
-    @JoinColumn(name = "teams_id")
-    private Team team;
-
-    @ManyToOne
     @JoinColumn(name = "users_id")
     private User assignee;
 

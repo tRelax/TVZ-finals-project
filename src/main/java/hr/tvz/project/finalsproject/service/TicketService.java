@@ -12,8 +12,6 @@ import java.util.Optional;
 public interface TicketService {
     List<TicketDTO> findAll();
     List<TicketDTO> findByName(String name);
-    List<TicketDTO> findByTeamName(String name);
-    List<TicketDTO> findByTeamId(Long id);
     List<TicketDTO> findByCategoryName(String name);
     List<TicketDTO> findByCategoryId(Long id);
     List<TicketDTO> findByAssigneeName(String name);

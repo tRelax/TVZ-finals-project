@@ -1,8 +1,11 @@
 package hr.tvz.project.finalsproject.controller;
 
 import hr.tvz.project.finalsproject.DTO.TeamDTO;
+import hr.tvz.project.finalsproject.convertorsDTO.ConvertorsDTO;
 import hr.tvz.project.finalsproject.entity.Team;
+import hr.tvz.project.finalsproject.entity.User;
 import hr.tvz.project.finalsproject.service.TeamService;
+import hr.tvz.project.finalsproject.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +18,11 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:4200")
 public class TeamsController {
     private final TeamService teamService;
+    private final UserService userService;
 
-    public TeamsController(TeamService teamService) {
+    public TeamsController(TeamService teamService, UserService userService) {
         this.teamService = teamService;
+        this.userService = userService;
     }
 
     @GetMapping()
@@ -46,21 +51,10 @@ public class TeamsController {
                 );
     }
 
-    @GetMapping(params = "ticket_id")
-    public ResponseEntity<TeamDTO> findTeamByTicketId(@RequestParam final Long ticket_id){
-        return teamService.findByTicketId(ticket_id)
-                .map(ResponseEntity::ok)
-                .orElseGet(
-                        () -> ResponseEntity
-                                .notFound()
-                                .build()
-                );
-    }
-
     @PostMapping()
     public ResponseEntity<TeamDTO> save(@RequestBody final Team team){
         try {
-            TeamDTO _team = teamService.save(team, true);
+            TeamDTO _team = teamService.save(team);
             return new ResponseEntity<>(_team, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -69,9 +63,31 @@ public class TeamsController {
 
     @PutMapping("/{id}")
     public ResponseEntity<TeamDTO> update(@PathVariable Long id, @RequestBody Team team) {
-        Optional<TeamDTO> teamOptional = teamService.findById(id);
+        Optional<Team> teamOptional = teamService.findByIdRaw(id);
         if (teamOptional.isPresent()) {
-            return new ResponseEntity<>(teamService.save(team, false), HttpStatus.OK);
+            return new ResponseEntity<>(ConvertorsDTO.mapTeamToDTO(teamService.update(team)), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PatchMapping(params = "add_id")
+    public ResponseEntity<TeamDTO> updateUserTeamsAdd(@RequestParam Long add_id, @RequestBody Long user_id) {
+        Optional<Team> teamOptional = teamService.findByIdRaw(add_id);
+        Optional<User> userOptional = userService.findByIdRaw(user_id);
+        if (teamOptional.isPresent() && userOptional.isPresent()) {
+            return new ResponseEntity<>(teamService.updateTeamMembersAdd(teamOptional.get(), userOptional.get()), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PatchMapping(params = "remove_id")
+    public ResponseEntity<TeamDTO> updateUserTeamsRemove(@RequestParam Long remove_id, @RequestBody Long user_id) {
+        Optional<Team> teamOptional = teamService.findByIdRaw(remove_id);
+        Optional<User> userOptional = userService.findByIdRaw(user_id);
+        if (teamOptional.isPresent() && userOptional.isPresent()) {
+            return new ResponseEntity<>(teamService.updateTeamMembersRemove(teamOptional.get(), userOptional.get()), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

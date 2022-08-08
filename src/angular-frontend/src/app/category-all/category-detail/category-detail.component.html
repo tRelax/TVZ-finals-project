@@ -26,7 +26,8 @@
         </tbody>
     </table>
 
-    <button type="button" class="btn btn-dark ms-5 detailH2 editBtn">📝 Edit</button>
+    <button type="button" class="btn btn-dark ms-5 detailH2 editBtn" routerLink="/category/edit/{{category.id}}">📝
+        Edit</button>
 
     <div class="mainDiv" *ngIf="tickets != null && tickets.length > 0">
         <h3 class="ms-5">📜 Tickets</h3>

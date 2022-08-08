@@ -22,12 +22,6 @@
                     <span class="badge rounded-pill bg-secondary">{{category.name}}</span>
                 </td>
             </tr>
-            <tr *ngIf="team">
-                <th scope="row" class="col-2">👪 Team</th>
-                <td class="col-10" routerLink="/team/{{team.id}}">
-                    <span class="badge rounded-pill bg-warning text-dark align-middle">{{team.name}}</span>
-                </td>
-            </tr>
             <tr>
                 <th scope="row" class="col-2">✍ Description</th>
                 <td class="col-10">{{ticket.description}}</td>

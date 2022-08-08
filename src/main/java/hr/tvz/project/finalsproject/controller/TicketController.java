@@ -30,16 +30,6 @@ public class TicketController {
         return ticketService.findByName(name);
     }
 
-    @GetMapping(params = "team")
-    public List<TicketDTO> findTicketByTeamName(@RequestParam final String team){
-        return ticketService.findByTeamName(team);
-    }
-
-    @GetMapping(params = "team_id")
-    public List<TicketDTO> findTicketByTeamId(@RequestParam final Long team_id){
-        return ticketService.findByTeamId(team_id);
-    }
-
     @GetMapping(params = "category")
     public List<TicketDTO> findTicketByCategoryName(@RequestParam final String category){
         return ticketService.findByCategoryName(category);

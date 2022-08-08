@@ -4,6 +4,7 @@ import { CategoryDetailComponent } from './category-all/category-detail/category
 import { CategoryEditComponent } from './category-all/category-edit/category-edit.component';
 import { CategoryComponent } from './category-all/category/category.component';
 import { TeamDetailComponent } from './team-all/team-detail/team-detail.component';
+import { TeamEditMembersComponent } from './team-all/team-edit-members/team-edit-members.component';
 import { TeamEditComponent } from './team-all/team-edit/team-edit.component';
 import { TeamComponent } from './team-all/teams/team.component';
 import { TicketDetailComponent } from './ticket-all/ticket-detail/ticket-detail.component';
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'team', component: TeamComponent },
   { path: 'team/:id', component: TeamDetailComponent },
   { path: 'team/edit/:id', component: TeamEditComponent },
+  { path: 'team/edit/members/:id', component: TeamEditMembersComponent },
   { path: 'category', component: CategoryComponent },
   { path: 'category/:id', component: CategoryDetailComponent },
   { path: 'category/edit/:id', component: CategoryEditComponent },

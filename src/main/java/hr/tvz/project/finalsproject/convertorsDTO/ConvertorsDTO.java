@@ -41,7 +41,6 @@ public class ConvertorsDTO {
                 .name(team.getName())
                 .description(team.getDescription())
                 .membersList(mapListUserToDTO(team.getMembersList()))
-                .ticketList(mapListTicketToDTO(team.getTicketList()))
                 .build();
     }
 
@@ -78,7 +77,6 @@ public class ConvertorsDTO {
                .progress(ticket.getProgress())
                .priority(ticket.getPriority())
                .category(mapCategoryToSimpleDTO(ticket.getCategory()))
-               .team(mapTeamToSimpleDTO(ticket.getTeam()))
                .assignee(mapUserToSimpleDTO(ticket.getAssignee()))
                .tester(mapUserToSimpleDTO(ticket.getTester()))
                .build();

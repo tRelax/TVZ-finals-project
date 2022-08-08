@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {catchError, Observable, of, tap} from "rxjs";
+import { catchError, Observable, of, tap } from "rxjs";
 import { Category } from './category';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
@@ -9,9 +9,9 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 export class CategoryService {
 
   private categoryURL = 'http://localhost:8080/category';
-  
+
   httpOptions = {
-    headers: new HttpHeaders({'Content-Type': 'application/json'})
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
   constructor(private http: HttpClient) { }
@@ -35,11 +35,20 @@ export class CategoryService {
 
   getCategoryByTicketId(id: number): Observable<Category> {
     const params = new HttpParams().set('ticket_id', id);
-    return this.http.get<Category>(this.categoryURL, {params})
+    return this.http.get<Category>(this.categoryURL, { params })
       .pipe(
         tap(_ => console.log(`fetched category w/ ticket_id=${id}`)),
         catchError(this.handleError<Category>(`getCategoryByTicketId id=${id}`))
       );
+  }
+
+  updateCategory(category: Category): Observable<any> {
+    const url = `${this.categoryURL}/${category.id}`;
+    return this.http.put(url, category)
+      .pipe(
+        tap(_ => console.log(`updated category with id=${category.id}`)),
+        catchError(this.handleError<any>('updateCategory'))
+      )
   }
 
 
