@@ -2,7 +2,9 @@ package hr.tvz.project.finalsproject.service;
 
 import hr.tvz.project.finalsproject.DTO.TicketDTO;
 import hr.tvz.project.finalsproject.convertorsDTO.ConvertorsDTO;
+import hr.tvz.project.finalsproject.entity.Category;
 import hr.tvz.project.finalsproject.entity.Ticket;
+import hr.tvz.project.finalsproject.entity.User;
 import hr.tvz.project.finalsproject.repository.TicketRepository;
 import org.springframework.stereotype.Service;
 
@@ -60,14 +62,55 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public TicketDTO save(Ticket ticket, boolean save) {
-        if(save){
-            List<TicketDTO> listOfAllTickets = findAll();
-            if(!listOfAllTickets.isEmpty()){
-                TicketDTO tempTicket = listOfAllTickets.stream().max(Comparator.comparing(TicketDTO::getId)).get();
-                if (ticket.getId() <= tempTicket.getId())
-                    ticket.setId(tempTicket.getId() + 1);
-            }
+    public Optional<Ticket> findByIdRaw(Long id) {
+        return ticketRepository.findById(id);
+    }
+
+    @Override
+    public TicketDTO save(Ticket ticket) {
+        List<TicketDTO> listOfAllTickets = findAll();
+        if(!listOfAllTickets.isEmpty()){
+            TicketDTO tempTicket = listOfAllTickets.stream().max(Comparator.comparing(TicketDTO::getId)).get();
+            if (ticket.getId() <= tempTicket.getId())
+                ticket.setId(tempTicket.getId() + 1);
+        }
+        return ConvertorsDTO.mapTicketToDTO(ticketRepository.save(ticket));
+    }
+
+    @Override
+    public Ticket update(Ticket ticket) {
+        Optional<Ticket> tempTicket = findByIdRaw(ticket.getId());
+        if(tempTicket.isPresent()){
+            ticket.setCategory(tempTicket.get().getCategory());
+            ticket.setAssignee(tempTicket.get().getTester());
+            ticket.setTester(tempTicket.get().getTester());
+        }
+        return ticketRepository.save(ticket);
+    }
+
+    @Override
+    public TicketDTO updateAssignee(Ticket ticket, User user) {
+        Optional<Ticket> tempTicket = findByIdRaw(ticket.getId());
+        if(tempTicket.isPresent()){
+            ticket.setAssignee(user);
+        }
+        return ConvertorsDTO.mapTicketToDTO(ticketRepository.save(ticket));
+    }
+
+    @Override
+    public TicketDTO updateTester(Ticket ticket, User user) {
+        Optional<Ticket> tempTicket = findByIdRaw(ticket.getId());
+        if(tempTicket.isPresent()){
+            ticket.setTester(user);
+        }
+        return ConvertorsDTO.mapTicketToDTO(ticketRepository.save(ticket));
+    }
+
+    @Override
+    public TicketDTO updateCategory(Ticket ticket, Category category) {
+        Optional<Ticket> tempTicket = findByIdRaw(ticket.getId());
+        if(tempTicket.isPresent()){
+            ticket.setCategory(category);
         }
         return ConvertorsDTO.mapTicketToDTO(ticketRepository.save(ticket));
     }

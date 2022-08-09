@@ -2,6 +2,7 @@ package hr.tvz.project.finalsproject.service;
 
 import hr.tvz.project.finalsproject.DTO.UserDTO;
 import hr.tvz.project.finalsproject.entity.Team;
+import hr.tvz.project.finalsproject.entity.Ticket;
 import hr.tvz.project.finalsproject.entity.User;
 
 import java.util.List;
@@ -20,5 +21,9 @@ public interface UserService {
     User update(User user);
     UserDTO updateUserTeams(User user, Team team);
     UserDTO updateUserTeamsRemove(User user, Team team);
+    UserDTO updateAssigneeTicketListAdd(User userAdd, Ticket ticket);
+    UserDTO updateAssigneeTicketListRemove(User userRemove, Ticket ticket);
+    UserDTO updateTesterTicketListAdd(User userAdd, Ticket ticket);
+    UserDTO updateTesterTicketListRemove(User userRemove, Ticket ticket);
     void delete(Long id);
 }

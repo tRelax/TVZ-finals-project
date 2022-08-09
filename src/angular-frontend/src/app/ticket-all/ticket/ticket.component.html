@@ -2,14 +2,25 @@
 <table class="table table-striped table-hover table-bordered ms-5">
     <thead class="thead-light">
         <tr>
-        <th scope="col" class="col-1">#</th>
-        <th scope="col" class="col-11">Name</th>
+            <th scope="col" class="col-1">#</th>
+            <th scope="col" class="col-3">Name</th>
+            <th scope="col" class="col-2">Assignee</th>
+            <th scope="col" class="col-2">Tester</th>
+            <th scope="col" class="col-2">Category</th>
+            <th scope="col" class="col-2">Progress</th>
         </tr>
     </thead>
     <tbody *ngFor="let ticket of tickets; let i = index">
-    <tr>
-        <th scope="row" class="col-1">{{i+1}}</th>
-        <td class="col-11" routerLink="/ticket/{{ticket.id}}">{{ticket.name}}</td>
-    </tr>
+        <tr>
+            <th scope="row" class="col-1">{{i+1}}</th>
+            <td class="col-3" routerLink="/ticket/{{ticket.id}}">{{ticket.name}}</td>
+            <td class="col-2"></td>
+            <td class="col-2"></td>
+            <td class="col-2"></td>
+            <td class="col-2">
+                <ngb-progressbar class="border border-secondary" type="success" [value]="ticket.progress"
+                    [striped]="true" [animated]="true" [max]="10">
+                    {{ticket.progress*10}}%</ngb-progressbar>
+        </tr>
     </tbody>
 </table>

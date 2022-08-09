@@ -1,30 +1,29 @@
-<div *ngIf="user" class="list-group-item list-group-item-dark col-md-6 ms-2">
-    <div class="row col-md-3 ms-2">
-        <h3>Change user "{{user.name}} {{user.surname}}"</h3>
-        <div>
-            <label>Username:
-                <div>
-                    <input #username value="{{user.username}}" />
-                </div>
-            </label>
+<div *ngIf="user" class="mainDiv ms-5 col-md-8">
+    <h3>Change user "{{user.name}} {{user.surname}}"</h3>
+    <form class="mt-5">
+        <div class="form-group row mt-2">
+            <label class="col-sm-1 col-form-label">Username</label>
+            <div class="col-sm-11">
+                <input class="form-control" #username value="{{user.username}}">
+            </div>
         </div>
-        <div>
-            <label>Name:
-                <div>
-                    <input #name value="{{user.name}}" />
-                </div>
-            </label>
+        <div class="form-group row mt-2">
+            <label class="col-sm-1 col-form-label">Name</label>
+            <div class="col-sm-11">
+                <input class="form-control" #name value="{{user.name}}">
+            </div>
         </div>
-        <div>
-            <label>Surname:
-                <div>
-                    <input #surname value="{{user.surname}}" />
-                </div>
-            </label>
+        <div class="form-group row mt-2">
+            <label class="col-sm-1 col-form-label">Surname</label>
+            <div class="col-sm-11">
+                <input class="form-control" #surname value="{{user.surname}}">
+            </div>
         </div>
-
-        <button class="col-md-5 mt-2 ms-2" (click)="update(username.value, name.value, surname.value);">
-            Apply changes
-        </button>
-    </div>
+        <div class="form-group row">
+            <div class="col-sm-10 mt-5">
+                <button (click)="update(username.value, name.value, surname.value);" class=" btn btn-primary">Apply
+                    changes</button>
+            </div>
+        </div>
+    </form>
 </div>

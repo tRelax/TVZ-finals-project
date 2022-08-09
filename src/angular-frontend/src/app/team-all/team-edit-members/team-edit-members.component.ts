@@ -63,7 +63,7 @@ export class TeamEditMembersComponent implements OnInit {
         this.team = team;
         console.log('Changes applied!');
         delay(2000);
-        this.router.navigate([`team/${this.team.id}`])
+        this.router.navigate([`team/edit/${this.team.id}`])
       },
       () => {
         console.log('Error!');
@@ -83,14 +83,14 @@ export class TeamEditMembersComponent implements OnInit {
         this.team = team;
         console.log('Changes applied!');
         delay(2000);
-        this.router.navigate([`team/${this.team.id}`])
+        this.router.navigate([`team/edit/${this.team.id}`])
       },
       () => {
         console.log('Error!');
       })
   }
 
-  update(name: string, description: string): void {
+  updateTicket(name: string, description: string): void {
     name = name.trim();
     description = description.trim();
 

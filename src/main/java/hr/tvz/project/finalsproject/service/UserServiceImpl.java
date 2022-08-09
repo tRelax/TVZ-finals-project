@@ -3,6 +3,7 @@ package hr.tvz.project.finalsproject.service;
 import hr.tvz.project.finalsproject.DTO.UserDTO;
 import hr.tvz.project.finalsproject.convertorsDTO.ConvertorsDTO;
 import hr.tvz.project.finalsproject.entity.Team;
+import hr.tvz.project.finalsproject.entity.Ticket;
 import hr.tvz.project.finalsproject.entity.User;
 import hr.tvz.project.finalsproject.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -109,6 +110,58 @@ public class UserServiceImpl implements UserService {
             }
         }
         return ConvertorsDTO.mapUserToDTO(userRepository.save(user));
+    }
+
+    @Override
+    public UserDTO updateAssigneeTicketListAdd(User userAdd, Ticket ticket) {
+        Optional<User> tempUserAdd = findByIdRaw(userAdd.getId());
+        if(tempUserAdd.isPresent()){
+            List<Ticket> tList = tempUserAdd.get().getTicketList();
+            if (tList.stream().noneMatch(t->t.getId().equals(ticket.getId()))){
+                tempUserAdd.get().getTicketList().add(ticket);
+                userAdd.setTicketList(tempUserAdd.get().getTicketList());
+            }
+        }
+        return ConvertorsDTO.mapUserToDTO(userRepository.save(userAdd));
+    }
+
+    @Override
+    public UserDTO updateAssigneeTicketListRemove(User userRemove, Ticket ticket) {
+        Optional<User> tempUserRemove = findByIdRaw(userRemove.getId());
+        if(tempUserRemove.isPresent()){
+            List<Ticket> tList = tempUserRemove.get().getTicketList();
+            if (tList.stream().anyMatch(t->t.getId().equals(ticket.getId()))){
+                tempUserRemove.get().getTicketList().remove(ticket);
+                userRemove.setTicketList(tempUserRemove.get().getTicketList());
+            }
+        }
+        return ConvertorsDTO.mapUserToDTO(userRepository.save(userRemove));
+    }
+
+    @Override
+    public UserDTO updateTesterTicketListAdd(User userAdd, Ticket ticket) {
+        Optional<User> tempUserAdd = findByIdRaw(userAdd.getId());
+        if(tempUserAdd.isPresent()){
+            List<Ticket> tList = tempUserAdd.get().getTicketListTester();
+            if (tList.stream().noneMatch(t->t.getId().equals(ticket.getId()))){
+                tempUserAdd.get().getTicketListTester().add(ticket);
+                userAdd.setTicketListTester(tempUserAdd.get().getTicketListTester());
+            }
+        }
+        return ConvertorsDTO.mapUserToDTO(userRepository.save(userAdd));
+    }
+
+    @Override
+    public UserDTO updateTesterTicketListRemove(User userRemove, Ticket ticket) {
+        Optional<User> tempUserAdd = findByIdRaw(userRemove.getId());
+        if(tempUserAdd.isPresent()){
+            List<Ticket> tList = tempUserAdd.get().getTicketListTester();
+            if (tList.stream().anyMatch(t->t.getId().equals(ticket.getId()))){
+                tempUserAdd.get().getTicketListTester().remove(ticket);
+                userRemove.setTicketListTester(tempUserAdd.get().getTicketListTester());
+            }
+        }
+        return ConvertorsDTO.mapUserToDTO(userRepository.save(userRemove));
     }
 
     @Override

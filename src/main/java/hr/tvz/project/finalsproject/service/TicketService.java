@@ -2,7 +2,7 @@ package hr.tvz.project.finalsproject.service;
 
 
 import hr.tvz.project.finalsproject.DTO.TicketDTO;
-import hr.tvz.project.finalsproject.DTO.UserDTO;
+import hr.tvz.project.finalsproject.entity.Category;
 import hr.tvz.project.finalsproject.entity.Ticket;
 import hr.tvz.project.finalsproject.entity.User;
 
@@ -18,6 +18,11 @@ public interface TicketService {
     List<TicketDTO> findByAssigneeId(Long id);
     List<TicketDTO> findByTesterName(String name);
     Optional<TicketDTO> findById(Long id);
-    TicketDTO save(Ticket ticket, boolean save);
+    Optional<Ticket> findByIdRaw(Long id);
+    TicketDTO save(Ticket ticket);
+    Ticket update(Ticket ticket);
+    TicketDTO updateAssignee(Ticket ticket, User user);
+    TicketDTO updateTester(Ticket ticket, User user);
+    TicketDTO updateCategory(Ticket ticket, Category category);
     void delete(Long id);
 }

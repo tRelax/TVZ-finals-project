@@ -8,6 +8,10 @@
                     <span class="badge rounded-pill bg-info text-dark">#{{ticket.id}}</span>
                 </td>
             </tr>
+            <tr>
+                <th scope="row" class="col-2">Name</th>
+                <td class="col-10">{{ticket.name}}</td>
+            </tr>
             <tr *ngIf="assignee">
                 <th scope="row" class="col-2">🙋‍♂️ Assignee</th>
                 <td class="col-10" routerLink="/user/{{assignee.id}}">{{assignee.name}} {{assignee.surname}}</td>
@@ -37,26 +41,31 @@
             <tr>
                 <th scope="row" class="col-2">❓ Priority</th>
                 <td *ngIf="ticket.priority < 3" class="col-10 align-middle">
-                    <ngb-progressbar class="col-4" type="success" [value]="ticket.priority" [max]="10">New
+                    <ngb-progressbar class="col-4 border border-secondary" type="success" [value]="ticket.priority"
+                        [max]="10">New
                     </ngb-progressbar>
                 <td *ngIf="ticket.priority >= 3 && ticket.priority < 6" class="col-10 align-middle">
-                    <ngb-progressbar class="col-4" type="info" [value]="ticket.priority" [max]="10">Casual
+                    <ngb-progressbar class="col-4 border border-secondary" type="info" [value]="ticket.priority"
+                        [max]="10">Casual
                     </ngb-progressbar>
                 <td *ngIf="ticket.priority >= 6 && ticket.priority < 9" class="col-10 align-middle">
-                    <ngb-progressbar class="col-4" type="warning" [value]="ticket.priority" [max]="10">Should be
+                    <ngb-progressbar class="col-4 border border-secondary" type="warning" [value]="ticket.priority"
+                        [max]="10">Should be
                         priorized</ngb-progressbar>
                 <td *ngIf="ticket.priority >= 9" class="col-10 align-middle">
-                    <ngb-progressbar class="col-4" type="danger" [value]="ticket.priority" [max]="10">Urgent
+                    <ngb-progressbar class="col-4 border border-secondary" type="danger" [value]="ticket.priority"
+                        [max]="10">Urgent
                     </ngb-progressbar>
             </tr>
             <tr>
                 <th scope="row" class="col-2">📊 Progress</th>
                 <td class="col-10 align-middle">
-                    <ngb-progressbar class="col-4" type="success" [value]="ticket.progress" [striped]="true"
-                        [animated]="true" [max]="10">{{ticket.progress*10}}%</ngb-progressbar>
+                    <ngb-progressbar class="col-4 border border-secondary" type="success" [value]="ticket.progress"
+                        [striped]="true" [animated]="true" [max]="10">{{ticket.progress*10}}%</ngb-progressbar>
             </tr>
         </tbody>
     </table>
 
-    <button type="button" class="btn btn-dark ms-5 detailH2 editBtn">📝 Edit</button>
+    <button type="button" class="btn btn-dark ms-5 detailH2 editBtn" routerLink="/ticket/edit/{{ticket.id}}">📝
+        Edit</button>
 </div>

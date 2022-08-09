@@ -53,6 +53,42 @@ export class TicketService {
       );
   }
 
+  updateTicket(ticket: Ticket): Observable<any> {
+    const url = `${this.ticketURL}/${ticket.id}`;
+    return this.http.put(url, ticket)
+      .pipe(
+        tap(_ => console.log(`updated ticket with id=${ticket.id}`)),
+        catchError(this.handleError<any>('updateTicket'))
+      )
+  }
+
+  updateTicketsAssignee(ticket_id: number, assignee_id: number): Observable<any> {
+    const params = new HttpParams().set('assignee_id', assignee_id);
+    return this.http.patch(this.ticketURL, ticket_id, { params })
+      .pipe(
+        tap(_ => console.log(`updated assignee for ticket with id=${ticket_id}`)),
+        catchError(this.handleError<any>('updateTicketsAssignee'))
+      )
+  }
+
+  updateTicketsTester(ticket_id: number, tester_id: number): Observable<any> {
+    const params = new HttpParams().set('tester_id', tester_id);
+    return this.http.patch(this.ticketURL, ticket_id, { params })
+      .pipe(
+        tap(_ => console.log(`updated tester for ticket with id=${ticket_id}`)),
+        catchError(this.handleError<any>('updateTicketsTester'))
+      )
+  }
+
+  updateTicketCategory(ticket_id: number, category_id: number): Observable<any> {
+    const url = `${this.ticketURL}/?category_id=${category_id}`;
+    return this.http.patch(url, ticket_id)
+      .pipe(
+        tap(_ => console.log(`updated category for ticket with id=${ticket_id}`)),
+        catchError(this.handleError<any>('updateTicketCategory'))
+      )
+  }
+
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

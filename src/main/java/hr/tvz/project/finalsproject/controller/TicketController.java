@@ -1,8 +1,14 @@
 package hr.tvz.project.finalsproject.controller;
 
 import hr.tvz.project.finalsproject.DTO.TicketDTO;
+import hr.tvz.project.finalsproject.convertorsDTO.ConvertorsDTO;
+import hr.tvz.project.finalsproject.entity.Category;
+import hr.tvz.project.finalsproject.entity.Team;
 import hr.tvz.project.finalsproject.entity.Ticket;
+import hr.tvz.project.finalsproject.entity.User;
+import hr.tvz.project.finalsproject.service.CategoryService;
 import hr.tvz.project.finalsproject.service.TicketService;
+import hr.tvz.project.finalsproject.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +21,13 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:4200")
 public class TicketController {
     private final TicketService ticketService;
+    private final UserService userService;
+    private final CategoryService categoryService;
 
-    public TicketController(TicketService ticketService) {
+    public TicketController(TicketService ticketService, UserService userService, CategoryService categoryService) {
         this.ticketService = ticketService;
+        this.userService = userService;
+        this.categoryService = categoryService;
     }
 
     @GetMapping()
@@ -69,7 +79,7 @@ public class TicketController {
     @PostMapping()
     public ResponseEntity<TicketDTO> save(@RequestBody final Ticket ticket){
         try {
-            TicketDTO _ticket = ticketService.save(ticket, true);
+            TicketDTO _ticket = ticketService.save(ticket);
             return new ResponseEntity<>(_ticket, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -78,9 +88,42 @@ public class TicketController {
 
     @PutMapping("/{id}")
     public ResponseEntity<TicketDTO> update(@PathVariable Long id, @RequestBody Ticket ticket) {
-        Optional<TicketDTO> ticketOptional = ticketService.findById(id);
+        Optional<Ticket> ticketOptional = ticketService.findByIdRaw(id);
         if (ticketOptional.isPresent()) {
-            return new ResponseEntity<>(ticketService.save(ticket, false), HttpStatus.OK);
+            return new ResponseEntity<>(ConvertorsDTO.mapTicketToDTO(ticketService.update(ticket)), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PatchMapping(params = {"assignee_id"})
+    public ResponseEntity<TicketDTO> updateTicketAssignee(@RequestParam Long assignee_id, @RequestBody Long ticket_id) {
+        Optional<Ticket> ticketOptional = ticketService.findByIdRaw(ticket_id);
+        Optional<User> userOptional = userService.findByIdRaw(assignee_id);
+        if (userOptional.isPresent() && ticketOptional.isPresent()) {
+            return new ResponseEntity<>(ticketService.updateAssignee(ticketOptional.get(), userOptional.get()), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PatchMapping(params = {"tester_id"})
+    public ResponseEntity<TicketDTO> updateTicketTester(@RequestParam Long tester_id, @RequestBody Long ticket_id) {
+        Optional<Ticket> ticketOptional = ticketService.findByIdRaw(ticket_id);
+        Optional<User> userOptional = userService.findByIdRaw(tester_id);
+        if (userOptional.isPresent() && ticketOptional.isPresent()) {
+            return new ResponseEntity<>(ticketService.updateTester(ticketOptional.get(), userOptional.get()), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PatchMapping(params = "category_id")
+    public ResponseEntity<TicketDTO> updateTicketCategory(@RequestParam Long category_id, @RequestBody Long ticket_id) {
+        Optional<Ticket> ticketOptional = ticketService.findByIdRaw(ticket_id);
+        Optional<Category> categoryOptional = categoryService.findByIdRaw(category_id);
+        if (categoryOptional.isPresent() && ticketOptional.isPresent()) {
+            return new ResponseEntity<>(ticketService.updateCategory(ticketOptional.get(), categoryOptional.get()), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

@@ -51,6 +51,24 @@ export class CategoryService {
       )
   }
 
+  updateCategoryTicketListAdd(category_id: number, ticket_id: number): Observable<any> {
+    const url = `${this.categoryURL}/?ticket_id_add=${ticket_id}`;
+    return this.http.patch(url, category_id)
+      .pipe(
+        tap(_ => console.log(`updated category with id=${category_id}`)),
+        catchError(this.handleError<any>('updateCategoryTicketList'))
+      )
+  }
+
+  updateCategoryTicketListRemove(category_id: number, ticket_id: number): Observable<any> {
+    const url = `${this.categoryURL}/?ticket_id_remove=${ticket_id}`;
+    return this.http.patch(url, category_id)
+      .pipe(
+        tap(_ => console.log(`updated category with id=${category_id}`)),
+        catchError(this.handleError<any>('updateCategoryTicketList'))
+      )
+  }
+
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

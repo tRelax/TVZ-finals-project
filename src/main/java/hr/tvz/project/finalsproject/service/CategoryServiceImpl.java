@@ -5,6 +5,7 @@ import hr.tvz.project.finalsproject.DTO.TeamDTO;
 import hr.tvz.project.finalsproject.convertorsDTO.ConvertorsDTO;
 import hr.tvz.project.finalsproject.entity.Category;
 import hr.tvz.project.finalsproject.entity.Team;
+import hr.tvz.project.finalsproject.entity.Ticket;
 import hr.tvz.project.finalsproject.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
@@ -64,6 +65,22 @@ public class CategoryServiceImpl implements CategoryService {
             category.setTicketList(tempCategory.get().getTicketList());
         }
         return categoryRepository.save(category);
+    }
+
+    @Override
+    public CategoryDTO updateTicketListAdd(Category category, Ticket ticket) {
+        if (category.getTicketList().stream().noneMatch(t->t.getId().equals(ticket.getId()))){
+            category.getTicketList().add(ticket);
+        }
+        return ConvertorsDTO.mapCategoryToDTO(categoryRepository.save(category));
+    }
+
+    @Override
+    public CategoryDTO updateTicketListRemove(Category category, Ticket ticket) {
+        if (category.getTicketList().stream().anyMatch(t->t.getId().equals(ticket.getId()))){
+            category.getTicketList().remove(ticket);
+        }
+        return ConvertorsDTO.mapCategoryToDTO(categoryRepository.save(category));
     }
 
     @Override
