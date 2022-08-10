@@ -10,5 +10,12 @@
       </li>
     </ul>
   </div>
+  <div class="w-100 text-end ml-auto me-2" *ngIf="authenticationService.isUserAuthenticated()">Logged in as
+    <strong>{{authenticationService.getAuthenticatedUserUsername()}}</strong>
+    | <a href="#" (click)="logout()" class="link-primary">Sign out</a>
+  </div>
 </nav>
 <router-outlet></router-outlet>
+<nav class="row navbar fixed-bottom navbar-light bg-light text-center align-items-center">
+  <span class="navbar-brand">© Tickets via Zagreb</span>
+</nav>

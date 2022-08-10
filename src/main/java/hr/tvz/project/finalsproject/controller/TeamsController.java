@@ -8,6 +8,7 @@ import hr.tvz.project.finalsproject.service.TeamService;
 import hr.tvz.project.finalsproject.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,21 +27,25 @@ public class TeamsController {
     }
 
     @GetMapping()
+    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public List<TeamDTO> findAllTeams(){
         return teamService.findAll();
     }
 
     @GetMapping(params = "name")
+    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public List<TeamDTO> findTeamByName(@RequestParam final String name){
         return teamService.findByName(name);
     }
 
     @GetMapping(params = "user_id")
+    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public List<TeamDTO> findTeamByUserId(@RequestParam final Long user_id){
         return teamService.findByUserId(user_id);
     }
 
     @GetMapping("/{id}")
+    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public ResponseEntity<TeamDTO> findTeamById(@PathVariable final Long id){
         return teamService.findById(id)
                 .map(ResponseEntity::ok)
@@ -52,6 +57,7 @@ public class TeamsController {
     }
 
     @PostMapping()
+    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public ResponseEntity<TeamDTO> save(@RequestBody final Team team){
         try {
             TeamDTO _team = teamService.save(team);
@@ -62,6 +68,7 @@ public class TeamsController {
     }
 
     @PutMapping("/{id}")
+    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public ResponseEntity<TeamDTO> update(@PathVariable Long id, @RequestBody Team team) {
         Optional<Team> teamOptional = teamService.findByIdRaw(id);
         if (teamOptional.isPresent()) {
@@ -72,6 +79,7 @@ public class TeamsController {
     }
 
     @PatchMapping(params = "add_id")
+    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public ResponseEntity<TeamDTO> updateUserTeamsAdd(@RequestParam Long add_id, @RequestBody Long user_id) {
         Optional<Team> teamOptional = teamService.findByIdRaw(add_id);
         Optional<User> userOptional = userService.findByIdRaw(user_id);
@@ -83,6 +91,7 @@ public class TeamsController {
     }
 
     @PatchMapping(params = "remove_id")
+    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public ResponseEntity<TeamDTO> updateUserTeamsRemove(@RequestParam Long remove_id, @RequestBody Long user_id) {
         Optional<Team> teamOptional = teamService.findByIdRaw(remove_id);
         Optional<User> userOptional = userService.findByIdRaw(user_id);
@@ -95,6 +104,7 @@ public class TeamsController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
+    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public void deleteById(@PathVariable Long id){
         teamService.delete(id);
     }

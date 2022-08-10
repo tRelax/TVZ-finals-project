@@ -10,6 +10,7 @@ import hr.tvz.project.finalsproject.service.TicketService;
 import hr.tvz.project.finalsproject.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,21 +31,25 @@ public class UserController {
     }
 
     @GetMapping()
+    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public List<UserDTO> findAllUser(){
         return userService.findAll();
     }
 
     @GetMapping(params = "name")
+    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public List<UserDTO> findUserByName(@RequestParam final String name){
         return userService.findByName(name);
     }
 
     @GetMapping(params = "team_id")
+    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public List<UserDTO> findUsersByTeamId(@RequestParam final Long team_id){
         return userService.findByTeamId(team_id);
     }
 
     @GetMapping("/{id}")
+    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public ResponseEntity<UserDTO> findUserById(@PathVariable final Long id){
         return userService.findById(id)
                 .map(ResponseEntity::ok)
@@ -56,6 +61,7 @@ public class UserController {
     }
 
     @GetMapping(params="assignee_ticket_id")
+    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public ResponseEntity<UserDTO> findAssigneeByTicketId(@RequestParam final Long assignee_ticket_id){
         return userService.findAssigneeByTicketId(assignee_ticket_id)
                 .map(ResponseEntity::ok)
@@ -67,6 +73,7 @@ public class UserController {
     }
 
     @GetMapping(params="tester_ticket_id")
+    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public ResponseEntity<UserDTO> findTesterByTicketId(@RequestParam final Long tester_ticket_id){
         return userService.findTesterByTicketId(tester_ticket_id)
                 .map(ResponseEntity::ok)
@@ -78,6 +85,7 @@ public class UserController {
     }
 
     @PostMapping()
+    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public ResponseEntity<UserDTO> save(@RequestBody final User user){
         try {
             UserDTO _user = userService.save(user);
@@ -88,6 +96,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
+    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public ResponseEntity<UserDTO> update(@PathVariable Long id, @RequestBody User user) {
         Optional<User> userOptional = userService.findByIdRaw(id);
         if (userOptional.isPresent()) {
@@ -98,6 +107,7 @@ public class UserController {
     }
 
     @PatchMapping(params = "add_id")
+    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public ResponseEntity<UserDTO> updateUserTeams(@RequestParam Long add_id, @RequestBody Long team_id) {
         Optional<User> userOptional = userService.findByIdRaw(add_id);
         Optional<Team> teamOptional = teamService.findByIdRaw(team_id);
@@ -109,6 +119,7 @@ public class UserController {
     }
 
     @PatchMapping(params = "remove_id")
+    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public ResponseEntity<UserDTO> updateUserTeamsRemove(@RequestParam Long remove_id, @RequestBody Long team_id) {
         Optional<User> userOptional = userService.findByIdRaw(remove_id);
         Optional<Team> teamOptional = teamService.findByIdRaw(team_id);
@@ -120,6 +131,7 @@ public class UserController {
     }
 
     @PatchMapping(params = {"assignee_add_id"})
+    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public ResponseEntity<UserDTO> updateAssigneeTicketListAdd(@RequestParam Long assignee_add_id, @RequestBody Long ticket_id) {
         Optional<User> userOptionalAdd = userService.findByIdRaw(assignee_add_id);
         Optional<Ticket> ticketOptional = ticketService.findByIdRaw(ticket_id);
@@ -131,6 +143,7 @@ public class UserController {
     }
 
     @PatchMapping(params = {"assignee_remove_id"})
+    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public ResponseEntity<UserDTO> updateAssigneeTicketListRemove(@RequestParam Long assignee_remove_id, @RequestBody Long ticket_id) {
         Optional<User> userOptionalRemove = userService.findByIdRaw(assignee_remove_id);
         Optional<Ticket> ticketOptional = ticketService.findByIdRaw(ticket_id);
@@ -142,6 +155,7 @@ public class UserController {
     }
 
     @PatchMapping(params = {"tester_add_id"})
+    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public ResponseEntity<UserDTO> updateTesterTicketListAdd(@RequestParam Long tester_add_id, @RequestBody Long ticket_id) {
         Optional<User> userOptionalAdd = userService.findByIdRaw(tester_add_id);
         Optional<Ticket> ticketOptional = ticketService.findByIdRaw(ticket_id);
@@ -153,6 +167,7 @@ public class UserController {
     }
 
     @PatchMapping(params = {"tester_remove_id"})
+    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public ResponseEntity<UserDTO> updateTesterTicketListRemove(@RequestParam Long tester_remove_id, @RequestBody Long ticket_id) {
         Optional<User> userOptionalRemove = userService.findByIdRaw(tester_remove_id);
         Optional<Ticket> ticketOptional = ticketService.findByIdRaw(ticket_id);
@@ -165,6 +180,7 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
+    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public void deleteById(@PathVariable Long id){
         userService.delete(id);
     }

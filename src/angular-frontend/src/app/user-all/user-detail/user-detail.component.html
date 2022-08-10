@@ -36,7 +36,8 @@
         </tbody>
     </table>
 
-    <button type="button" class="btn btn-dark ms-5 detailH2 editBtn" routerLink="/user/edit/{{user.id}}">📝
+    <button type="button" *ngIf="authenticationService.getAuthenticatedUserUsername() == user.username"
+        class="btn btn-dark ms-5 detailH2 editBtn" routerLink="/user/edit/{{user.id}}">📝
         Edit</button>
 
     <div class="mainDiv" *ngIf="tickets != null && tickets.length > 0">

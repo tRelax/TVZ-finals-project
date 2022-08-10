@@ -15,6 +15,7 @@ public class Authority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_authority")
     private Long id;
 
     @NotNull

@@ -8,6 +8,7 @@ import hr.tvz.project.finalsproject.service.CategoryService;
 import hr.tvz.project.finalsproject.service.TicketService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,16 +27,19 @@ public class CategoryController {
     }
 
     @GetMapping()
+    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public List<CategoryDTO> findAllCategories(){
         return categoryService.findAll();
     }
 
     @GetMapping(params = "name")
+    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public List<CategoryDTO> findCategoryByName(@RequestParam final String name){
         return categoryService.findByName(name);
     }
 
     @GetMapping("/{id}")
+    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public ResponseEntity<CategoryDTO> findCategoryById(@PathVariable final Long id){
         return categoryService.findById(id)
                 .map(ResponseEntity::ok)
@@ -47,6 +51,7 @@ public class CategoryController {
     }
 
     @GetMapping(params = "ticket_id")
+    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public ResponseEntity<CategoryDTO> findCategoryByTicketId(@RequestParam final Long ticket_id){
         return categoryService.findByTicketId(ticket_id)
                 .map(ResponseEntity::ok)
@@ -58,6 +63,7 @@ public class CategoryController {
     }
 
     @PostMapping()
+    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public ResponseEntity<CategoryDTO> save(@RequestBody final Category category){
         try {
             CategoryDTO _category = categoryService.save(category);
@@ -68,6 +74,7 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
+    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public ResponseEntity<CategoryDTO> update(@PathVariable Long id, @RequestBody Category category) {
         Optional<CategoryDTO> categoryOptional = categoryService.findById(id);
         if (categoryOptional.isPresent()) {
@@ -78,6 +85,7 @@ public class CategoryController {
     }
 
     @PatchMapping(params = "ticket_id_add")
+    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public ResponseEntity<CategoryDTO> updateTicketListAdd(@RequestParam Long ticket_id_add, @RequestBody Long category_id) {
         Optional<Category> categoryOptional = categoryService.findByIdRaw(category_id);
         Optional<Ticket> ticketOptional = ticketService.findByIdRaw(ticket_id_add);
@@ -89,6 +97,7 @@ public class CategoryController {
     }
 
     @PatchMapping(params = "ticket_id_remove")
+    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public ResponseEntity<CategoryDTO> updateTicketListRemove(@RequestParam Long ticket_id_remove, @RequestBody Long category_id) {
         Optional<Category> categoryOptional = categoryService.findByIdRaw(category_id);
         Optional<Ticket> ticketOptional = ticketService.findByIdRaw(ticket_id_remove);
@@ -101,6 +110,7 @@ public class CategoryController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
+    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public void deleteById(@PathVariable Long id){
         categoryService.delete(id);
     }

@@ -76,6 +76,7 @@ public class UserServiceImpl implements UserService {
             user.setTeamList(tempUser.get().getTeamList());
             user.setTicketList(tempUser.get().getTicketList());
             user.setTicketListTester(tempUser.get().getTicketListTester());
+            user.setAuthorities(tempUser.get().getAuthorities());
         }
         return userRepository.save(user);
     }

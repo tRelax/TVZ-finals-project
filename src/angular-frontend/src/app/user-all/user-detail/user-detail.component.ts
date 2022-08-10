@@ -7,6 +7,7 @@ import { TicketService } from 'src/app/ticket-all/ticket.service';
 import { User } from '../user';
 import { UserService } from '../user.service';
 import { TeamService } from 'src/app/team-all/team.service';
+import { AuthenticationService } from 'src/app/security/authentication.service';
 
 @Component({
   selector: 'app-user-detail',
@@ -24,6 +25,7 @@ export class UserDetailComponent implements OnInit {
     private userService: UserService,
     private ticketService: TicketService,
     private teamService: TeamService,
+    public authenticationService: AuthenticationService,
     private location: Location
   ) { }
 

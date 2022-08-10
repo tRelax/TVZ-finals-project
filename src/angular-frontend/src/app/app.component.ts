@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthenticationService } from './security/authentication.service';
 
 @Component({
   selector: 'app-root',
@@ -22,5 +24,15 @@ export class AppComponent {
       link: "/ticket"
     }
   ]
-  title = 'finals-project-frontend';
+  title = 'Tickets Via Zagreb';
+
+  constructor(
+    public authenticationService: AuthenticationService,
+    private router: Router
+  ) { }
+
+  logout() {
+    this.authenticationService.logout();
+    this.router.navigate(['/login']).then();
+  }
 }

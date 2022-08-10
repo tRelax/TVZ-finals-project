@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -20,6 +20,10 @@ import { CategoryEditComponent } from './category-all/category-edit/category-edi
 import { TeamEditComponent } from './team-all/team-edit/team-edit.component';
 import { TicketEditComponent } from './ticket-all/ticket-edit/ticket-edit.component';
 import { TeamEditMembersComponent } from './team-all/team-edit-members/team-edit-members.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { LoginComponent } from './login/login.component';
+import { ForbiddenPageComponent } from './forbidden-page/forbidden-page.component';
+import { AuthenticationInterceptor } from './security/authentication.interceptor';
 
 @NgModule({
   declarations: [
@@ -36,7 +40,10 @@ import { TeamEditMembersComponent } from './team-all/team-edit-members/team-edit
     CategoryEditComponent,
     TeamEditComponent,
     TicketEditComponent,
-    TeamEditMembersComponent
+    TeamEditMembersComponent,
+    PageNotFoundComponent,
+    LoginComponent,
+    ForbiddenPageComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +52,14 @@ import { TeamEditMembersComponent } from './team-all/team-edit-members/team-edit
     AppRoutingModule,
     NgbModule
   ],
-  providers: [DatePipe],
+  providers: [
+    DatePipe,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthenticationInterceptor,
+      multi: true
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
