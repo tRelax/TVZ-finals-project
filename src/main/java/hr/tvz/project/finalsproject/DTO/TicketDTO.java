@@ -24,7 +24,6 @@ public class TicketDTO {
     private Integer progress;
     private Integer priority;
     private CategoryDTO category;
-    private TeamDTO team;
     private UserDTO assignee;
     private UserDTO tester;
 }
