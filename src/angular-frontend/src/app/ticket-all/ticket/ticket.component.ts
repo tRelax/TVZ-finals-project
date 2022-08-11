@@ -21,6 +21,7 @@ export class TicketComponent implements OnInit {
   assignee?: User;
   tester?: User;
   isUserAdmin: boolean;
+  query: string;
 
   constructor(
     private ticketService: TicketService,

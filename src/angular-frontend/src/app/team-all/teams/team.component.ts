@@ -12,6 +12,7 @@ export class TeamComponent implements OnInit {
 
   teams: Team[];
   isUserAdmin: boolean;
+  query: string;
 
   constructor(
     private teamService: TeamService,

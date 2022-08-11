@@ -8,6 +8,7 @@ import { Ticket } from 'src/app/ticket-all/ticket';
 import { TicketService } from 'src/app/ticket-all/ticket.service';
 import { User } from '../user';
 import { UserService } from '../user.service';
+import { AuthenticationService } from 'src/app/security/authentication.service';
 
 @Component({
   selector: 'app-user-edit',
@@ -22,6 +23,7 @@ export class UserEditComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private authenticationService: AuthenticationService,
     private router: Router,
     private userService: UserService,
     private ticketService: TicketService,
@@ -38,6 +40,9 @@ export class UserEditComponent implements OnInit {
     if (id !== null) {
       this.userService.getUser(+id)
         .subscribe(user => {
+          if (this.authenticationService.getAuthenticatedUserUsername() != user.username) {
+            this.router.navigate(['forbidden'])
+          }
           this.user = user;
           this.ticketService.getTicketsByUserId(user.id)
             .subscribe(

@@ -63,6 +63,14 @@ export class UserService {
       );
   }
 
+  addUser(user: User): Observable<any> {
+    return this.http.post<User>(this.userURL, user)
+      .pipe(
+        tap(_ => console.log(`adding new user`,)),
+        catchError(this.handleError<User>(`addUser`))
+      );
+  }
+
   updateUser(user: User): Observable<any> {
     const url = `${this.userURL}/${user.id}`;
     return this.http.put(url, user)

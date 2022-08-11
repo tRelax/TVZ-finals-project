@@ -6,6 +6,7 @@ import { CategoryComponent } from './category-all/category/category.component';
 import { ForbiddenPageComponent } from './forbidden-page/forbidden-page.component';
 import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { RegisterComponent } from './register/register.component';
 import { LoggedInGuard } from './security/logged-in.guard';
 import { TeamDetailComponent } from './team-all/team-detail/team-detail.component';
 import { TeamEditMembersComponent } from './team-all/team-edit-members/team-edit-members.component';
@@ -27,6 +28,10 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'register',
+    component: RegisterComponent
   },
   {
     path: 'user',

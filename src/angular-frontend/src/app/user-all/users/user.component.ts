@@ -12,12 +12,13 @@ export class UserComponent implements OnInit {
 
   users: User[];
   isUserAdmin: boolean;
+  query: string;
 
   constructor(
     private userService: UserService,
     private router: Router
-  ) { 
-    
+  ) {
+
   }
 
   ngOnInit(): void {

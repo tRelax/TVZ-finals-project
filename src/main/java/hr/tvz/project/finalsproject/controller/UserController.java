@@ -31,7 +31,6 @@ public class UserController {
     }
 
     @GetMapping()
-    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public List<UserDTO> findAllUser(){
         return userService.findAll();
     }
@@ -85,7 +84,6 @@ public class UserController {
     }
 
     @PostMapping()
-    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public ResponseEntity<UserDTO> save(@RequestBody final User user){
         try {
             UserDTO _user = userService.save(user);

@@ -42,26 +42,27 @@
                 <th scope="row" class="col-2">❓ Priority</th>
                 <td *ngIf="ticket.priority < 3" class="col-10 align-middle">
                     <ngb-progressbar class="col-4 border border-secondary" type="success" [value]="ticket.priority"
-                        [max]="10">New
+                        [max]="10" height="20px">New
                     </ngb-progressbar>
                 <td *ngIf="ticket.priority >= 3 && ticket.priority < 6" class="col-10 align-middle">
                     <ngb-progressbar class="col-4 border border-secondary" type="info" [value]="ticket.priority"
-                        [max]="10">Casual
+                        [max]="10" height="20px">Casual
                     </ngb-progressbar>
                 <td *ngIf="ticket.priority >= 6 && ticket.priority < 9" class="col-10 align-middle">
                     <ngb-progressbar class="col-4 border border-secondary" type="warning" [value]="ticket.priority"
-                        [max]="10">Should be
+                        [max]="10" height="20px">Should be
                         priorized</ngb-progressbar>
                 <td *ngIf="ticket.priority >= 9" class="col-10 align-middle">
                     <ngb-progressbar class="col-4 border border-secondary" type="danger" [value]="ticket.priority"
-                        [max]="10">Urgent
+                        [max]="10" height="20px">Urgent
                     </ngb-progressbar>
             </tr>
             <tr>
                 <th scope="row" class="col-2">📊 Progress</th>
                 <td class="col-10 align-middle">
                     <ngb-progressbar class="col-4 border border-secondary" type="success" [value]="ticket.progress"
-                        [striped]="true" [animated]="true" [max]="10">{{ticket.progress*10}}%</ngb-progressbar>
+                        [striped]="true" [animated]="true" [max]="10" height="20px">{{ticket.progress*10}}%
+                    </ngb-progressbar>
             </tr>
         </tbody>
     </table>

@@ -1,5 +1,8 @@
 <h4 class="ms-5 detailH4">Tickets 📜</h4>
-<table class="table table-striped table-hover table-bordered ms-5">
+<div class="row search-user ms-5 col-3">
+    <input type="text" name="search" [(ngModel)]="query" placeholder="Search by id, name, assignee, tester, ...">
+</div>
+<table class="table table-striped table-hover table-bordered ms-5 mt-2">
     <thead class="thead-light">
         <tr>
             <th scope="col" class="col-1">#</th>
@@ -10,9 +13,9 @@
             <th scope="col" class="col-2">📊 Progress</th>
         </tr>
     </thead>
-    <tbody *ngFor="let ticket of tickets; let i = index">
-        <tr>
-            <th scope="row" class="col-1">{{i+1}}</th>
+    <tbody>
+        <tr *ngFor="let ticket of tickets | searchFilterTicket: query">
+            <th scope="row" class="col-1">{{ticket.id}}</th>
             <td class="col-3" routerLink="/ticket/{{ticket.id}}">{{ticket.name}}</td>
             <td class="col-2" *ngIf="assigneeMap" routerLink="/user/{{assigneeMap.get(ticket.id).id}}">
                 {{assigneeMap.get(ticket.id).name}}
@@ -22,7 +25,7 @@
             </td>
             <td class="col-2" *ngIf="categoryMap" routerLink="/category/{{categoryMap.get(ticket.id).id}}">
                 {{categoryMap.get(ticket.id).name}}</td>
-            <td class="col-2">
+            <td class="col-2 align-middle">
                 <ngb-progressbar class="border border-secondary" type="success" [value]="ticket.progress"
                     [striped]="true" [animated]="true" [max]="10">
                     {{ticket.progress*10}}%</ngb-progressbar>

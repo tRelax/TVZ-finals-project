@@ -12,6 +12,7 @@ export class CategoryComponent implements OnInit {
 
   categories: Category[];
   isUserAdmin: boolean;
+  query: string;
 
   constructor(
     private categoryService: CategoryService,

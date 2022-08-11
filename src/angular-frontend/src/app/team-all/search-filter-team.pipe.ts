@@ -1,0 +1,20 @@
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'searchFilterTeam'
+})
+export class SearchFilterTeamPipe implements PipeTransform {
+
+  transform(value: any, args?: any): any {
+    if (!value) return null;
+    if (!args) return value;
+
+    args = args.toLowerCase();
+
+    return value.filter(function (data) {
+      return (data.name.toLowerCase().includes(args) ||
+        data.id.toString().toLowerCase().includes(args))
+    });
+  }
+
+}

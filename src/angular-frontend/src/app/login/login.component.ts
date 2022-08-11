@@ -35,6 +35,7 @@ export class LoginComponent implements OnInit {
         next: (loginResponse: Jwt) => {
           this.authenticationService.saveJwtToLocalStorage(loginResponse.jwt);
           this.router.navigate(['/ticket']).then();
+          location.reload();
         },
         error: () => {
           this.authenticationError = true;
