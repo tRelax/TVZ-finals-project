@@ -25,11 +25,16 @@ export class AppComponent {
     }
   ]
   title = 'Tickets Via Zagreb';
+  isUserAdmin: boolean;
+  isUserTeamModerator: boolean;
 
   constructor(
     public authenticationService: AuthenticationService,
     private router: Router
-  ) { }
+  ) {
+    this.isUserAdmin = this.authenticationService.isUserAdmin();
+    this.isUserTeamModerator = this.authenticationService.isUserTeamModerator();
+  }
 
   logout() {
     this.authenticationService.logout();

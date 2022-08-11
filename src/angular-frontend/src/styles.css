@@ -14,3 +14,11 @@
 .detailH2 {
     margin-top: 1em;
 }
+
+.detailH4 {
+    margin-top: 1em;
+}
+
+table td:hover {
+    background-color: rgba(0, 0, 0, .075);
+}

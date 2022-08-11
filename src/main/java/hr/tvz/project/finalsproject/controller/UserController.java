@@ -180,7 +180,7 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
+    @Secured({"ROLE_ADMIN"})
     public void deleteById(@PathVariable Long id){
         userService.delete(id);
     }

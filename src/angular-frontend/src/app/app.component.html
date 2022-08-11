@@ -1,4 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-light " style="background-color: #e3f2fd;">
+<nav *ngIf="authenticationService.isUserAuthenticated()" class="navbar navbar-expand-lg navbar-light "
+  style="background-color: rgb(0,65,123);">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
     aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -6,13 +7,25 @@
   <div class="collapse navbar-collapse ms-3" id="navbarText">
     <ul class="navbar-nav mr-auto">
       <li *ngFor="let item of links" class="nav-item nav-link-li-tin">
-        <a class="nav-link" [routerLink]="item.link" routerLinkActive="link-active">{{item.label}}</a>
+        <div class="btn-group">
+          <button type="button" class="btn btn-secondary" [routerLink]="item.link" routerLinkActive="link-active"
+            style="background-color: rgba(127,160,189,1); ">{{item.label}}</button>
+          <button *ngIf="isUserAdmin || isUserTeamModerator" type="button"
+            class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"
+            aria-expanded="false" style="background-color: rgba(189,156,127,1);">
+            <span class="visually-hidden">Toggle Dropdown</span>
+          </button>
+          <div *ngIf="isUserAdmin || isUserTeamModerator" class="dropdown-menu">
+            <a class="nav-link" [routerLink]="item.link" routerLinkActive="link-active">{{item.label}}</a>
+          </div>
+        </div>
       </li>
     </ul>
   </div>
-  <div class="w-100 text-end ml-auto me-2" *ngIf="authenticationService.isUserAuthenticated()">Logged in as
+  <div class="w-100 text-end ml-auto me-2" *ngIf="authenticationService.isUserAuthenticated()" style="color: white;">
+    Logged in as
     <strong>{{authenticationService.getAuthenticatedUserUsername()}}</strong>
-    | <a href="#" (click)="logout()" class="link-primary">Sign out</a>
+    | <a (click)="logout()" class="link-primary" style="color: white;">Sign out</a>
   </div>
 </nav>
 <router-outlet></router-outlet>

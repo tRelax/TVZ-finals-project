@@ -63,6 +63,22 @@ export class AuthenticationService {
         return authorities != null && authorities.includes(adminRoleName);
     }
 
+    isUserTeamModerator(): boolean {
+        const adminRoleName = 'ROLE_TEAM_MODERATOR';
+        const decodedToken = this.decodeJwt();
+        let authorities: any = null;
+        if (decodedToken != null) {
+            const usernameKey = (Object.keys(decodedToken) as (keyof typeof decodedToken)[]).find((key) => {
+                // @ts-ignore
+                return key === 'authorities' && decodedToken[key] != null;
+            });
+            if (usernameKey != null) {
+                authorities = decodedToken[usernameKey]
+            }
+        }
+        return authorities != null && authorities.includes(adminRoleName);
+    }
+
     logout() {
         localStorage.removeItem('accessToken');
     }

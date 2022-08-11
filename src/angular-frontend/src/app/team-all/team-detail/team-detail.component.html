@@ -1,6 +1,8 @@
 <div class="mainDiv" *ngIf="team">
     <h2 class="ms-5 detailH2">👪 {{team.name}}</h2>
-    <table class="table table-striped table-hover table-bordered ms-5 mt-5">
+    <button type="button" class="btn btn-dark ms-5 detailH2 editBtn" routerLink="/team/edit/{{team.id}}">📝
+        Edit</button>
+    <table class="table table-striped table-hover table-bordered ms-5 mt-3">
         <tbody>
             <tr>
                 <th scope="row" class="col-2">Name</th>
@@ -26,14 +28,11 @@
         </tbody>
     </table>
 
-    <button type="button" class="btn btn-dark ms-5 detailH2 editBtn" routerLink="/team/edit/{{team.id}}">📝
-        Edit</button>
-
-    <button type="button" class="btn btn-dark ms-5 detailH2 editBtn" routerLink="/team/edit/members/{{team.id}}">🙋‍♂️
-        Edit members</button>
-
     <div class="mainDiv" *ngIf="users != null && users.length > 0">
-        <h3 class="ms-5">🙋‍♂️ Members</h3>
+        <h3 class=" ms-5">🙋‍♂️ Members</h3>
+        <button type="button" class="btn btn-dark ms-5 mb-2 detailH2 editBtn"
+            routerLink="/team/edit/members/{{team.id}}">📝
+            Edit members</button>
         <table class="table table-striped table-hover table-bordered ms-5">
             <thead class="thead-light">
                 <tr>

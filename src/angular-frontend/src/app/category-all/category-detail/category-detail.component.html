@@ -1,6 +1,8 @@
 <div class="mainDiv" *ngIf="category">
     <h2 class="ms-5 detailH2">📚 {{category.name}}</h2>
-    <table class="table table-striped table-hover table-bordered ms-5 mt-5">
+    <button type="button" class="btn btn-dark ms-5 detailH2 editBtn" routerLink="/category/edit/{{category.id}}">📝
+        Edit</button>
+    <table class="table table-striped table-hover table-bordered ms-5 mt-3">
         <tbody>
             <tr>
                 <th scope="row" class="col-2">Name</th>
@@ -25,9 +27,6 @@
             </tr>
         </tbody>
     </table>
-
-    <button type="button" class="btn btn-dark ms-5 detailH2 editBtn" routerLink="/category/edit/{{category.id}}">📝
-        Edit</button>
 
     <div class="mainDiv" *ngIf="tickets != null && tickets.length > 0">
         <h3 class="ms-5">📜 Tickets</h3>

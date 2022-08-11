@@ -1,8 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from "@angular/common";
-import { Ticket } from 'src/app/ticket-all/ticket';
-import { TicketService } from 'src/app/ticket-all/ticket.service';
 import { User } from 'src/app/user-all/user';
 import { UserService } from 'src/app/user-all/user.service';
 import { Team } from '../team';

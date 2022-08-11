@@ -6,7 +6,7 @@ import { TeamService } from '../team.service';
 @Component({
   selector: 'app-team',
   templateUrl: './team.component.html',
-  styleUrls: ['./team.component.css']
+  styleUrls: ['../../../styles.css']
 })
 export class TeamComponent implements OnInit {
 
@@ -16,8 +16,8 @@ export class TeamComponent implements OnInit {
   constructor(
     private teamService: TeamService,
     private router: Router
-  ) { 
-  
+  ) {
+
   }
 
   ngOnInit(): void {
