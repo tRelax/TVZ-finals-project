@@ -40,7 +40,7 @@ export class UserEditComponent implements OnInit {
     if (id !== null) {
       this.userService.getUser(+id)
         .subscribe(user => {
-          if (this.authenticationService.getAuthenticatedUserUsername() != user.username) {
+          if (this.authenticationService.getAuthenticatedUserUsername() != user.username && !this.authenticationService.isUserAdmin()) {
             this.router.navigate(['forbidden'])
           }
           this.user = user;

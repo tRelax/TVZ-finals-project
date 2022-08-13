@@ -30,7 +30,7 @@ public class UserController {
         this.ticketService = ticketService;
     }
 
-    @GetMapping()
+    @GetMapping("/getUsers")
     public List<UserDTO> findAllUser(){
         return userService.findAll();
     }
@@ -83,10 +83,10 @@ public class UserController {
                 );
     }
 
-    @PostMapping()
-    public ResponseEntity<UserDTO> save(@RequestBody final User user){
+    @PostMapping(value = "/addUser", params = "password")
+    public ResponseEntity<UserDTO> save(@RequestBody final User user, @RequestParam final String password){
         try {
-            UserDTO _user = userService.save(user);
+            UserDTO _user = userService.save(user, password);
             return new ResponseEntity<>(_user, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

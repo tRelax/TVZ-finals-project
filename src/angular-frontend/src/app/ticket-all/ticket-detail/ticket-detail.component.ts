@@ -7,6 +7,7 @@ import { User } from 'src/app/user-all/user';
 import { UserService } from 'src/app/user-all/user.service';
 import { Ticket } from '../ticket';
 import { TicketService } from '../ticket.service';
+import { AuthenticationService } from 'src/app/security/authentication.service';
 
 @Component({
   selector: 'app-ticket-detail',

@@ -1,10 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from "@angular/common";
 import { User } from 'src/app/user-all/user';
 import { UserService } from 'src/app/user-all/user.service';
 import { Team } from '../team';
 import { TeamService } from '../team.service';
+import { AuthenticationService } from 'src/app/security/authentication.service';
 
 @Component({
   selector: 'app-team-detail',
@@ -18,6 +19,7 @@ export class TeamDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    public authenticationService: AuthenticationService,
     private teamService: TeamService,
     private userService: UserService,
     private location: Location

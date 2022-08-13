@@ -18,6 +18,7 @@ export class RegisterComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    document.getElementById("usedUsername").style.display = "none";
     this.getUsers();
   }
 
@@ -26,22 +27,26 @@ export class RegisterComponent implements OnInit {
       .subscribe(users => this.users = users);
   }
 
-  btnRegisterClick(username: string, name: string, surname: string): void {
+  btnRegisterClick(username: string, password: string, name: string, surname: string): void {
     var id_all = this.users.map(a => Math.max(a.id));
     var usernameTaken = false;
     this.users.forEach(u => {
       if (u.username == username) {
         usernameTaken = true;
+        console.log(`Username already exists! ${u.username} === ${username}`);
+        document.getElementById("usedUsername").style.display = "";
       }
     })
     if (!usernameTaken) {
+      document.getElementById("usedUsername").style.display = "none";
       var id = id_all[0];
       console.log('highest id =', id);
       var tempUser = { id, username, name, surname } as User;
       console.log(tempUser);
 
-      this.userService.addUser(tempUser)
+      this.userService.addUser(tempUser, password)
         .subscribe({
+          next: () => alert("Successfully registered!"),
           complete: () => this.router.navigate(['login'])
         });
     }

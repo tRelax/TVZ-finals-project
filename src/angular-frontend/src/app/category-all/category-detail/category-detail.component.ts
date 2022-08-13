@@ -5,6 +5,7 @@ import { Ticket } from 'src/app/ticket-all/ticket';
 import { TicketService } from 'src/app/ticket-all/ticket.service';
 import { Category } from '../category';
 import { CategoryService } from '../category.service';
+import { AuthenticationService } from 'src/app/security/authentication.service';
 
 @Component({
   selector: 'app-category-detail',
@@ -18,6 +19,7 @@ export class CategoryDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    public authenticationService: AuthenticationService,
     private categoryService: CategoryService,
     private ticketService: TicketService,
     private location: Location

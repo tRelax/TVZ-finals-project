@@ -6,6 +6,7 @@ import { User } from 'src/app/user-all/user';
 import { UserService } from 'src/app/user-all/user.service';
 import { Team } from '../team';
 import { TeamService } from '../team.service';
+import { AuthenticationService } from 'src/app/security/authentication.service';
 
 @Component({
   selector: 'app-team-edit-members',
@@ -20,13 +21,18 @@ export class TeamEditMembersComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    public authenticationService: AuthenticationService,
     private router: Router,
     private teamService: TeamService,
     private userService: UserService,
     private location: Location) { }
 
   ngOnInit(): void {
-    this.getTeam();
+    if (this.authenticationService.isUserAdmin() || this.authenticationService.isUserTeamModerator()) {
+      this.getTeam();
+    } else {
+      this.router.navigate(['forbidden'])
+    }
   }
 
   getTeam(): void {

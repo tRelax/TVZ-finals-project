@@ -25,7 +25,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private static final Logger log = LoggerFactory.getLogger(SecurityConfiguration.class);
 
     static final List<String> UNAUTHENTICATED_ENDPOINTS = List.of(
-            "/authentication/login"
+            "/authentication/login",
+            "/user/addUser",
+            "/user/getUsers"
     );
 
     private final JwtFilter jwtFilter;

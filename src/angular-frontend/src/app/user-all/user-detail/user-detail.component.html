@@ -1,7 +1,8 @@
 <div class="mainDiv" *ngIf="user">
     <h2 class="ms-5 detailH2">🙋‍♂️ {{user.name}} {{user.surname}}</h2>
 
-    <button type="button" *ngIf="authenticationService.getAuthenticatedUserUsername() == user.username"
+    <button type="button"
+        *ngIf="authenticationService.getAuthenticatedUserUsername() == user.username  || authenticationService.isUserAdmin()"
         class="btn btn-dark ms-5 detailH2 editBtn" routerLink="/user/edit/{{user.id}}">📝
         Edit</button>
     <table class="table table-striped table-hover table-bordered ms-5 mt-3">

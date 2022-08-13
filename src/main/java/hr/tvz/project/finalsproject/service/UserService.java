@@ -17,7 +17,7 @@ public interface UserService {
     Optional<User> findByIdRaw(Long id);
     Optional<UserDTO> findAssigneeByTicketId(Long id);
     Optional<UserDTO> findTesterByTicketId(Long id);
-    UserDTO save(User user);
+    UserDTO save(User user, String password);
     User update(User user);
     UserDTO updateUserTeams(User user, Team team);
     UserDTO updateUserTeamsRemove(User user, Team team);
