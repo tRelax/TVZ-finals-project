@@ -82,7 +82,7 @@ public class TicketServiceImpl implements TicketService {
         Optional<Ticket> tempTicket = findByIdRaw(ticket.getId());
         if(tempTicket.isPresent()){
             ticket.setCategory(tempTicket.get().getCategory());
-            ticket.setAssignee(tempTicket.get().getTester());
+            ticket.setAssignee(tempTicket.get().getAssignee());
             ticket.setTester(tempTicket.get().getTester());
         }
         return ticketRepository.save(ticket);

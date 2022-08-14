@@ -17,14 +17,16 @@
         <tr *ngFor="let ticket of tickets | searchFilterTicket: query">
             <th scope="row" class="col-1">{{ticket.id}}</th>
             <td class="col-3" routerLink="/ticket/{{ticket.id}}">{{ticket.name}}</td>
-            <td class="col-2" *ngIf="assigneeMap" routerLink="/user/{{assigneeMap.get(ticket.id).id}}">
+            <td class="col-2" *ngIf="assigneeMap.size" routerLink="/user/{{assigneeMap.get(ticket.id).id}}">
                 {{assigneeMap.get(ticket.id).name}}
-                {{assigneeMap.get(ticket.id).surname}}</td>
+                {{assigneeMap.get(ticket.id).surname}}
+            </td>
             <td class="col-2" *ngIf="testerMap" routerLink="/user/{{testerMap.get(ticket.id).id}}">
                 {{testerMap.get(ticket.id).name}} {{testerMap.get(ticket.id).surname}}
             </td>
             <td class="col-2" *ngIf="categoryMap" routerLink="/category/{{categoryMap.get(ticket.id).id}}">
-                {{categoryMap.get(ticket.id).name}}</td>
+                {{categoryMap.get(ticket.id).name}}
+            </td>
             <td class="col-2 align-middle">
                 <ngb-progressbar class="border border-secondary" type="success" [value]="ticket.progress"
                     [striped]="true" [animated]="true" [max]="10">

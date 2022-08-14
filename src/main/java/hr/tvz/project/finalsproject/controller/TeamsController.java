@@ -57,7 +57,7 @@ public class TeamsController {
     }
 
     @PostMapping()
-    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR"})
+    @Secured({"ROLE_ADMIN"})
     public ResponseEntity<TeamDTO> save(@RequestBody final Team team){
         try {
             TeamDTO _team = teamService.save(team);

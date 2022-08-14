@@ -105,7 +105,7 @@ public class UserController {
     }
 
     @PatchMapping(params = "add_id")
-    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
+    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR"})
     public ResponseEntity<UserDTO> updateUserTeams(@RequestParam Long add_id, @RequestBody Long team_id) {
         Optional<User> userOptional = userService.findByIdRaw(add_id);
         Optional<Team> teamOptional = teamService.findByIdRaw(team_id);
@@ -117,7 +117,7 @@ public class UserController {
     }
 
     @PatchMapping(params = "remove_id")
-    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
+    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR"})
     public ResponseEntity<UserDTO> updateUserTeamsRemove(@RequestParam Long remove_id, @RequestBody Long team_id) {
         Optional<User> userOptional = userService.findByIdRaw(remove_id);
         Optional<Team> teamOptional = teamService.findByIdRaw(team_id);

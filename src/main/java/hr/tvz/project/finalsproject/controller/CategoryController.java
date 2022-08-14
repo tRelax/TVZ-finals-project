@@ -63,7 +63,7 @@ public class CategoryController {
     }
 
     @PostMapping()
-    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
+    @Secured({"ROLE_ADMIN"})
     public ResponseEntity<CategoryDTO> save(@RequestBody final Category category){
         try {
             CategoryDTO _category = categoryService.save(category);
@@ -74,7 +74,7 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
+    @Secured({"ROLE_ADMIN"})
     public ResponseEntity<CategoryDTO> update(@PathVariable Long id, @RequestBody Category category) {
         Optional<CategoryDTO> categoryOptional = categoryService.findById(id);
         if (categoryOptional.isPresent()) {

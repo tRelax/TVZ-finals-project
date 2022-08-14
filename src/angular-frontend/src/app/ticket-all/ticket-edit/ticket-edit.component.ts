@@ -94,25 +94,25 @@ export class TicketEditComponent implements OnInit {
         .subscribe(ticket => {
           this.ticket = ticket;
           this.categoryService.getCategoryByTicketId(+ticket.id)
-            .subscribe(
-              category => this.category = category
-            );
+            .subscribe({
+              next: category => this.category = category
+            });
           this.categoryService.getCategories()
-            .subscribe(
-              categories => this.categories = categories
-            );
+            .subscribe({
+              next: categories => this.categories = categories
+            });
           this.userService.getAssigneeByTicketId(+ticket.id)
-            .subscribe(
-              assignee => this.assignee = assignee
-            );
+            .subscribe({
+              next: assignee => this.assignee = assignee
+            });
           this.userService.getTesterByTicketId(+ticket.id)
-            .subscribe(
-              tester => this.tester = tester
-            );
+            .subscribe({
+              next: tester => this.tester = tester
+            });
           this.userService.getUsers()
-            .subscribe(
-              users => this.users = users
-            );
+            .subscribe({
+              next: users => this.users = users
+            });
           this.dateTransform();
         });
     } else {
@@ -122,7 +122,7 @@ export class TicketEditComponent implements OnInit {
 
   dateTransform() {
     this.due_date_start = new Date().toISOString().split('T')[0];
-    this.due_date = this.datepipe.transform(this.ticket.due_date, 'yyyy-dd-MM');
+    this.due_date = this.datepipe.transform(this.ticket.due_date, 'yyyy-MM-dd');
   }
 
   updateTicket(name: string, description: string, assignee_id: number, tester_id: number,
@@ -132,11 +132,12 @@ export class TicketEditComponent implements OnInit {
     description = description.trim();
 
     if (!name || !description || !assignee_id || !tester_id || !category_id || !due_date_value
-      || !priority || !progress) {
+      || priority < 0 || priority > 10 || progress < 0 || progress > 10) {
+      alert("Check if everything is filled properly!");
       return;
     }
-    console.log("Update ticket params: ", name, description, assignee_id, tester_id,
-      category_id, due_date_value, priority, progress);
+    console.log(`name = ${name}, description = ${description}, assignee_id = ${assignee_id}, tester_id = ${tester_id}, 
+    category_id = ${category_id}, due_date_value = ${due_date_value}, priority = ${priority}, progress = ${progress}`);
 
     var id: number = this.ticket.id;
     var curAssignee: User = this.assignee;
@@ -146,103 +147,44 @@ export class TicketEditComponent implements OnInit {
     var due_date: Date = new Date(due_date_value.toString());
     console.log("Formated due date: ", due_date);
 
-    //ASSIGNEE
-    this.userService.updateTicketListAssigneeAdd(assignee_id, curAssignee.id, id).subscribe(
-      (user: User) => {
-        console.log('Current assignee added!');
-      },
-      () => {
-        console.log('Error!');
-      }
-    )
+    console.log(id);
+    console.log(curAssignee);
+    console.log(curTester);
+    console.log(curCategory);
 
-    this.userService.updateTicketListAssigneeRemove(assignee_id, curAssignee.id, id).subscribe(
-      (user: User) => {
-        console.log('Old assignee removed!');
-      },
-      () => {
-        console.log('Error!');
-      }
-    )
+    this.userService.updateTicketListAssigneeAdd(assignee_id, curAssignee.id, id).subscribe({
+      complete: () => this.userService.updateTicketListAssigneeRemove(assignee_id, curAssignee.id, id).subscribe({
+        complete: () => this.ticketService.updateTicketsAssignee(id, assignee_id).subscribe({
+          complete: () => this.userService.updateTicketListTesterAdd(tester_id, curTester.id, id).subscribe({
+            complete: () => this.userService.updateTicketListTesterRemove(tester_id, curTester.id, id).subscribe({
+              complete: () => this.ticketService.updateTicketsTester(id, tester_id).subscribe({
+                complete: () => this.categoryService.updateCategoryTicketListAdd(category_id, id).subscribe({
+                  complete: () => this.categoryService.updateCategoryTicketListRemove(curCategory.id, id).subscribe({
+                    complete: () => this.ticketService.updateTicketCategory(id, category_id).subscribe({
+                      complete: () => this.ticketService.updateTicket({ id, name, description, start_date, due_date, progress, priority } as Ticket).subscribe({
+                        next: ticket => console.log(ticket),
+                        complete: () => this.router.navigate(['ticket']),
+                        error: () => console.log("Error in updateTicket")
+                      }),
+                      error: () => console.log("Error in updateTicketCategory")
+                    }),
+                    error: () => console.log("Error in updateCategoryTicketListRemove")
+                  }),
+                  error: () => console.log("Error in updateCategoryTicketListAdd")
+                }),
+                error: () => console.log("Error in updateTicketsTester")
+              }),
+              error: () => console.log("Error in updateTicketListTesterRemove")
+            }),
+            error: () => console.log("Error in updateTicketListTesterAdd")
+          }),
+          error: () => console.log("Error in updateTicketsAssignee")
+        }),
+        error: () => console.log("Error in updateTicketListAssigneeRemove")
+      }),
+      error: () => console.log("Error in updateTicketListAssigneeAdd")
+    });
 
-    this.ticketService.updateTicketsAssignee(id, assignee_id).subscribe(
-      (ticket: Ticket) => {
-        this.ticket = ticket;
-        console.log('Changed ticket assignee!');
-      },
-      () => {
-        console.log('Error!');
-      }
-    )
-
-    //TESTER
-    this.userService.updateTicketListTesterAdd(tester_id, curTester.id, id).subscribe(
-      (user: User) => {
-        console.log('Current tester added!');
-      },
-      () => {
-        console.log('Error!');
-      }
-    )
-
-    this.userService.updateTicketListTesterRemove(tester_id, curTester.id, id).subscribe(
-      (user: User) => {
-        console.log('Old tester removed!');
-      },
-      () => {
-        console.log('Error!');
-      }
-    )
-
-    this.ticketService.updateTicketsTester(id, tester_id).subscribe(
-      (ticket: Ticket) => {
-        this.ticket = ticket;
-        console.log('Changed ticket tester!');
-      },
-      () => {
-        console.log('Error!');
-      }
-    )
-
-    //CATEGORY
-    this.categoryService.updateCategoryTicketListAdd(category_id, id).subscribe(
-      (category: Category) => {
-        console.log('Category ticket list changed [ADD]!');
-      },
-      () => {
-        console.log('Error!');
-      }
-    )
-    this.categoryService.updateCategoryTicketListRemove(curCategory.id, id).subscribe(
-      (category: Category) => {
-        console.log('Category ticket list changed [REMOVE]!');
-      },
-      () => {
-        console.log('Error!');
-      }
-    )
-
-    this.ticketService.updateTicketCategory(id, category_id).subscribe(
-      (ticket: Ticket) => {
-        this.ticket = ticket;
-        console.log('Changed category!');
-      },
-      () => {
-        console.log('Error!');
-      }
-    )
-
-    this.ticketService.updateTicket({ id, name, description, start_date, due_date, progress, priority } as Ticket).subscribe(
-      (ticket: Ticket) => {
-        this.ticket = ticket;
-        console.log('Changed ticket object!');
-        delay(5000);
-        this.router.navigate(['ticket'])
-      },
-      () => {
-        console.log('Error!');
-      }
-    )
   }
 
   goBack(): void {
