@@ -1,6 +1,7 @@
 package hr.tvz.project.finalsproject.controller;
 
 import hr.tvz.project.finalsproject.DTO.TeamDTO;
+import hr.tvz.project.finalsproject.DTO.UserDTO;
 import hr.tvz.project.finalsproject.convertorsDTO.ConvertorsDTO;
 import hr.tvz.project.finalsproject.entity.Team;
 import hr.tvz.project.finalsproject.entity.User;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,11 +58,18 @@ public class TeamsController {
                 );
     }
 
-    @PostMapping()
+    @PostMapping(value = "/addTeam", params = "member_list")
     @Secured({"ROLE_ADMIN"})
-    public ResponseEntity<TeamDTO> save(@RequestBody final Team team){
+    public ResponseEntity<TeamDTO> save(@RequestBody final Team team, @RequestParam final List<String> member_list){
+        List<User> listOfUsers =  new ArrayList<>();
+        if (member_list.size() > 0){
+            for (String m: member_list) {
+                Long id = Long.valueOf(m);
+                listOfUsers.add(userService.findByIdRaw(id).get());
+            }
+        }
         try {
-            TeamDTO _team = teamService.save(team);
+            TeamDTO _team = teamService.save(team, listOfUsers);
             return new ResponseEntity<>(_team, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

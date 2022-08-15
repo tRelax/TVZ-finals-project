@@ -13,7 +13,7 @@ public interface TeamService {
     List<TeamDTO> findByUserId(Long id);
     Optional<TeamDTO> findById(Long id);
     Optional<Team> findByIdRaw(Long id);
-    TeamDTO save(Team team);
+    TeamDTO save(Team team, List<User> member_list);
     Team update(Team team);
     TeamDTO updateTeamMembersAdd(Team team, User user);
     TeamDTO updateTeamMembersRemove(Team team, User user);

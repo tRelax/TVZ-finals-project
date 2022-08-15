@@ -1,6 +1,6 @@
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { DatePipe } from '@angular/common'
 
@@ -30,6 +30,9 @@ import { SearchFilterUserPipe } from './user-all/search-filter-user.pipe';
 import { SearchFilterTeamPipe } from './team-all/search-filter-team.pipe';
 import { SearchFilterCategoryPipe } from './category-all/search-filter-category.pipe';
 import { SearchFilterTicketPipe } from './ticket-all/search-filter-ticket.pipe';
+import { TeamAddComponent } from './team-all/team-add/team-add.component';
+import { CategoryAddComponent } from './category-all/category-add/category-add.component';
+import { TicketAddComponent } from './ticket-all/ticket-add/ticket-add.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +57,10 @@ import { SearchFilterTicketPipe } from './ticket-all/search-filter-ticket.pipe';
     SearchFilterUserPipe,
     SearchFilterTeamPipe,
     SearchFilterCategoryPipe,
-    SearchFilterTicketPipe
+    SearchFilterTicketPipe,
+    TeamAddComponent,
+    CategoryAddComponent,
+    TicketAddComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +68,8 @@ import { SearchFilterTicketPipe } from './ticket-all/search-filter-ticket.pipe';
     HttpClientModule,
     AppRoutingModule,
     NgbModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
+    ReactiveFormsModule
   ],
   providers: [
     DatePipe,

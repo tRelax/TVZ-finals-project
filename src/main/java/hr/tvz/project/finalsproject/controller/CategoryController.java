@@ -62,7 +62,7 @@ public class CategoryController {
                 );
     }
 
-    @PostMapping()
+    @PostMapping(value = "/addCategory")
     @Secured({"ROLE_ADMIN"})
     public ResponseEntity<CategoryDTO> save(@RequestBody final Category category){
         try {

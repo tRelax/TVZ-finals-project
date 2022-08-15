@@ -47,13 +47,14 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public TeamDTO save(Team team) {
+    public TeamDTO save(Team team, List<User> member_list) {
         List<TeamDTO> listOfAllTeams = findAll();
         if(!listOfAllTeams.isEmpty()){
             TeamDTO tempTeam = listOfAllTeams.stream().max(Comparator.comparing(TeamDTO::getId)).get();
             if (team.getId() <= tempTeam.getId())
                 team.setId(tempTeam.getId() + 1);
         }
+        team.setMembersList(member_list);
         return ConvertorsDTO.mapTeamToDTO(teamRepository.save(team));
     }
 

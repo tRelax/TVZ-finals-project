@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { catchError, Observable, of, tap } from "rxjs";
 import { Team } from './team';
+import { delay } from "rxjs/operators";
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Injectable({
@@ -78,6 +79,23 @@ export class TeamService {
         tap(_ => console.log(`updated team with id=${team_id}`)),
         catchError(this.handleError<any>('updateTeamMembersRemove'))
       )
+  }
+
+  addTeam(team: Team, memberList: number[]): Observable<any> {
+    const params = new HttpParams().set('member_list', memberList.toString());
+    const url = `${this.teamURL}/addTeam`;
+    return this.http.post<Team>(url, team, { params })
+      .pipe(
+        tap(_ => console.log(`adding new team`,)),
+        catchError(this.handleError<Team>(`addTeam`))
+      );
+  }
+
+  checkIfNameExists(value: string, teams: Team[]) {
+    var name;
+    name = teams.find(t => t.name === value);
+
+    return of(name).pipe();
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

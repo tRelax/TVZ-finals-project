@@ -1,35 +1,65 @@
 <div class="mainDiv ms-5 col-md-8">
-    <form class="mt-5">
+    <form *ngIf="registerForm" class="mt-5" [formGroup]="registerForm" novalidate
+        (ngSubmit)="btnRegisterClick(username.value, password.value, name.value, surname.value)">
         <div class="form-group row mt-2">
             <label class="col-sm-1 col-form-label">Username</label>
             <div class="col-sm-11">
-                <input class="form-control" #username>
-            </div>
-            <div class="col-sm-11 ms-2" style="font-size: 14px; color:red;" id="usedUsername">
-                Username is already in use!
+                <input type="text" id="username" class="form-control" formControlName="username">
+                <div *ngIf="username.invalid && (username.dirty || username.touched)" class="alert alert-danger mt-2"
+                    role="alert">
+                    <div *ngIf="username.errors?.['required']">
+                        Username is required.
+                    </div>
+                    <div *ngIf="username.errors?.['minlength']">
+                        Username must be at least 4 characters long.
+                    </div>
+                    <div *ngIf="username.errors?.['usernameAlreadyExists']">
+                        Username already exists.
+                    </div>
+                </div>
             </div>
         </div>
         <div class="form-group row mt-2">
             <label class="col-sm-1 col-form-label">Password</label>
             <div class="col-sm-11">
-                <input type="password" class="form-control" #password>
+                <input type="password" id="password" class="form-control" formControlName="password">
+                <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger mt-2"
+                    role="alert">
+                    <div *ngIf="password.errors?.['required']">
+                        Password is required.
+                    </div>
+                    <div *ngIf="password.errors?.['minlength']">
+                        Password must be at least 4 characters long.
+                    </div>
+                </div>
             </div>
         </div>
         <div class="form-group row mt-2">
             <label class="col-sm-1 col-form-label">Name</label>
             <div class="col-sm-11">
-                <input class="form-control" #name>
+                <input id="name" class="form-control" formControlName="name">
+                <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger mt-2" role="alert">
+                    <div *ngIf="name.errors?.['required']">
+                        Name is required.
+                    </div>
+                </div>
             </div>
         </div>
         <div class="form-group row mt-2">
             <label class="col-sm-1 col-form-label">Surname</label>
             <div class="col-sm-11">
-                <input class="form-control" #surname>
+                <input id="surname" class="form-control" formControlName="surname">
+                <div *ngIf="surname.invalid && (surname.dirty || surname.touched)" class="alert alert-danger mt-2"
+                    role="alert">
+                    <div *ngIf="surname.errors?.['required']">
+                        Surname is required.
+                    </div>
+                </div>
             </div>
         </div>
         <div class="form-group row">
             <div class="col-sm-10 mt-5">
-                <button (click)="btnRegisterClick(username.value, password.value, name.value, surname.value);"
+                <button type="submit" [disabled]="registerForm.pristine || registerForm.invalid"
                     class=" btn btn-primary">Register!</button>
                 <button routerLink="/login" class=" btn btn-primary ms-2">Login!</button>
             </div>

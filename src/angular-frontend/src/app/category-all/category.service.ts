@@ -69,6 +69,22 @@ export class CategoryService {
       )
   }
 
+  addCategory(category: Category): Observable<any> {
+    const url = `${this.categoryURL}/addCategory`;
+    return this.http.post<Category>(url, category)
+      .pipe(
+        tap(_ => console.log(`adding new category`,)),
+        catchError(this.handleError<Category>(`addCategory`))
+      );
+  }
+
+  checkIfNameExists(value: string, categories: Category[]) {
+    var name;
+    name = categories.find(c => c.name === value);
+
+    return of(name).pipe();
+  }
+
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

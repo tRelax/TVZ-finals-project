@@ -66,7 +66,7 @@ export class UserService {
 
   addUser(user: User, password: string): Observable<any> {
     const params = new HttpParams().set('password', password);
-    const url = `${this.userURL}/addUser`
+    const url = `${this.userURL}/addUser`;
     return this.http.post<User>(url, user, { params })
       .pipe(
         tap(_ => console.log(`adding new user`,)),
@@ -135,6 +135,13 @@ export class UserService {
         tap(_ => console.log(`updated tester with id=${past_tester_id} [REMOVE]`)),
         catchError(this.handleError<any>('updateTicketListTesterRemove'))
       )
+  }
+
+  checkIfNameExists(value: string, users: User[]) {
+    var name;
+    name = users.find(u => u.username === value);
+
+    return of(name).pipe();
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

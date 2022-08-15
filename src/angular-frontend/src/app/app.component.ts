@@ -10,19 +10,26 @@ import { AuthenticationService } from './security/authentication.service';
 export class AppComponent {
   links = [
     {
+      label: "Tickets",
+      link: "/ticket",
+      addLabel: "",
+      addLink: ""
+    }, {
       label: "Users",
-      link: "/user"
-    },
-    {
+      link: "/user",
+      addLabel: "",
+      addLink: ""
+    }, {
       label: "Teams",
-      link: "/team"
+      link: "/team",
+      addLabel: "Add Team",
+      addLink: "/add/team/"
     }, {
       label: "Categories",
-      link: "/category"
-    }, {
-      label: "Tickets",
-      link: "/ticket"
-    }
+      link: "/category",
+      addLabel: "Add Category",
+      addLink: "/add/category/"
+    },
   ]
   title = 'Tickets Via Zagreb';
   isUserAdmin: boolean;

@@ -1,0 +1,42 @@
+<h2 class="ms-5 detailH2">📚 New Category</h2>
+<div class="mainDiv ms-5 col-sm-6">
+    <form *ngIf="categoryForm" class="mt-5" [formGroup]="categoryForm" novalidate (ngSubmit)="onSubmit()">
+        <div>
+            <div class="form-group">
+                <label class="col-sm-1 col-form-label">Name</label>
+                <div class="control">
+                    <input type="text" id="name" class="form-control" formControlName="name">
+                    <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger mt-2"
+                        role="alert">
+                        <div *ngIf="name.errors?.['required']">
+                            Name is required.
+                        </div>
+                        <div *ngIf="name.errors?.['usernameAlreadyExists']">
+                            Name already exists.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group mt-2">
+                <label>Description</label>
+                <div class="control">
+                    <textarea id="description" class="form-control mt-2" rows="3" formControlName="description">
+                    </textarea>
+                    <div *ngIf="description.invalid && (description.dirty || description.touched)"
+                        class="alert alert-danger mt-2" role="alert">
+                        <div *ngIf="description.errors?.['required']">
+                            Description is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-10 mt-5">
+                    <button type="submit" [disabled]="categoryForm.pristine || categoryForm.invalid"
+                        class=" btn btn-primary">Add</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

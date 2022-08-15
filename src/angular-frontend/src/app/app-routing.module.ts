@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CategoryAddComponent } from './category-all/category-add/category-add.component';
 import { CategoryDetailComponent } from './category-all/category-detail/category-detail.component';
 import { CategoryEditComponent } from './category-all/category-edit/category-edit.component';
 import { CategoryComponent } from './category-all/category/category.component';
@@ -8,10 +9,12 @@ import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { RegisterComponent } from './register/register.component';
 import { LoggedInGuard } from './security/logged-in.guard';
+import { TeamAddComponent } from './team-all/team-add/team-add.component';
 import { TeamDetailComponent } from './team-all/team-detail/team-detail.component';
 import { TeamEditMembersComponent } from './team-all/team-edit-members/team-edit-members.component';
 import { TeamEditComponent } from './team-all/team-edit/team-edit.component';
 import { TeamComponent } from './team-all/teams/team.component';
+import { TicketAddComponent } from './ticket-all/ticket-add/ticket-add.component';
 import { TicketDetailComponent } from './ticket-all/ticket-detail/ticket-detail.component';
 import { TicketEditComponent } from './ticket-all/ticket-edit/ticket-edit.component';
 import { TicketComponent } from './ticket-all/ticket/ticket.component';
@@ -69,6 +72,11 @@ const routes: Routes = [
     canActivate: [LoggedInGuard]
   },
   {
+    path: 'add/team',
+    component: TeamAddComponent,
+    canActivate: [LoggedInGuard]
+  },
+  {
     path: 'category',
     component: CategoryComponent,
     canActivate: [LoggedInGuard]
@@ -84,6 +92,11 @@ const routes: Routes = [
     canActivate: [LoggedInGuard]
   },
   {
+    path: 'add/category',
+    component: CategoryAddComponent,
+    canActivate: [LoggedInGuard]
+  },
+  {
     path: 'ticket',
     component: TicketComponent,
     canActivate: [LoggedInGuard]
@@ -96,6 +109,11 @@ const routes: Routes = [
   {
     path: 'ticket/edit/:id',
     component: TicketEditComponent,
+    canActivate: [LoggedInGuard]
+  },
+  {
+    path: 'add/ticket',
+    component: TicketAddComponent,
     canActivate: [LoggedInGuard]
   },
   {
