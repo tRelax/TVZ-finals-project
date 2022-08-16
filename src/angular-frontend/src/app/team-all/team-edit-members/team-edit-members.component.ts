@@ -39,17 +39,17 @@ export class TeamEditMembersComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
 
     if (id !== null) {
+      this.userService.getUsers()
+        .subscribe(
+          allUsers => this.allUsers = allUsers
+        );
       this.teamService.getTeam(+id)
-        .subscribe(team => {
-          this.team = team;
-          this.userService.getUsersByTeamId(team.id)
-            .subscribe(
-              users => this.users = users
-            );
-          this.userService.getUsers()
-            .subscribe(
-              allUsers => this.allUsers = allUsers
-            );
+        .subscribe({
+          next: team => this.team = team,
+          complete: () => this.userService.getUsersByTeamId(this.team.id).subscribe({
+            next: users => this.users = users
+          }
+          )
         });
     } else {
       console.error('id can not be null!');
@@ -57,66 +57,19 @@ export class TeamEditMembersComponent implements OnInit {
   }
 
   addMember(id: number): void {
-    this.userService.updateUserTeamAdd(id, this.team.id).subscribe(
-      (user: User) => {
-        console.log('Changes applied!');
-      },
-      () => {
-        console.log('Error!');
-      })
-    this.teamService.updateTeamMembersAdd(id, this.team.id).subscribe(
-      (team: Team) => {
-        this.team = team;
-        console.log('Changes applied!');
-        delay(2000);
-        this.router.navigate([`team/edit/${this.team.id}`])
-      },
-      () => {
-        console.log('Error!');
-      })
+    this.teamService.updateTeamMembersAdd(id, this.team.id).subscribe({
+      next: team => this.team = team,
+      complete: () => location.reload(),
+      error: () => console.log('Error in addMember')
+    });
   }
 
   removeMember(id: number): void {
-    this.userService.updateUserTeamRemove(id, this.team.id).subscribe(
-      (user: User) => {
-        console.log('Changes applied!');
-      },
-      () => {
-        console.log('Error!');
-      })
-    this.teamService.updateTeamMembersRemove(id, this.team.id).subscribe(
-      (team: Team) => {
-        this.team = team;
-        console.log('Changes applied!');
-        delay(2000);
-        this.router.navigate([`team/edit/${this.team.id}`])
-      },
-      () => {
-        console.log('Error!');
-      })
-  }
-
-  updateTicket(name: string, description: string): void {
-    name = name.trim();
-    description = description.trim();
-
-    if (!name || !description) {
-      return;
-    }
-
-    var id: number = this.team.id;
-
-    this.teamService.updateTeam({ id, name, description } as Team).subscribe(
-      (team: Team) => {
-        this.team = team;
-        console.log('Changes applied!');
-        delay(2000);
-        this.router.navigate(['team'])
-      },
-      () => {
-        console.log('Error!');
-      }
-    )
+    this.teamService.updateTeamMembersRemove(id, this.team.id).subscribe({
+      next: team => this.team = team,
+      complete: () => location.reload(),
+      error: () => console.log('Error in removeMember')
+    });
   }
 
   goBack(): void {

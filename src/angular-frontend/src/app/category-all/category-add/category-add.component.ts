@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/security/authentication.service';
+import { TicketService } from 'src/app/ticket-all/ticket.service';
 import { Category } from '../category';
 import { CategoryNameValidator } from '../category.name.validator';
 import { CategoryService } from '../category.service';
@@ -26,6 +27,7 @@ export class CategoryAddComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private categoryService: CategoryService,
+    private ticketService: TicketService,
     public authenticationService: AuthenticationService,
     private router: Router
   ) { }

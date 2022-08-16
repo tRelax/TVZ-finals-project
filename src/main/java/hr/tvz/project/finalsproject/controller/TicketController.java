@@ -85,59 +85,33 @@ public class TicketController {
                 );
     }
 
-    @PostMapping()
+    @PostMapping(value = "/addTicket", params = {"assignee_id", "tester_id", "category_id"})
     @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
-    public ResponseEntity<TicketDTO> save(@RequestBody final Ticket ticket){
+    public ResponseEntity<TicketDTO> save2(@RequestBody Ticket ticket, @RequestParam Long assignee_id,
+                                            @RequestParam Long tester_id, @RequestParam Long category_id){
         try {
-            TicketDTO _ticket = ticketService.save(ticket);
+            User a = userService.findByIdRaw(assignee_id).get();
+            User t = userService.findByIdRaw(tester_id).get();
+            Category c = categoryService.findByIdRaw(category_id).get();
+            TicketDTO _ticket = ticketService.save(ticket, a, t, c);
             return new ResponseEntity<>(_ticket, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(value = "/updateTicket", params = {"ticket_id", "assignee_id", "tester_id", "category_id"})
     @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
-    public ResponseEntity<TicketDTO> update(@PathVariable Long id, @RequestBody Ticket ticket) {
-        Optional<Ticket> ticketOptional = ticketService.findByIdRaw(id);
+    public ResponseEntity<TicketDTO> update(@RequestBody Ticket ticket, @RequestParam Long ticket_id,
+                                                @RequestParam Long assignee_id, @RequestParam Long tester_id,
+                                                @RequestParam Long category_id) {
+        System.out.println(ticket + " " + ticket_id + " " + assignee_id + " " + tester_id + " " + category_id);
+        Optional<Ticket> ticketOptional = ticketService.findByIdRaw(ticket_id);
         if (ticketOptional.isPresent()) {
-            return new ResponseEntity<>(ConvertorsDTO.mapTicketToDTO(ticketService.update(ticket)), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @PatchMapping(params = {"assignee_id"})
-    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
-    public ResponseEntity<TicketDTO> updateTicketAssignee(@RequestParam Long assignee_id, @RequestBody Long ticket_id) {
-        Optional<Ticket> ticketOptional = ticketService.findByIdRaw(ticket_id);
-        Optional<User> userOptional = userService.findByIdRaw(assignee_id);
-        if (userOptional.isPresent() && ticketOptional.isPresent()) {
-            return new ResponseEntity<>(ticketService.updateAssignee(ticketOptional.get(), userOptional.get()), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @PatchMapping(params = {"tester_id"})
-    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
-    public ResponseEntity<TicketDTO> updateTicketTester(@RequestParam Long tester_id, @RequestBody Long ticket_id) {
-        Optional<Ticket> ticketOptional = ticketService.findByIdRaw(ticket_id);
-        Optional<User> userOptional = userService.findByIdRaw(tester_id);
-        if (userOptional.isPresent() && ticketOptional.isPresent()) {
-            return new ResponseEntity<>(ticketService.updateTester(ticketOptional.get(), userOptional.get()), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @PatchMapping(params = "category_id")
-    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
-    public ResponseEntity<TicketDTO> updateTicketCategory(@RequestParam Long category_id, @RequestBody Long ticket_id) {
-        Optional<Ticket> ticketOptional = ticketService.findByIdRaw(ticket_id);
-        Optional<Category> categoryOptional = categoryService.findByIdRaw(category_id);
-        if (categoryOptional.isPresent() && ticketOptional.isPresent()) {
-            return new ResponseEntity<>(ticketService.updateCategory(ticketOptional.get(), categoryOptional.get()), HttpStatus.OK);
+            User a = userService.findByIdRaw(assignee_id).get();
+            User t = userService.findByIdRaw(tester_id).get();
+            Category c = categoryService.findByIdRaw(category_id).get();
+            return new ResponseEntity<>(ConvertorsDTO.mapTicketToDTO(ticketService.update(ticket,a, t, c)), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

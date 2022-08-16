@@ -67,52 +67,29 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public TicketDTO save(Ticket ticket) {
+    public TicketDTO save(Ticket ticket, User assignee, User tester, Category category) {
         List<TicketDTO> listOfAllTickets = findAll();
         if(!listOfAllTickets.isEmpty()){
             TicketDTO tempTicket = listOfAllTickets.stream().max(Comparator.comparing(TicketDTO::getId)).get();
             if (ticket.getId() <= tempTicket.getId())
                 ticket.setId(tempTicket.getId() + 1);
         }
+
+        ticket.setAssignee(assignee);
+        ticket.setTester(tester);
+        ticket.setCategory(category);
         return ConvertorsDTO.mapTicketToDTO(ticketRepository.save(ticket));
     }
 
     @Override
-    public Ticket update(Ticket ticket) {
+    public Ticket update(Ticket ticket, User assignee, User tester, Category category) {
         Optional<Ticket> tempTicket = findByIdRaw(ticket.getId());
         if(tempTicket.isPresent()){
-            ticket.setCategory(tempTicket.get().getCategory());
-            ticket.setAssignee(tempTicket.get().getAssignee());
-            ticket.setTester(tempTicket.get().getTester());
-        }
-        return ticketRepository.save(ticket);
-    }
-
-    @Override
-    public TicketDTO updateAssignee(Ticket ticket, User user) {
-        Optional<Ticket> tempTicket = findByIdRaw(ticket.getId());
-        if(tempTicket.isPresent()){
-            ticket.setAssignee(user);
-        }
-        return ConvertorsDTO.mapTicketToDTO(ticketRepository.save(ticket));
-    }
-
-    @Override
-    public TicketDTO updateTester(Ticket ticket, User user) {
-        Optional<Ticket> tempTicket = findByIdRaw(ticket.getId());
-        if(tempTicket.isPresent()){
-            ticket.setTester(user);
-        }
-        return ConvertorsDTO.mapTicketToDTO(ticketRepository.save(ticket));
-    }
-
-    @Override
-    public TicketDTO updateCategory(Ticket ticket, Category category) {
-        Optional<Ticket> tempTicket = findByIdRaw(ticket.getId());
-        if(tempTicket.isPresent()){
+            ticket.setAssignee(assignee);
+            ticket.setTester(tester);
             ticket.setCategory(category);
         }
-        return ConvertorsDTO.mapTicketToDTO(ticketRepository.save(ticket));
+        return ticketRepository.save(ticket);
     }
 
     @Override

@@ -53,8 +53,8 @@ export class TicketService {
       );
   }
 
-  updateTicket(ticket: Ticket): Observable<any> {
-    const url = `${this.ticketURL}/${ticket.id}`;
+  updateTicket(ticket: Ticket, assignee_id: number, tester_id: number, category_id: number): Observable<any> {
+    const url = `${this.ticketURL}/updateTicket/?ticket_id=${ticket.id}&assignee_id=${assignee_id}&tester_id=${tester_id}&category_id=${category_id}`;
     return this.http.put(url, ticket)
       .pipe(
         tap(_ => console.log(`updated ticket with id=${ticket.id}`)),
@@ -62,31 +62,12 @@ export class TicketService {
       )
   }
 
-  updateTicketsAssignee(ticket_id: number, assignee_id: number): Observable<any> {
-    const params = new HttpParams().set('assignee_id', assignee_id);
-    return this.http.patch(this.ticketURL, ticket_id, { params })
-      .pipe(
-        tap(_ => console.log(`updated assignee for ticket with id=${ticket_id}`)),
-        catchError(this.handleError<any>('updateTicketsAssignee'))
-      )
-  }
-
-  updateTicketsTester(ticket_id: number, tester_id: number): Observable<any> {
-    const params = new HttpParams().set('tester_id', tester_id);
-    return this.http.patch(this.ticketURL, ticket_id, { params })
-      .pipe(
-        tap(_ => console.log(`updated tester for ticket with id=${ticket_id}`)),
-        catchError(this.handleError<any>('updateTicketsTester'))
-      )
-  }
-
-  updateTicketCategory(ticket_id: number, category_id: number): Observable<any> {
-    const url = `${this.ticketURL}/?category_id=${category_id}`;
-    return this.http.patch(url, ticket_id)
-      .pipe(
-        tap(_ => console.log(`updated category for ticket with id=${ticket_id}`)),
-        catchError(this.handleError<any>('updateTicketCategory'))
-      )
+  addTicket(ticket: Ticket, assignee_id: number, tester_id: number, category_id: number): Observable<any> {
+    const url = `${this.ticketURL}/addTicket/?assignee_id=${assignee_id}&tester_id=${tester_id}&category_id=${category_id}`;
+    return this.http.post(url, ticket).pipe(
+      tap(_ => console.log(`added new ticket`)),
+      catchError(this.handleError<any>('addTicket'))
+    );
   }
 
 

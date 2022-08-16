@@ -101,42 +101,6 @@ export class UserService {
       )
   }
 
-  updateTicketListAssigneeAdd(assignee_id: number, past_assignee_id: number, ticket_id: number): Observable<any> {
-    const params = new HttpParams().set('assignee_add_id', assignee_id);
-    return this.http.patch(this.userURL, ticket_id, { params })
-      .pipe(
-        tap(_ => console.log(`updated assignee with id=${assignee_id} [ADD]`)),
-        catchError(this.handleError<any>('updateTicketListAssigneeAdd'))
-      )
-  }
-
-  updateTicketListAssigneeRemove(assignee_id: number, past_assignee_id: number, ticket_id: number): Observable<any> {
-    const params = new HttpParams().set('assignee_remove_id', past_assignee_id);
-    return this.http.patch(this.userURL, ticket_id, { params })
-      .pipe(
-        tap(_ => console.log(`updated assignee with id=${past_assignee_id} [REMOVE]`)),
-        catchError(this.handleError<any>('updateTicketListAssigneeRemove'))
-      )
-  }
-
-  updateTicketListTesterAdd(tester_id: number, past_tester_id: number, ticket_id: number): Observable<any> {
-    const params = new HttpParams().set('tester_add_id', tester_id);
-    return this.http.patch(this.userURL, ticket_id, { params })
-      .pipe(
-        tap(_ => console.log(`updated tester with id=${tester_id} [ADD]`)),
-        catchError(this.handleError<any>('updateTicketListTesterAdd'))
-      )
-  }
-
-  updateTicketListTesterRemove(tester_id: number, past_tester_id: number, ticket_id: number): Observable<any> {
-    const params = new HttpParams().set('tester_remove_id', past_tester_id);
-    return this.http.patch(this.userURL, ticket_id, { params })
-      .pipe(
-        tap(_ => console.log(`updated tester with id=${past_tester_id} [REMOVE]`)),
-        catchError(this.handleError<any>('updateTicketListTesterRemove'))
-      )
-  }
-
   checkIfNameExists(value: string, users: User[]) {
     var name;
     name = users.find(u => u.username === value);

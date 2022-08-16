@@ -19,10 +19,7 @@ public interface TicketService {
     List<TicketDTO> findByTesterName(String name);
     Optional<TicketDTO> findById(Long id);
     Optional<Ticket> findByIdRaw(Long id);
-    TicketDTO save(Ticket ticket);
-    Ticket update(Ticket ticket);
-    TicketDTO updateAssignee(Ticket ticket, User user);
-    TicketDTO updateTester(Ticket ticket, User user);
-    TicketDTO updateCategory(Ticket ticket, Category category);
+    TicketDTO save(Ticket ticket, User assignee, User tester, Category category);
+    Ticket update(Ticket ticket, User assignee, User tester, Category category);
     void delete(Long id);
 }

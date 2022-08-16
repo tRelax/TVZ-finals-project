@@ -152,39 +152,10 @@ export class TicketEditComponent implements OnInit {
     console.log(curTester);
     console.log(curCategory);
 
-    this.userService.updateTicketListAssigneeAdd(assignee_id, curAssignee.id, id).subscribe({
-      complete: () => this.userService.updateTicketListAssigneeRemove(assignee_id, curAssignee.id, id).subscribe({
-        complete: () => this.ticketService.updateTicketsAssignee(id, assignee_id).subscribe({
-          complete: () => this.userService.updateTicketListTesterAdd(tester_id, curTester.id, id).subscribe({
-            complete: () => this.userService.updateTicketListTesterRemove(tester_id, curTester.id, id).subscribe({
-              complete: () => this.ticketService.updateTicketsTester(id, tester_id).subscribe({
-                complete: () => this.categoryService.updateCategoryTicketListAdd(category_id, id).subscribe({
-                  complete: () => this.categoryService.updateCategoryTicketListRemove(curCategory.id, id).subscribe({
-                    complete: () => this.ticketService.updateTicketCategory(id, category_id).subscribe({
-                      complete: () => this.ticketService.updateTicket({ id, name, description, start_date, due_date, progress, priority } as Ticket).subscribe({
-                        next: ticket => console.log(ticket),
-                        complete: () => this.router.navigate(['ticket']),
-                        error: () => console.log("Error in updateTicket")
-                      }),
-                      error: () => console.log("Error in updateTicketCategory")
-                    }),
-                    error: () => console.log("Error in updateCategoryTicketListRemove")
-                  }),
-                  error: () => console.log("Error in updateCategoryTicketListAdd")
-                }),
-                error: () => console.log("Error in updateTicketsTester")
-              }),
-              error: () => console.log("Error in updateTicketListTesterRemove")
-            }),
-            error: () => console.log("Error in updateTicketListTesterAdd")
-          }),
-          error: () => console.log("Error in updateTicketsAssignee")
-        }),
-        error: () => console.log("Error in updateTicketListAssigneeRemove")
-      }),
-      error: () => console.log("Error in updateTicketListAssigneeAdd")
-    });
-
+    this.ticketService.updateTicket({ id, name, description, start_date, due_date, progress, priority } as Ticket,
+      assignee_id, tester_id, category_id).subscribe({
+        next: ticket => console.log(ticket)
+      });
   }
 
   goBack(): void {
