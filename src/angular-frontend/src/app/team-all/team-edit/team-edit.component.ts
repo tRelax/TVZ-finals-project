@@ -20,7 +20,7 @@ export class TeamEditComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    public authenticationService: AuthenticationService,
+    private authenticationService: AuthenticationService,
     private router: Router,
     private teamService: TeamService,
     private userService: UserService,
@@ -39,13 +39,16 @@ export class TeamEditComponent implements OnInit {
 
     if (id !== null) {
       this.teamService.getTeam(+id)
-        .subscribe(team => {
-          this.team = team;
-          this.userService.getUsersByTeamId(team.id)
-            .subscribe(
-              members => this.members = members
-            );
+        .subscribe({
+          next: team => this.team = team,
+          complete: () => this.userService.getUsersByTeamId(this.team.id)
+            .subscribe({
+              next: members => this.members = members,
+              error: () => console.log('Error in team-edit -> getUsersByTeamId')
+            }),
+          error: () => console.log('Error in team-edit -> getTeam')
         });
+
     } else {
       console.error('id can not be null!');
     }
@@ -61,17 +64,11 @@ export class TeamEditComponent implements OnInit {
 
     var id: number = this.team.id;
 
-    this.teamService.updateTeam({ id, name, description } as Team).subscribe(
-      (team: Team) => {
-        this.team = team;
-        console.log('Changes applied!');
-        delay(2000);
-        this.router.navigate([`team/${this.team.id}`])
-      },
-      () => {
-        console.log('Error!');
-      }
-    )
+    this.teamService.updateTeam({ id, name, description } as Team).subscribe({
+      next: team => this.team = team,
+      complete: () => this.router.navigate([`team/${this.team.id}`]),
+      error: () => console.log('Error in team-edit -> updateTeam')
+    });
   }
 
   goBack(): void {

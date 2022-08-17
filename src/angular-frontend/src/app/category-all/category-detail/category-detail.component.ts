@@ -34,12 +34,12 @@ export class CategoryDetailComponent implements OnInit {
 
     if (id !== null) {
       this.categoryService.getCategory(+id)
-        .subscribe(category => {
-          this.category = category;
-          this.ticketService.getTicketsByCategoryId(category.id)
+        .subscribe({
+          next: category => this.category = category,
+          complete: () => this.ticketService.getTicketsByCategoryId(this.category.id)
             .subscribe(
               tickets => this.tickets = tickets
-            );
+            )
         });
     } else {
       console.error('id can not be null!');

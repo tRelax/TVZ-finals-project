@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { delay } from 'rxjs';
 import { Location } from "@angular/common";
 import { Category } from '../category';
 import { CategoryService } from '../category.service';
@@ -23,7 +22,7 @@ export class CategoryEditComponent implements OnInit {
     private location: Location) { }
 
   ngOnInit(): void {
-    if (this.authenticationService.isUserAdmin() || this.authenticationService.isUserTeamModerator()) {
+    if (this.authenticationService.isUserAdmin()) {
       this.getCategory();
     } else {
       this.router.navigate(['forbidden'])
@@ -53,17 +52,11 @@ export class CategoryEditComponent implements OnInit {
 
     var id: number = this.category.id;
 
-    this.categoryService.updateCategory({ id, name, description } as Category).subscribe(
-      (category: Category) => {
-        this.category = category;
-        console.log('Changes applied!');
-        delay(2000);
-        this.router.navigate([`category/${this.category.id}`])
-      },
-      () => {
-        console.log('Error!');
-      }
-    )
+    this.categoryService.updateCategory({ id, name, description } as Category).subscribe({
+      next: category => this.category = category,
+      complete: () => this.router.navigate([`category/${this.category.id}`]),
+      error: () => console.log("Error in category-edit -> updateCategory")
+    });
   }
 
   goBack(): void {

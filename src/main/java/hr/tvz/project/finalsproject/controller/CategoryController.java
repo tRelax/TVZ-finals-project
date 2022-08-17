@@ -19,11 +19,9 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:4200")
 public class CategoryController {
     private final CategoryService categoryService;
-    private final TicketService ticketService;
 
-    public CategoryController(CategoryService categoryService, TicketService ticketService) {
+    public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
-        this.ticketService = ticketService;
     }
 
     @GetMapping()
@@ -79,30 +77,6 @@ public class CategoryController {
         Optional<CategoryDTO> categoryOptional = categoryService.findById(id);
         if (categoryOptional.isPresent()) {
             return new ResponseEntity<>(ConvertorsDTO.mapCategoryToDTO(categoryService.update(category)), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @PatchMapping(params = "ticket_id_add")
-    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
-    public ResponseEntity<CategoryDTO> updateTicketListAdd(@RequestParam Long ticket_id_add, @RequestBody Long category_id) {
-        Optional<Category> categoryOptional = categoryService.findByIdRaw(category_id);
-        Optional<Ticket> ticketOptional = ticketService.findByIdRaw(ticket_id_add);
-        if (categoryOptional.isPresent() && ticketOptional.isPresent()) {
-            return new ResponseEntity<>(categoryService.updateTicketListAdd(categoryOptional.get(), ticketOptional.get()), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @PatchMapping(params = "ticket_id_remove")
-    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
-    public ResponseEntity<CategoryDTO> updateTicketListRemove(@RequestParam Long ticket_id_remove, @RequestBody Long category_id) {
-        Optional<Category> categoryOptional = categoryService.findByIdRaw(category_id);
-        Optional<Ticket> ticketOptional = ticketService.findByIdRaw(ticket_id_remove);
-        if (categoryOptional.isPresent() && ticketOptional.isPresent()) {
-            return new ResponseEntity<>(categoryService.updateTicketListRemove(categoryOptional.get(), ticketOptional.get()), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

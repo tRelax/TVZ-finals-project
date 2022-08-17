@@ -21,13 +21,9 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
     private final UserService userService;
-    private final TeamService teamService;
-    private final TicketService ticketService;
 
-    public UserController(UserService userService, TeamService teamService, TicketService ticketService) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.teamService = teamService;
-        this.ticketService = ticketService;
     }
 
     @GetMapping("/getUsers")
@@ -99,78 +95,6 @@ public class UserController {
         Optional<User> userOptional = userService.findByIdRaw(id);
         if (userOptional.isPresent()) {
             return new ResponseEntity<>(ConvertorsDTO.mapUserToDTO(userService.update(user)), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @PatchMapping(params = "add_id")
-    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR"})
-    public ResponseEntity<UserDTO> updateUserTeams(@RequestParam Long add_id, @RequestBody Long team_id) {
-        Optional<User> userOptional = userService.findByIdRaw(add_id);
-        Optional<Team> teamOptional = teamService.findByIdRaw(team_id);
-        if (userOptional.isPresent() && teamOptional.isPresent()) {
-            return new ResponseEntity<>(userService.updateUserTeams(userOptional.get(), teamOptional.get()), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @PatchMapping(params = "remove_id")
-    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR"})
-    public ResponseEntity<UserDTO> updateUserTeamsRemove(@RequestParam Long remove_id, @RequestBody Long team_id) {
-        Optional<User> userOptional = userService.findByIdRaw(remove_id);
-        Optional<Team> teamOptional = teamService.findByIdRaw(team_id);
-        if (userOptional.isPresent() && teamOptional.isPresent()) {
-            return new ResponseEntity<>(userService.updateUserTeamsRemove(userOptional.get(), teamOptional.get()), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @PatchMapping(params = {"assignee_add_id"})
-    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
-    public ResponseEntity<UserDTO> updateAssigneeTicketListAdd(@RequestParam Long assignee_add_id, @RequestBody Long ticket_id) {
-        Optional<User> userOptionalAdd = userService.findByIdRaw(assignee_add_id);
-        Optional<Ticket> ticketOptional = ticketService.findByIdRaw(ticket_id);
-        if (userOptionalAdd.isPresent() && ticketOptional.isPresent()) {
-            return new ResponseEntity<>(userService.updateAssigneeTicketListAdd(userOptionalAdd.get(), ticketOptional.get()), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @PatchMapping(params = {"assignee_remove_id"})
-    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
-    public ResponseEntity<UserDTO> updateAssigneeTicketListRemove(@RequestParam Long assignee_remove_id, @RequestBody Long ticket_id) {
-        Optional<User> userOptionalRemove = userService.findByIdRaw(assignee_remove_id);
-        Optional<Ticket> ticketOptional = ticketService.findByIdRaw(ticket_id);
-        if (userOptionalRemove.isPresent() && ticketOptional.isPresent()) {
-            return new ResponseEntity<>(userService.updateAssigneeTicketListRemove(userOptionalRemove.get(), ticketOptional.get()), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @PatchMapping(params = {"tester_add_id"})
-    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
-    public ResponseEntity<UserDTO> updateTesterTicketListAdd(@RequestParam Long tester_add_id, @RequestBody Long ticket_id) {
-        Optional<User> userOptionalAdd = userService.findByIdRaw(tester_add_id);
-        Optional<Ticket> ticketOptional = ticketService.findByIdRaw(ticket_id);
-        if (userOptionalAdd.isPresent() && ticketOptional.isPresent()) {
-            return new ResponseEntity<>(userService.updateTesterTicketListAdd(userOptionalAdd.get(), ticketOptional.get()), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @PatchMapping(params = {"tester_remove_id"})
-    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
-    public ResponseEntity<UserDTO> updateTesterTicketListRemove(@RequestParam Long tester_remove_id, @RequestBody Long ticket_id) {
-        Optional<User> userOptionalRemove = userService.findByIdRaw(tester_remove_id);
-        Optional<Ticket> ticketOptional = ticketService.findByIdRaw(ticket_id);
-        if (userOptionalRemove.isPresent() && ticketOptional.isPresent()) {
-            return new ResponseEntity<>(userService.updateTesterTicketListRemove(userOptionalRemove.get(), ticketOptional.get()), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

@@ -15,8 +15,5 @@ public interface CategoryService {
     Optional<CategoryDTO> findByTicketId(Long id);
     CategoryDTO save(Category category);
     Category update(Category category);
-    CategoryDTO updateTicketListAdd(Category category, Ticket ticket);
-    CategoryDTO updateTicketListRemove(Category category, Ticket ticket);
-
     void delete(Long id);
 }

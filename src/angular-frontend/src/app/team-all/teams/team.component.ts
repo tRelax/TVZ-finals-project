@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthenticationService } from 'src/app/security/authentication.service';
 import { Team } from '../team';
 import { TeamService } from '../team.service';
 
@@ -16,13 +17,18 @@ export class TeamComponent implements OnInit {
 
   constructor(
     private teamService: TeamService,
-    private router: Router
+    private router: Router,
+    private authenticationService: AuthenticationService
   ) {
 
   }
 
   ngOnInit(): void {
-    this.getTeams();
+    if (this.authenticationService.isUserAuthenticated()) {
+      this.getTeams();
+    } else {
+      this.router.navigate(['forbidden'])
+    }
   }
 
   getTeams(): void {

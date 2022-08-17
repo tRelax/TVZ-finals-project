@@ -19,14 +19,19 @@ export class TeamDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    public authenticationService: AuthenticationService,
+    private router: Router,
+    private location: Location,
     private teamService: TeamService,
     private userService: UserService,
-    private location: Location
+    public authenticationService: AuthenticationService
   ) { }
 
   ngOnInit(): void {
-    this.getTeam();
+    if (this.authenticationService.isUserAuthenticated()) {
+      this.getTeam();
+    } else {
+      this.router.navigate(['forbidden'])
+    }
   }
 
   getTeam(): void {
@@ -41,6 +46,15 @@ export class TeamDetailComponent implements OnInit {
               users => this.users = users
             );
         });
+      this.teamService.getTeam(+id).subscribe({
+        next: team => this.team = team,
+        complete: () => this.userService.getUsersByTeamId(this.team.id)
+          .subscribe({
+            next: users => this.users = users,
+            error: () => console.log("Error in team-detail -> getUsersByTeamId")
+          }),
+        error: () => console.log("Error in team-detail -> getTeam")
+      })
     } else {
       console.error('id can not be null!');
     }

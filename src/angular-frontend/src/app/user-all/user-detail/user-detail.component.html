@@ -30,7 +30,7 @@
             </tr>
             <tr>
                 <th scope="row" class="col-2">👪 Member of teams</th>
-                <td class="col-10 align-middle">
+                <td class="col-10 align-middle" *ngIf="teams != null && teams.length > 0">
                     <span *ngFor="let team of teams;" class="col-1 me-1 badge rounded-pill bg-warning text-dark"
                         routerLink="/team/{{team.id}}">{{team.name}}</span>
                 </td>

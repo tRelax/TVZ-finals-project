@@ -17,6 +17,7 @@ export class TeamAddComponent implements OnInit {
 
   teams?: Team[];
   users?: User[];
+
   private initialState = {
     name: '',
     description: '',
@@ -27,14 +28,18 @@ export class TeamAddComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    public authenticationService: AuthenticationService,
     private router: Router,
     private teamService: TeamService,
-    private userService: UserService
+    private userService: UserService,
+    private authenticationService: AuthenticationService
   ) { }
 
   ngOnInit(): void {
-    this.getTeams();
+    if (this.authenticationService.isUserAdmin()) {
+      this.getTeams();
+    } else {
+      this.router.navigate(['forbidden'])
+    }
   }
 
   getTeams(): void {

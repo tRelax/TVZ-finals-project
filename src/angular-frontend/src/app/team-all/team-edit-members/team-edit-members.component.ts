@@ -21,7 +21,7 @@ export class TeamEditMembersComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    public authenticationService: AuthenticationService,
+    private authenticationService: AuthenticationService,
     private router: Router,
     private teamService: TeamService,
     private userService: UserService,
@@ -40,17 +40,21 @@ export class TeamEditMembersComponent implements OnInit {
 
     if (id !== null) {
       this.userService.getUsers()
-        .subscribe(
-          allUsers => this.allUsers = allUsers
-        );
+        .subscribe({
+          next: allUsers => this.allUsers = allUsers,
+          error: () => console.error('Error in team-edit-members -> getUsers')
+        });
+
       this.teamService.getTeam(+id)
         .subscribe({
           next: team => this.team = team,
           complete: () => this.userService.getUsersByTeamId(this.team.id).subscribe({
-            next: users => this.users = users
-          }
-          )
+            next: users => this.users = users,
+            error: () => console.error('Error in team-edit-members -> getUsersByTeamId')
+          }),
+          error: () => console.error('Error in team-edit-members -> getTeam')
         });
+
     } else {
       console.error('id can not be null!');
     }

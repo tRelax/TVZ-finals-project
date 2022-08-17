@@ -68,22 +68,6 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDTO updateTicketListAdd(Category category, Ticket ticket) {
-        if (category.getTicketList().stream().noneMatch(t->t.getId().equals(ticket.getId()))){
-            category.getTicketList().add(ticket);
-        }
-        return ConvertorsDTO.mapCategoryToDTO(categoryRepository.save(category));
-    }
-
-    @Override
-    public CategoryDTO updateTicketListRemove(Category category, Ticket ticket) {
-        if (category.getTicketList().stream().anyMatch(t->t.getId().equals(ticket.getId()))){
-            category.getTicketList().remove(ticket);
-        }
-        return ConvertorsDTO.mapCategoryToDTO(categoryRepository.save(category));
-    }
-
-    @Override
     public void delete(Long id) {
         categoryRepository.deleteById(id);
     }

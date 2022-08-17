@@ -157,7 +157,7 @@ export class TicketAddComponent implements OnInit {
       tester,
       category)
       .subscribe({
-        next: () => alert("Successfully added team!"),
+        next: () => alert("Successfully added ticket!"),
         complete: () => this.router.navigate(['ticket'])
       });
   }

@@ -83,24 +83,6 @@ export class UserService {
       )
   }
 
-  updateUserTeamAdd(user_id: number, team_id: number): Observable<any> {
-    const url = `${this.userURL}/?add_id=${user_id}`;
-    return this.http.patch(url, team_id)
-      .pipe(
-        tap(_ => console.log(`updated user with id=${user_id}`)),
-        catchError(this.handleError<any>('updateUserTeamAdd'))
-      )
-  }
-
-  updateUserTeamRemove(user_id: number, team_id: number): Observable<any> {
-    const url = `${this.userURL}/?remove_id=${user_id}`;
-    return this.http.patch(url, team_id)
-      .pipe(
-        tap(_ => console.log(`updated user with id=${user_id}`)),
-        catchError(this.handleError<any>('updateUserTeamRemove'))
-      )
-  }
-
   checkIfNameExists(value: string, users: User[]) {
     var name;
     name = users.find(u => u.username === value);

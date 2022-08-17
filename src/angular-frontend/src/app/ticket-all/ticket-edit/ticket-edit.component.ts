@@ -154,7 +154,8 @@ export class TicketEditComponent implements OnInit {
 
     this.ticketService.updateTicket({ id, name, description, start_date, due_date, progress, priority } as Ticket,
       assignee_id, tester_id, category_id).subscribe({
-        next: ticket => console.log(ticket)
+        next: ticket => console.log(ticket),
+        complete: () => this.router.navigate(['ticket'])
       });
   }
 
