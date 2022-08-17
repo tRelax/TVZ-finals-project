@@ -63,25 +63,23 @@ class TeamsControllerTest {
 
     @Test
     void findAllTeams() throws Exception {
-        this.mockMvc.perform
-                        (get("/team")
-                                .with(user(adminUser).password(pass).roles("ADMIN"))
-                                .with(csrf())
-                                .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken)
-                        )
+        this.mockMvc.perform(
+                get("/team")
+                    .with(user(adminUser).password(pass).roles("ADMIN"))
+                    .with(csrf())
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
     }
 
     @Test
     void findTeamByName() throws Exception {
-        this.mockMvc.perform
-                        (get("/team")
-                                .with(user(adminUser).password(pass).roles("ADMIN"))
-                                .param("name", "backend")
-                                .with(csrf())
-                                .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken)
-                        )
+        this.mockMvc.perform(
+                get("/team")
+                    .with(user(adminUser).password(pass).roles("ADMIN"))
+                    .param("name", "backend")
+                    .with(csrf())
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
 
@@ -89,52 +87,48 @@ class TeamsControllerTest {
 
     @Test
     void findTeamByUserId() throws Exception {
-        this.mockMvc.perform
-                        (get("/team")
-                                .with(user(adminUser).password(pass).roles("ADMIN"))
-                                .param("user_id", "1")
-                                .with(csrf())
-                                .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken)
-                        )
+        this.mockMvc.perform(
+                get("/team")
+                    .with(user(adminUser).password(pass).roles("ADMIN"))
+                    .param("user_id", "1")
+                    .with(csrf())
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
     }
 
     @Test
     void findTeamById() throws Exception {
-        this.mockMvc.perform
-                        (get("/team/1")
-                                .with(user(adminUser).password(pass).roles("ADMIN"))
-                                .with(csrf())
-                                .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken)
-                        )
+        this.mockMvc.perform(
+                get("/team/1")
+                    .with(user(adminUser).password(pass).roles("ADMIN"))
+                    .with(csrf())
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
     }
 
     @Test
     void findTeamByIdInvalid() throws Exception {
-        this.mockMvc.perform
-                        (get("/team/404")
-                                .with(user(adminUser).password(pass).roles("ADMIN"))
-                                .with(csrf())
-                                .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken)
-                        )
+        this.mockMvc.perform(
+                get("/team/404")
+                    .with(user(adminUser).password(pass).roles("ADMIN"))
+                    .with(csrf())
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken))
                 .andExpect(status().isNotFound());}
 
     @Test
     @Transactional
     void save() throws Exception {
         this.mockMvc.perform(
-                        post("/team/addTeam")
-                                .with(user(adminUser).password(pass).roles("ADMIN"))
-                                .param("member_list", new String[]{"1"})
-                                .with(csrf())
-                                .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken)
-                                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                                .content(objectMapper.writeValueAsString(teamSave))
-                                .accept(MediaType.APPLICATION_JSON_UTF8)
-                )
+                post("/team/addTeam")
+                    .with(user(adminUser).password(pass).roles("ADMIN"))
+                    .param("member_list", new String[]{"1"})
+                    .with(csrf())
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken)
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .content(objectMapper.writeValueAsString(teamSave))
+                    .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.name").value(teamSave.getName()))
@@ -145,15 +139,14 @@ class TeamsControllerTest {
     @Transactional
     void saveInvalid() throws Exception {
         this.mockMvc.perform(
-                        post("/team/addTeam")
-                                .with(user(adminUser).password(pass).roles("ADMIN"))
-                                .param("member_list", new String[]{"1"})
-                                .with(csrf())
-                                .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken)
-                                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                                .content(objectMapper.writeValueAsString(teamSaveInvalid))
-                                .accept(MediaType.APPLICATION_JSON_UTF8)
-                )
+                post("/team/addTeam")
+                    .with(user(adminUser).password(pass).roles("ADMIN"))
+                    .param("member_list", new String[]{"1"})
+                    .with(csrf())
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken)
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .content(objectMapper.writeValueAsString(teamSaveInvalid))
+                    .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isInternalServerError());
     }
 
@@ -161,13 +154,13 @@ class TeamsControllerTest {
     @Transactional
     void update() throws Exception {
         this.mockMvc.perform(
-                        put("/team/1")
-                                .with(user(adminUser).password(pass).roles("ADMIN"))
-                                .with(csrf())
-                                .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(teamUpdate))
-                                .accept(MediaType.APPLICATION_JSON))
+                put("/team/1")
+                    .with(user(adminUser).password(pass).roles("ADMIN"))
+                    .with(csrf())
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(teamUpdate))
+                    .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
@@ -175,13 +168,13 @@ class TeamsControllerTest {
     @Transactional
     void updateInvalid() throws Exception {
         this.mockMvc.perform(
-                        put("/category/404")
-                                .with(user(adminUser).password(pass).roles("ADMIN"))
-                                .with(csrf())
-                                .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(teamUpdate))
-                                .accept(MediaType.APPLICATION_JSON))
+                put("/category/404")
+                    .with(user(adminUser).password(pass).roles("ADMIN"))
+                    .with(csrf())
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(teamUpdate))
+                    .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
 
@@ -189,15 +182,14 @@ class TeamsControllerTest {
     @Transactional
     void updateUserTeamsAdd() throws Exception {
         this.mockMvc.perform(
-                        patch("/team")
-                                .with(user(adminUser).password(pass).roles("ADMIN"))
-                                .param("add_id", "1")
-                                .with(csrf())
-                                .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken)
-                                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                                .content("1")
-                                .accept(MediaType.APPLICATION_JSON_UTF8)
-                )
+                patch("/team")
+                    .with(user(adminUser).password(pass).roles("ADMIN"))
+                    .param("add_id", "1")
+                    .with(csrf())
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken)
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .content("1")
+                    .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk());
     }
 
@@ -205,15 +197,14 @@ class TeamsControllerTest {
     @Transactional
     void updateUserTeamsAddInvalid() throws Exception {
         this.mockMvc.perform(
-                        patch("/team")
-                                .with(user(adminUser).password(pass).roles("ADMIN"))
-                                .param("add_id", "404")
-                                .with(csrf())
-                                .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken)
-                                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                                .content("404")
-                                .accept(MediaType.APPLICATION_JSON_UTF8)
-                )
+                patch("/team")
+                    .with(user(adminUser).password(pass).roles("ADMIN"))
+                    .param("add_id", "404")
+                    .with(csrf())
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken)
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .content("404")
+                    .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isNotFound());
     }
 
@@ -221,15 +212,14 @@ class TeamsControllerTest {
     @Transactional
     void updateUserTeamsRemove() throws Exception {
         this.mockMvc.perform(
-                        patch("/team")
-                                .with(user(adminUser).password(pass).roles("ADMIN"))
-                                .param("remove_id", "1")
-                                .with(csrf())
-                                .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken)
-                                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                                .content("1")
-                                .accept(MediaType.APPLICATION_JSON_UTF8)
-                )
+                patch("/team")
+                    .with(user(adminUser).password(pass).roles("ADMIN"))
+                    .param("remove_id", "1")
+                    .with(csrf())
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken)
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .content("1")
+                    .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk());
     }
 
@@ -237,15 +227,14 @@ class TeamsControllerTest {
     @Transactional
     void updateUserTeamsRemoveInvalid() throws Exception {
         this.mockMvc.perform(
-                        patch("/team")
-                                .with(user(adminUser).password(pass).roles("ADMIN"))
-                                .param("remove_id", "404")
-                                .with(csrf())
-                                .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken)
-                                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                                .content("404")
-                                .accept(MediaType.APPLICATION_JSON_UTF8)
-                )
+                patch("/team")
+                    .with(user(adminUser).password(pass).roles("ADMIN"))
+                    .param("remove_id", "404")
+                    .with(csrf())
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken)
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .content("404")
+                    .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isNotFound());
     }
 
@@ -253,12 +242,12 @@ class TeamsControllerTest {
     @Transactional
     void deleteById() throws Exception {
         this.mockMvc.perform(
-                        delete("/team/1")
-                                .with(user(adminUser).password(pass).roles("ADMIN"))
-                                .with(csrf())
-                                .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .accept(MediaType.APPLICATION_JSON))
+                delete("/team/1")
+                    .with(user(adminUser).password(pass).roles("ADMIN"))
+                    .with(csrf())
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
     }
 }
