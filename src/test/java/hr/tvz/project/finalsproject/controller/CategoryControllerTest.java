@@ -42,21 +42,21 @@ class CategoryControllerTest {
     String userUser = "dbaric";
     String pass = "password";
 
-    Category categorySave = new Category().builder()
+    Category categorySave = Category.builder()
             .id(404L)
             .name("Test category name")
             .description("Test description")
             .ticketList(List.of())
             .build();
 
-    Category categorySaveInvalid = new Category().builder()
+    Category categorySaveInvalid = Category.builder()
             .id(404L)
             .name(null)
             .description("Test description")
             .ticketList(List.of())
             .build();
 
-    Category categoryUpdate = new Category().builder()
+    Category categoryUpdate = Category.builder()
             .id(1L)
             .name("Test category name")
             .description("Test description")
@@ -80,7 +80,7 @@ class CategoryControllerTest {
         this.mockMvc.perform
                         (get("/category")
                                 .with(user(adminUser).password(pass).roles("ADMIN"))
-                                .param("name", "backend")
+                                .param("name", "bug")
                                 .with(csrf())
                                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken)
                         )
