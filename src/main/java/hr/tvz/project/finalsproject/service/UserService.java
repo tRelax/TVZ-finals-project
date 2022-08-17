@@ -19,11 +19,5 @@ public interface UserService {
     Optional<UserDTO> findTesterByTicketId(Long id);
     UserDTO save(User user, String password);
     User update(User user);
-    UserDTO updateUserTeams(User user, Team team);
-    UserDTO updateUserTeamsRemove(User user, Team team);
-    UserDTO updateAssigneeTicketListAdd(User userAdd, Ticket ticket);
-    UserDTO updateAssigneeTicketListRemove(User userRemove, Ticket ticket);
-    UserDTO updateTesterTicketListAdd(User userAdd, Ticket ticket);
-    UserDTO updateTesterTicketListRemove(User userRemove, Ticket ticket);
     void delete(Long id);
 }
