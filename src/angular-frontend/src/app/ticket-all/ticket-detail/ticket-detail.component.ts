@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe, Location } from "@angular/common";
 import { Category } from 'src/app/category-all/category';
 import { CategoryService } from 'src/app/category-all/category.service';
@@ -25,15 +25,21 @@ export class TicketDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private ticketService: TicketService,
     private categoryService: CategoryService,
     private userService: UserService,
     private location: Location,
-    public datepipe: DatePipe
+    public datepipe: DatePipe,
+    private authenticationService: AuthenticationService
   ) { }
 
   ngOnInit(): void {
-    this.getTicket();
+    if (this.authenticationService.isUserAuthenticated()) {
+      this.getTicket();
+    } else {
+      this.router.navigate(['forbidden'])
+    }
   }
 
   getTicket(): void {

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from "@angular/common";
 import { Team } from 'src/app/team-all/team';
 import { Ticket } from 'src/app/ticket-all/ticket';
@@ -22,6 +22,7 @@ export class UserDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private userService: UserService,
     private ticketService: TicketService,
     private teamService: TeamService,
@@ -30,7 +31,11 @@ export class UserDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getUser();
+    if (this.authenticationService.isUserAuthenticated()) {
+      this.getUser();
+    } else {
+      this.router.navigate(['forbidden'])
+    }
   }
 
   getUser(): void {

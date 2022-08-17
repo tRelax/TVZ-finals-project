@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Category } from 'src/app/category-all/category';
 import { CategoryService } from 'src/app/category-all/category.service';
+import { AuthenticationService } from 'src/app/security/authentication.service';
 import { User } from 'src/app/user-all/user';
 import { UserService } from 'src/app/user-all/user.service';
 import { Ticket } from '../ticket';
@@ -27,13 +28,18 @@ export class TicketComponent implements OnInit {
     private ticketService: TicketService,
     private userService: UserService,
     private categoryService: CategoryService,
-    private router: Router
+    private router: Router,
+    private authenticationService: AuthenticationService
   ) {
 
   }
 
   ngOnInit(): void {
-    this.getTickets();
+    if (this.authenticationService.isUserAuthenticated()) {
+      this.getTickets();
+    } else {
+      this.router.navigate(['forbidden'])
+    }
   }
 
   getTickets(): void {
@@ -46,20 +52,14 @@ export class TicketComponent implements OnInit {
 
   addAssignees(tickets: Ticket[]): void {
     tickets.forEach(value => {
-      let assignee: User;
-      let tester: User;
-      let category: Category;
       this.userService.getAssigneeByTicketId(value.id).subscribe({
-        next: assi => assignee = assi,
-        complete: () => this.assigneeMap.set(value.id, assignee)
+        next: assi => this.assigneeMap.set(value.id, assi)
       });
       this.userService.getTesterByTicketId(value.id).subscribe({
-        next: test => tester = test,
-        complete: () => this.testerMap.set(value.id, tester)
+        next: test => this.testerMap.set(value.id, test)
       });
       this.categoryService.getCategoryByTicketId(value.id).subscribe({
-        next: cat => category = cat,
-        complete: () => this.categoryMap.set(value.id, category)
+        next: cat => this.categoryMap.set(value.id, cat)
       });
     });
     console.log('assignees:', this.assigneeMap);

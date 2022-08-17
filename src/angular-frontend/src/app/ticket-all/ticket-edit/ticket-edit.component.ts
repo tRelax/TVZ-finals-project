@@ -8,6 +8,7 @@ import { User } from 'src/app/user-all/user';
 import { UserService } from 'src/app/user-all/user.service';
 import { Ticket } from '../ticket';
 import { TicketService } from '../ticket.service';
+import { AuthenticationService } from 'src/app/security/authentication.service';
 
 @Component({
   selector: 'app-ticket-edit',
@@ -79,11 +80,16 @@ export class TicketEditComponent implements OnInit {
     private ticketService: TicketService,
     private categoryService: CategoryService,
     private location: Location,
-    public datepipe: DatePipe
+    public datepipe: DatePipe,
+    private authenticationService: AuthenticationService
   ) { }
 
   ngOnInit(): void {
-    this.getTicket();
+    if (this.authenticationService.isUserAuthenticated()) {
+      this.getTicket();
+    } else {
+      this.router.navigate(['forbidden'])
+    }
   }
 
   getTicket(): void {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
+import { AuthenticationService } from 'src/app/security/authentication.service';
 import { User } from '../user';
 import { UserService } from '../user.service';
 
@@ -16,13 +17,18 @@ export class UserComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    public authenticationService: AuthenticationService
   ) {
 
   }
 
   ngOnInit(): void {
-    this.getUsers();
+    if (this.authenticationService.isUserAuthenticated()) {
+      this.getUsers();
+    } else {
+      this.router.navigate(['forbidden'])
+    }
   }
 
   getUsers(): void {

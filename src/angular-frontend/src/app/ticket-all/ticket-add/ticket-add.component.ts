@@ -90,7 +90,11 @@ export class TicketAddComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getCategoriesAndUsers();
+    if (this.authenticationService.isUserAuthenticated()) {
+      this.getCategoriesAndUsers();
+    } else {
+      this.router.navigate(['forbidden'])
+    }
   }
 
   getCategoriesAndUsers(): void {
