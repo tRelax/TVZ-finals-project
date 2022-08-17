@@ -70,18 +70,6 @@ class UserControllerTest {
     }
 
     @Test
-    void findUserByName() throws Exception {
-        this.mockMvc.perform(
-                get("/user")
-                    .with(user(adminUser).password(pass).roles("ADMIN"))
-                    .param("name", "tin")
-                    .with(csrf())
-                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
-    }
-
-    @Test
     void findUsersByTeamId() throws Exception {
         this.mockMvc.perform(
                 get("/user")

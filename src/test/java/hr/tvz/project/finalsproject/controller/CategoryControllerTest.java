@@ -76,19 +76,6 @@ class CategoryControllerTest {
     }
 
     @Test
-    void findCategoryByName() throws Exception {
-        this.mockMvc.perform
-                        (get("/category")
-                                .with(user(adminUser).password(pass).roles("ADMIN"))
-                                .param("name", "bug")
-                                .with(csrf())
-                                .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken)
-                        )
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
-    }
-
-    @Test
     void findCategoryById() throws Exception {
         this.mockMvc.perform
                         (get("/category/1")

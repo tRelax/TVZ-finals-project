@@ -73,19 +73,6 @@ class TeamsControllerTest {
     }
 
     @Test
-    void findTeamByName() throws Exception {
-        this.mockMvc.perform(
-                get("/team")
-                    .with(user(adminUser).password(pass).roles("ADMIN"))
-                    .param("name", "backend")
-                    .with(csrf())
-                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
-
-    }
-
-    @Test
     void findTeamByUserId() throws Exception {
         this.mockMvc.perform(
                 get("/team")
@@ -115,7 +102,8 @@ class TeamsControllerTest {
                     .with(user(adminUser).password(pass).roles("ADMIN"))
                     .with(csrf())
                     .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken))
-                .andExpect(status().isNotFound());}
+                .andExpect(status().isNotFound());
+    }
 
     @Test
     @Transactional
