@@ -34,12 +34,6 @@ public class TeamsController {
         return teamService.findAll();
     }
 
-    @GetMapping(params = "name")
-    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
-    public List<TeamDTO> findTeamByName(@RequestParam final String name){
-        return teamService.findByName(name);
-    }
-
     @GetMapping(params = "user_id")
     @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public List<TeamDTO> findTeamByUserId(@RequestParam final Long user_id){

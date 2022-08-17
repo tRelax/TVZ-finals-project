@@ -27,11 +27,6 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public List<TeamDTO> findByName(String name) {
-        return teamRepository.findByNameContainingIgnoreCase(name).stream().map(ConvertorsDTO::mapTeamToDTO).collect(Collectors.toList());
-    }
-
-    @Override
     public List<TeamDTO> findByUserId(Long id) {
         return teamRepository.findByMembersListId(id).stream().map(ConvertorsDTO::mapTeamToDTO).collect(Collectors.toList());
     }

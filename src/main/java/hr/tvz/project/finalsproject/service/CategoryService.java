@@ -9,7 +9,6 @@ import java.util.Optional;
 
 public interface CategoryService {
     List<CategoryDTO> findAll();
-    List<CategoryDTO> findByName(String name);
     Optional<CategoryDTO> findById(Long id);
     Optional<Category> findByIdRaw(Long id);
     Optional<CategoryDTO> findByTicketId(Long id);

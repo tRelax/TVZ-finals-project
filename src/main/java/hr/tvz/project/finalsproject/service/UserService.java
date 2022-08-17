@@ -11,7 +11,6 @@ import java.util.Optional;
 public interface UserService {
 
     List<UserDTO> findAll();
-    List<UserDTO> findByName(String name);
     List<UserDTO> findByTeamId(Long id);
     Optional<UserDTO> findById(Long id);
     Optional<User> findByIdRaw(Long id);

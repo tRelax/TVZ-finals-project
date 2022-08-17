@@ -28,11 +28,6 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryDTO> findByName(String name) {
-        return categoryRepository.findByNameContainingIgnoreCase(name).stream().map(ConvertorsDTO::mapCategoryToDTO).collect(Collectors.toList());
-    }
-
-    @Override
     public Optional<CategoryDTO> findById(Long id) {
         return categoryRepository.findById(id).map(ConvertorsDTO::mapCategoryToDTO);
     }

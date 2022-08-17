@@ -31,12 +31,6 @@ public class UserController {
         return userService.findAll();
     }
 
-    @GetMapping(params = "name")
-    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
-    public List<UserDTO> findUserByName(@RequestParam final String name){
-        return userService.findByName(name);
-    }
-
     @GetMapping(params = "team_id")
     @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public List<UserDTO> findUsersByTeamId(@RequestParam final Long team_id){

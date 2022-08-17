@@ -37,40 +37,16 @@ public class TicketController {
         return ticketService.findAll();
     }
 
-    @GetMapping(params = "name")
-    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
-    public List<TicketDTO> findTicketByName(@RequestParam final String name){
-        return ticketService.findByName(name);
-    }
-
-    @GetMapping(params = "category")
-    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
-    public List<TicketDTO> findTicketByCategoryName(@RequestParam final String category){
-        return ticketService.findByCategoryName(category);
-    }
-
     @GetMapping(params = "category_id")
     @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public List<TicketDTO> findTicketByCategoryId(@RequestParam final Long category_id){
         return ticketService.findByCategoryId(category_id);
     }
 
-    @GetMapping(params = "assignee")
-    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
-    public List<TicketDTO> findTicketByAssignee(@RequestParam final String assignee){
-        return ticketService.findByAssigneeName(assignee);
-    }
-
     @GetMapping(params = "assignee_id")
     @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public List<TicketDTO> findTicketByAssigneeId(@RequestParam final Long assignee_id){
         return ticketService.findByAssigneeId(assignee_id);
-    }
-
-    @GetMapping(params = "tester")
-    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
-    public List<TicketDTO> findTicketByTester(@RequestParam final String tester){
-        return ticketService.findByTesterName(tester);
     }
 
     @GetMapping("/{id}")
@@ -87,16 +63,20 @@ public class TicketController {
 
     @PostMapping(value = "/addTicket", params = {"assignee_id", "tester_id", "category_id"})
     @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
-    public ResponseEntity<TicketDTO> save2(@RequestBody Ticket ticket, @RequestParam Long assignee_id,
+    public ResponseEntity<TicketDTO> save(@RequestBody Ticket ticket, @RequestParam Long assignee_id,
                                             @RequestParam Long tester_id, @RequestParam Long category_id){
-        try {
-            User a = userService.findByIdRaw(assignee_id).get();
-            User t = userService.findByIdRaw(tester_id).get();
-            Category c = categoryService.findByIdRaw(category_id).get();
+        Optional<User> userOptional = userService.findByIdRaw(assignee_id);
+        Optional<User> testerOptional = userService.findByIdRaw(tester_id);
+        Optional<Category> categoryOptional = categoryService.findByIdRaw(category_id);
+        if (userOptional.isPresent() && testerOptional.isPresent() && categoryOptional.isPresent()){
+            User a = userOptional.get();
+            User t = testerOptional.get();
+            Category c = categoryOptional.get();
             TicketDTO _ticket = ticketService.save(ticket, a, t, c);
             return new ResponseEntity<>(_ticket, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
 
@@ -105,12 +85,15 @@ public class TicketController {
     public ResponseEntity<TicketDTO> update(@RequestBody Ticket ticket, @RequestParam Long ticket_id,
                                                 @RequestParam Long assignee_id, @RequestParam Long tester_id,
                                                 @RequestParam Long category_id) {
-        System.out.println(ticket + " " + ticket_id + " " + assignee_id + " " + tester_id + " " + category_id);
         Optional<Ticket> ticketOptional = ticketService.findByIdRaw(ticket_id);
-        if (ticketOptional.isPresent()) {
-            User a = userService.findByIdRaw(assignee_id).get();
-            User t = userService.findByIdRaw(tester_id).get();
-            Category c = categoryService.findByIdRaw(category_id).get();
+        Optional<User> userOptional = userService.findByIdRaw(assignee_id);
+        Optional<User> testerOptional = userService.findByIdRaw(tester_id);
+        Optional<Category> categoryOptional = categoryService.findByIdRaw(category_id);
+        if (ticketOptional.isPresent() && userOptional.isPresent()
+            && testerOptional.isPresent() && categoryOptional.isPresent()) {
+            User a = userOptional.get();
+            User t = testerOptional.get();
+            Category c = categoryOptional.get();
             return new ResponseEntity<>(ConvertorsDTO.mapTicketToDTO(ticketService.update(ticket,a, t, c)), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

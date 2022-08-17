@@ -30,12 +30,6 @@ public class CategoryController {
         return categoryService.findAll();
     }
 
-    @GetMapping(params = "name")
-    @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
-    public List<CategoryDTO> findCategoryByName(@RequestParam final String name){
-        return categoryService.findByName(name);
-    }
-
     @GetMapping("/{id}")
     @Secured({"ROLE_ADMIN", "ROLE_TEAM_MODERATOR", "ROLE_USER"})
     public ResponseEntity<CategoryDTO> findCategoryById(@PathVariable final Long id){

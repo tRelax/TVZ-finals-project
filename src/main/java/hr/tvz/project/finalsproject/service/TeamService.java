@@ -9,7 +9,6 @@ import java.util.Optional;
 
 public interface TeamService {
     List<TeamDTO> findAll();
-    List<TeamDTO> findByName(String name);
     List<TeamDTO> findByUserId(Long id);
     Optional<TeamDTO> findById(Long id);
     Optional<Team> findByIdRaw(Long id);

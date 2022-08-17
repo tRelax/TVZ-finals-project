@@ -11,12 +11,8 @@ import java.util.Optional;
 
 public interface TicketService {
     List<TicketDTO> findAll();
-    List<TicketDTO> findByName(String name);
-    List<TicketDTO> findByCategoryName(String name);
     List<TicketDTO> findByCategoryId(Long id);
-    List<TicketDTO> findByAssigneeName(String name);
     List<TicketDTO> findByAssigneeId(Long id);
-    List<TicketDTO> findByTesterName(String name);
     Optional<TicketDTO> findById(Long id);
     Optional<Ticket> findByIdRaw(Long id);
     TicketDTO save(Ticket ticket, User assignee, User tester, Category category);

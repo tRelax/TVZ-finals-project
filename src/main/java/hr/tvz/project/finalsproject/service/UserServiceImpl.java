@@ -28,11 +28,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDTO> findByName(String name) {
-        return userRepository.findByNameContainingIgnoreCase(name).stream().map(ConvertorsDTO::mapUserToDTO).collect(Collectors.toList());
-    }
-
-    @Override
     public List<UserDTO> findByTeamId(Long id) {
         return userRepository.findByTeamListId(id).stream().map(ConvertorsDTO::mapUserToDTO).collect(Collectors.toList());
     }
