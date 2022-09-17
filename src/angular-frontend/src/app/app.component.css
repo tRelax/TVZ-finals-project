@@ -1,8 +1,48 @@
 .nav-link-li-tin {
-    width: 10em;
+    width: 100%;
+    margin: 0 2%;
     text-align: center;
 }
 
 .link-active {
     font-weight: bold;
+}
+
+.user-div {
+    text-align: right;
+}
+
+.all-links-div {
+    margin-left: 1em;
+}
+
+@media screen and (max-width: 992px) {
+    nav {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .all-links-div {
+        width: 50%;
+    }
+
+    .nav-link-li-tin {
+        width: 100%;
+        margin: 2% 0%;
+    }
+
+    .btn-group {
+        width: 100%;
+    }
+
+    .btn-main-part {
+        width: 80%;
+        text-align: left;
+        padding-left: 43%;
+    }
+
+    .user-div {
+        text-align: center;
+    }
 }

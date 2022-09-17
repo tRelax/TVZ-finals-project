@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import hr.tvz.project.finalsproject.entity.Ticket;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
@@ -32,7 +33,8 @@ class TicketControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
-    String adminToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0bWlsYWtvdmljIiwiZXhwIjoxNjYxMzM2OTIyLCJpYXQiOjE2NjA3MzIxMjIsImF1dGhvcml0aWVzIjoiUk9MRV9BRE1JTiJ9.X7yWHzTd_Cc-MUSy1Y4mhiuSfYVsWL7SUj5JEqzmhNA7LkQuUHc-0GqxqRVJr3ejWIMBP3NGdlQPdMLY1ycRHQ";
+    @Value("${adminBearerToken}")
+    String adminToken;
     String teamModToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtemFuaW5vdmljIiwiZXhwIjoxNjYxMzQzMzA5LCJpYXQiOjE2NjA3Mzg1MDksImF1dGhvcml0aWVzIjoiUk9MRV9URUFNX01PREVSQVRPUiJ9.6nVIYD2ENQ6b5J_0JAZMylesXBPbb9U72lg0274ZQapX-Rg7fwXuhFKCby9R9Bmq8gJjq76DIphiAQcZIGftSw";
     String userToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYmFyaWMiLCJleHAiOjE2NjEzNDM4NjMsImlhdCI6MTY2MDczOTA2MywiYXV0aG9yaXRpZXMiOiJST0xFX1VTRVIifQ.07sn_rzH03Ysarqo3TqFT6FfMi5vAXoCDB3k2seE3GF7x4pQnRc4NdUSDHZOoVy5I25AWyRHnWXXC35xlAHMoQ";
     String adminUser = "tmilakovic";
@@ -74,12 +76,14 @@ class TicketControllerTest {
     @Test
     void findAllTickets() throws Exception {
         this.mockMvc.perform(
-                get("/tickets")
-                    .with(user(adminUser).password(pass).roles("ADMIN"))
-                    .with(csrf())
-                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+            get("/tickets")
+                .with(user(adminUser).password(pass).roles("ADMIN"))
+                .with(csrf())
+                .header(HttpHeaders.AUTHORIZATION, "Bearer "
+                        + adminToken))
+            .andExpect(status().isOk())
+            .andExpect(content()
+                    .contentType(MediaType.APPLICATION_JSON_UTF8));
     }
 
     @Test
@@ -131,20 +135,24 @@ class TicketControllerTest {
     @Transactional
     void save() throws Exception {
         this.mockMvc.perform(
-                post("/tickets/addTicket")
-                    .with(user(adminUser).password(pass).roles("ADMIN"))
-                    .param("assignee_id", "1")
-                    .param("tester_id", "1")
-                    .param("category_id", "1")
-                    .with(csrf())
-                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken)
-                    .contentType(MediaType.APPLICATION_JSON_UTF8)
-                    .content(objectMapper.writeValueAsString(ticketSave))
-                    .accept(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isCreated())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("$.name").value(ticketSave.getName()))
-                .andExpect(jsonPath("$.description").value(ticketSave.getDescription()));
+            post("/tickets/addTicket")
+                .with(user(adminUser).password(pass).roles("ADMIN"))
+                .param("assignee_id", "1")
+                .param("tester_id", "1")
+                .param("category_id", "1")
+                .with(csrf())
+                .header(HttpHeaders.AUTHORIZATION, "Bearer "
+                        + adminToken)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(ticketSave))
+                .accept(MediaType.APPLICATION_JSON_UTF8))
+            .andExpect(status().isCreated())
+            .andExpect(content()
+                    .contentType(MediaType.APPLICATION_JSON_UTF8))
+            .andExpect(jsonPath("$.name")
+                    .value(ticketSave.getName()))
+            .andExpect(jsonPath("$.description")
+                    .value(ticketSave.getDescription()));
     }
 
     @Test
@@ -168,18 +176,20 @@ class TicketControllerTest {
     @Transactional
     void update() throws Exception {
         this.mockMvc.perform(
-                put("/tickets/updateTicket")
-                    .with(user(adminUser).password(pass).roles("ADMIN"))
-                    .param("ticket_id", "1")
-                    .param("assignee_id", "1")
-                    .param("tester_id", "1")
-                    .param("category_id", "1")
-                    .with(csrf())
-                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(ticketUpdate))
-                    .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+            put("/tickets/updateTicket")
+                .with(user(adminUser).password(pass).roles("ADMIN"))
+                .param("ticket_id", "1")
+                .param("assignee_id", "1")
+                .param("tester_id", "1")
+                .param("category_id", "1")
+                .with(csrf())
+                .header(HttpHeaders.AUTHORIZATION, "Bearer "
+                        + adminToken)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper
+                        .writeValueAsString(ticketUpdate))
+                .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk());
     }
 
     @Test
@@ -204,12 +214,13 @@ class TicketControllerTest {
     @Transactional
     void deleteById() throws Exception {
         this.mockMvc.perform(
-                delete("/tickets/1")
-                    .with(user(adminUser).password(pass).roles("ADMIN"))
-                    .with(csrf())
-                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNoContent());
+            delete("/tickets/1")
+                .with(user(adminUser).password(pass).roles("ADMIN"))
+                .with(csrf())
+                .header(HttpHeaders.AUTHORIZATION, "Bearer "
+                        + adminToken)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isNoContent());
     }
 }
